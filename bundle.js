@@ -44,27 +44,26 @@ var squareRoot = function (x) {
 };
 var sin = function (x) {
 	return Math.sin(x);
-}
+};
 
 module.exports = [add1, minus1, times2, divide2, negate, invert, square, squareRoot, sin];
 
 },{}],3:[function(require,module,exports){
 var randomElement = require('./randomElement.js');
 var unaryBaseFunctions = require('./baseFunctions/unaryBaseFunctions');
-var mutationProb = 1 / 2;
+var mutationProb = 1 / 3;
 
 var mutate = function(arr0) {
 	if (Math.random() < mutationProb) {
 		return mutate(arr0.concat(randomElement(unaryBaseFunctions)));
 	}
 	return arr0;
-}
+};
 
 module.exports = function (arr0, arr1) {
 	arr0.splice(randomElement(arr0) + 1);
 	arr1.splice(randomElement(arr1) + 1);
-	var mutatedArr0 = mutate(arr0);
-	return mutatedArr0.concat(arr1);
+	return mutate(mutate(mutate([]).concat(arr0)).concat(arr1));
 };
 
 },{"./baseFunctions/unaryBaseFunctions":2,"./randomElement.js":6}],4:[function(require,module,exports){
@@ -114,8 +113,9 @@ var printOutput = require('./lib/printOutput.js');
 
 //Initial Population
 var input = 12;
-var desiredOutput = Math.PI * 2;
+var desiredOutput = Math.PI * 5;
 var popSize = 256;
+var generations = 64;
 var survivors = (popSize * .1).toFixed(0);
 var num = popSize;
 var population = [];
@@ -135,7 +135,7 @@ var newGeneration = function () {
 	}
 	applyFitness(population, input, desiredOutput, survivors);
 };
-var generations = 32;
+
 while (generations--) {
 	newGeneration();
 }
@@ -144,7 +144,6 @@ printOutput(population, input);
 console.log('desired output: ' + desiredOutput);
 
 
-//development - apply some degree of mutation so funcitons which are no longer used may be reintroduced
-//also apply preferential treatment for shorter functions
+//development - apply preferential treatment for more optimised functions where outputs are the same
 
 },{"./lib/applyFitness.js":1,"./lib/baseFunctions/unaryBaseFunctions.js":2,"./lib/breed.js":3,"./lib/compose.js":4,"./lib/printOutput.js":5,"./lib/randomElement.js":6,"./lib/randomIndex.js":7}]},{},[8]);

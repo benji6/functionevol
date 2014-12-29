@@ -8,8 +8,9 @@ var printOutput = require('./lib/printOutput.js');
 
 //Initial Population
 var input = 12;
-var desiredOutput = Math.PI * 2;
+var desiredOutput = Math.PI * 5;
 var popSize = 256;
+var generations = 64;
 var survivors = (popSize * .1).toFixed(0);
 var num = popSize;
 var population = [];
@@ -29,7 +30,7 @@ var newGeneration = function () {
 	}
 	applyFitness(population, input, desiredOutput, survivors);
 };
-var generations = 32;
+
 while (generations--) {
 	newGeneration();
 }
@@ -38,4 +39,4 @@ printOutput(population, input);
 console.log('desired output: ' + desiredOutput);
 
 
-//development - apply preferential treatment for more optimised functions
+//development - apply preferential treatment for more optimised functions where outputs are the same
