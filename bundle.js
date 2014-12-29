@@ -47,7 +47,17 @@ var sin = function (x) {
 	return Math.sin(x);
 };
 
-module.exports = [add1, minus1, times2, divide2, negate, invert, square, squareRoot, sin];
+module.exports = [
+	add1,
+	minus1,
+	times2,
+	divide2,
+	negate,
+	invert,
+	square,
+	squareRoot,
+	sin
+];
 
 },{}],3:[function(require,module,exports){
 var randomElement = require('./randomElement.js');
