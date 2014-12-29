@@ -7,7 +7,7 @@ var mutate = function(arr0) {
 		return mutate(arr0.concat(randomElement(unaryBaseFunctions)));
 	}
 	return arr0;
-}
+};
 
 module.exports = function (arr0, arr1) {
 	arr0.splice(randomElement(arr0) + 1);
