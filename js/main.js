@@ -1,6 +1,7 @@
 var compose = require('./lib/compose.js');
 var baseFunctions = require('./lib/baseFunctions/unaryBaseFunctions.js');
 var randomIndex = require('./lib/randomIndex.js');
+var applyFitness = require('./lib/applyFitness.js');
 
 //Initial Population
 var popSize = 256;
@@ -10,16 +11,9 @@ var population = [];
 while (num--) {
 	population[num] = [baseFunctions[randomIndex(baseFunctions)], baseFunctions[randomIndex(baseFunctions)]];
 }
-var testNumber = 3;
+var input = 12;
 var desiredOutput = Math.PI * 2;
-var applyFitness = function() {
-	population.sort(function (a, b) {
-		return Math.abs(compose.apply(null, a)(testNumber) - desiredOutput) -
-			Math.abs(compose.apply(null, b)(testNumber) - desiredOutput);
-	});
-	population.splice(top10Percent);
-};
-applyFitness();
+
 //Breed Function
 var breed = function (arr0, arr1) {
 	var intRandInd = randomIndex(arr0) + 1;
@@ -47,19 +41,20 @@ var newGeneration = function () {
 		child = breed(arr0, arr1);
 		population.push(child);
 	}
-	applyFitness();
+	applyFitness(population, input, desiredOutput);
 };
-var generations = 16;
+var generations = 32;
 while (generations--) {
 	newGeneration();
 }
-var printView = (function () {
+
+var printOutput = (function () {
 	var num = population.length;
 	while (num--) {
 		console.log(population[num].length);
 		console.log(population[num].toString());
 		var res = compose.apply(null, population[num]);
-		console.log(res(testNumber));
+		console.log(res(input));
 	}
 })();
 console.log(desiredOutput);
