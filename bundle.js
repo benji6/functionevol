@@ -71,9 +71,11 @@ while (num--) {
 	population[num] = [baseFunctions[randomIndex(baseFunctions)], baseFunctions[randomIndex(baseFunctions)]];
 }
 var testNumber = 3;
+var desiredOutput = Math.PI * 2;
 var applyFitness = function() {
 	population.sort(function (a, b) {
-		return Math.pow((compose.apply(null, a)(testNumber) - Math.PI), 2) - Math.pow((compose.apply(null, b)(testNumber) - Math.PI), 2);
+		return Math.abs(compose.apply(null, a)(testNumber) - desiredOutput) -
+			Math.abs(compose.apply(null, b)(testNumber) - desiredOutput);
 	});
 	population.splice(top10Percent);
 };
@@ -120,7 +122,7 @@ var printView = (function () {
 		console.log(res(testNumber));
 	}
 })();
-console.log(Math.PI);
+console.log(desiredOutput);
 //development - apply some degree of mutation so funcitons which are no longer used may be reintroduced
 //also apply preferential treatment for shorter functions
 
