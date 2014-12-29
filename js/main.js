@@ -1,6 +1,7 @@
 var compose = require('./lib/compose.js');
 var baseFunctions = require('./lib/baseFunctions/unaryBaseFunctions.js');
 var randomIndex = require('./lib/randomIndex.js');
+var randomElement = require('./lib/randomElement.js');
 var applyFitness = require('./lib/applyFitness.js');
 var breed = require('./lib/breed.js');
 var printOutput = require('./lib/printOutput.js');
@@ -13,7 +14,7 @@ var survivors = (popSize * .1).toFixed(0);
 var num = popSize;
 var population = [];
 while (num--) {
-	population[num] = [baseFunctions[randomIndex(baseFunctions)], baseFunctions[randomIndex(baseFunctions)]];
+	population[num] = [randomElement(baseFunctions), randomElement(baseFunctions)];
 }
 
 var newGeneration = function () {
@@ -37,5 +38,4 @@ printOutput(population, input);
 console.log('desired output: ' + desiredOutput);
 
 
-//development - apply some degree of mutation so funcitons which are no longer used may be reintroduced
-//also apply preferential treatment for shorter functions
+//development - apply preferential treatment for more optimised functions

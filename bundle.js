@@ -49,15 +49,25 @@ var sin = function (x) {
 module.exports = [add1, minus1, times2, divide2, negate, invert, square, squareRoot, sin];
 
 },{}],3:[function(require,module,exports){
-var randomIndex = require('./randomIndex.js');
+var randomElement = require('./randomElement.js');
+var unaryBaseFunctions = require('./baseFunctions/unaryBaseFunctions');
+var mutationProb = 1 / 2;
+
+var mutate = function(arr0) {
+	if (Math.random() < mutationProb) {
+		return mutate(arr0.concat(randomElement(unaryBaseFunctions)));
+	}
+	return arr0;
+}
 
 module.exports = function (arr0, arr1) {
-	arr0.splice(randomIndex(arr0) + 1);
-	arr1.splice(randomIndex(arr1) + 1);
-	return arr0.concat(arr1);
+	arr0.splice(randomElement(arr0) + 1);
+	arr1.splice(randomElement(arr1) + 1);
+	var mutatedArr0 = mutate(arr0);
+	return mutatedArr0.concat(arr1);
 };
 
-},{"./randomIndex.js":6}],4:[function(require,module,exports){
+},{"./baseFunctions/unaryBaseFunctions":2,"./randomElement.js":6}],4:[function(require,module,exports){
 module.exports = function() {
 	var fns = arguments;
 	return function (x) {
@@ -84,17 +94,20 @@ module.exports = function (population, input) {
 };
 
 },{"./compose.js":4}],6:[function(require,module,exports){
-module.exports = function (arrLen) {
-	if (arrLen && arrLen.length) {
-		arrLen = arrLen.length;
-	}
-	return Math.floor(Math.random() * arrLen);
+module.exports = function (arr) {
+	return arr[Math.floor(Math.random() * arr.length)];
 };
 
 },{}],7:[function(require,module,exports){
+module.exports = function (len) {
+	return Math.floor(Math.random() * len);
+};
+
+},{}],8:[function(require,module,exports){
 var compose = require('./lib/compose.js');
 var baseFunctions = require('./lib/baseFunctions/unaryBaseFunctions.js');
 var randomIndex = require('./lib/randomIndex.js');
+var randomElement = require('./lib/randomElement.js');
 var applyFitness = require('./lib/applyFitness.js');
 var breed = require('./lib/breed.js');
 var printOutput = require('./lib/printOutput.js');
@@ -107,7 +120,7 @@ var survivors = (popSize * .1).toFixed(0);
 var num = popSize;
 var population = [];
 while (num--) {
-	population[num] = [baseFunctions[randomIndex(baseFunctions)], baseFunctions[randomIndex(baseFunctions)]];
+	population[num] = [randomElement(baseFunctions), randomElement(baseFunctions)];
 }
 
 var newGeneration = function () {
@@ -134,4 +147,4 @@ console.log('desired output: ' + desiredOutput);
 //development - apply some degree of mutation so funcitons which are no longer used may be reintroduced
 //also apply preferential treatment for shorter functions
 
-},{"./lib/applyFitness.js":1,"./lib/baseFunctions/unaryBaseFunctions.js":2,"./lib/breed.js":3,"./lib/compose.js":4,"./lib/printOutput.js":5,"./lib/randomIndex.js":6}]},{},[7]);
+},{"./lib/applyFitness.js":1,"./lib/baseFunctions/unaryBaseFunctions.js":2,"./lib/breed.js":3,"./lib/compose.js":4,"./lib/printOutput.js":5,"./lib/randomElement.js":6,"./lib/randomIndex.js":7}]},{},[8]);
