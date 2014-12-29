@@ -1,12 +1,13 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var compose = require('./compose.js');
 
-module.exports = function(population, input, desiredOutput, survivors) {
+module.exports = function(population, input, desiredOutput) {
+	var survivorThreshold = (population.length * .1).toFixed(0);
 	population.sort(function (a, b) {
 		return Math.abs(compose.apply(null, a)(input) - desiredOutput) -
 			Math.abs(compose.apply(null, b)(input) - desiredOutput);
 	});
-	population.splice(survivors);
+	return population.splice(survivorThreshold).slice(0);
 };
 
 },{"./compose.js":4}],2:[function(require,module,exports){
@@ -81,7 +82,7 @@ module.exports = function() {
 },{}],5:[function(require,module,exports){
 var compose = require('./compose.js');
 
-module.exports = function (population, input) {
+module.exports = function (population, input, desiredOutput) {
 	var num = population.length;
 	while (num--) {
 		console.log('length: ' + population[num].length);
@@ -90,6 +91,8 @@ module.exports = function (population, input) {
 		console.log('output: ' + res(input));
 		console.log('/////////////////////');
 	}
+	console.log('input was: ' + input);
+	console.log('desired output: ' + desiredOutput);
 };
 
 },{"./compose.js":4}],6:[function(require,module,exports){
@@ -112,37 +115,32 @@ var breed = require('./lib/breed.js');
 var printOutput = require('./lib/printOutput.js');
 
 //Initial Population
-var input = 12;
+var input = Math.random();
 var desiredOutput = Math.PI * 5;
 var popSize = 256;
 var generations = 64;
-var survivors = (popSize * .1).toFixed(0);
 var num = popSize;
 var population = [];
 while (num--) {
 	population[num] = [randomElement(baseFunctions), randomElement(baseFunctions)];
 }
-
+var survivors = population.slice(0);
 var newGeneration = function () {
 	var child;
-	var arr0;
-	var arr1;
+
 	while (population.length < popSize) {
-		arr0 = population[randomIndex(survivors)].slice(0);
-		arr1 = population[randomIndex(survivors)].slice(0);
-		child = breed(arr0, arr1);
+		child = breed(randomElement(survivors), randomElement(survivors));
 		population.push(child);
 	}
-	applyFitness(population, input, desiredOutput, survivors);
+
+	survivors = applyFitness(population, input, desiredOutput);
 };
 
 while (generations--) {
 	newGeneration();
 }
 
-printOutput(population, input);
-console.log('desired output: ' + desiredOutput);
-
+printOutput(population, input, desiredOutput);
 
 //development - apply preferential treatment for more optimised functions where outputs are the same
 

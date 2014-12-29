@@ -1,6 +1,6 @@
 var compose = require('./compose.js');
 
-module.exports = function (population, input) {
+module.exports = function (population, input, desiredOutput) {
 	var num = population.length;
 	while (num--) {
 		console.log('length: ' + population[num].length);
@@ -9,4 +9,6 @@ module.exports = function (population, input) {
 		console.log('output: ' + res(input));
 		console.log('/////////////////////');
 	}
+	console.log('input was: ' + input);
+	console.log('desired output: ' + desiredOutput);
 };
