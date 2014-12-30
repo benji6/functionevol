@@ -1,3 +1,5 @@
+var randomIndex = require('./randomIndex');
+
 module.exports = function (arr) {
-	return arr[Math.floor(Math.random() * arr.length)];
+	return arr[randomIndex(arr.length)];
 };

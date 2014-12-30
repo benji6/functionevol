@@ -7,7 +7,7 @@ var breed = require('./lib/breed.js');
 var printOutput = require('./lib/printOutput.js');
 
 //Initial Population
-var input = Math.random();
+var input = 1;
 var desiredOutput = Math.PI;
 var popSize = 128;
 var generations = 128;

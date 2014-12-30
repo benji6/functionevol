@@ -128,11 +128,13 @@ module.exports = function (population, input, desiredOutput) {
 };
 
 },{"./composeFunctionChain.js":5}],7:[function(require,module,exports){
+var randomIndex = require('./randomIndex');
+
 module.exports = function (arr) {
-	return arr[Math.floor(Math.random() * arr.length)];
+	return arr[randomIndex(arr.length)];
 };
 
-},{}],8:[function(require,module,exports){
+},{"./randomIndex":8}],8:[function(require,module,exports){
 module.exports = function (len) {
 	return Math.floor(Math.random() * len);
 };
@@ -147,7 +149,7 @@ var breed = require('./lib/breed.js');
 var printOutput = require('./lib/printOutput.js');
 
 //Initial Population
-var input = Math.random();
+var input = 1;
 var desiredOutput = Math.PI;
 var popSize = 128;
 var generations = 128;
