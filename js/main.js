@@ -8,17 +8,19 @@ var printOutput = require('./lib/printOutput.js');
 
 //Initial Population
 var input = Math.random();
-var desiredOutput = Math.PI * 5;
-var popSize = 256;
-var generations = 64;
+var desiredOutput = Math.PI;
+var popSize = 128;
+var generations = 128;
 var num = popSize;
 var population = [];
 while (num--) {
 	population[num] = [
 		{
+			lib: 'unaryBaseFunctions',
 			fun: randomElement(baseFunctions)
 		},
 		{
+			lib: 'unaryBaseFunctions',
 			fun: randomElement(baseFunctions)
 		}
 	];

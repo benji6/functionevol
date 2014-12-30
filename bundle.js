@@ -29,7 +29,7 @@ var negate = function (x) {
 var invert = function (x) {
 	res = 1 / x;
 	if (isNaN(res)) {
-		return 0;
+		return x;
 	}
 	return 1 / x;
 };
@@ -67,6 +67,7 @@ var mutationProb = 1 / 3;
 var mutate = function(arr0) {
 	if (Math.random() < mutationProb) {
 		return mutate(arr0.concat({
+			lib: 'unaryBaseFunctions',
 			fun: randomElement(unaryBaseFunctions)
 		}));
 	}
@@ -143,17 +144,19 @@ var printOutput = require('./lib/printOutput.js');
 
 //Initial Population
 var input = Math.random();
-var desiredOutput = Math.PI * 5;
-var popSize = 256;
-var generations = 64;
+var desiredOutput = Math.PI;
+var popSize = 128;
+var generations = 128;
 var num = popSize;
 var population = [];
 while (num--) {
 	population[num] = [
 		{
+			lib: 'unaryBaseFunctions',
 			fun: randomElement(baseFunctions)
 		},
 		{
+			lib: 'unaryBaseFunctions',
 			fun: randomElement(baseFunctions)
 		}
 	];
