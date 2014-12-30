@@ -3,20 +3,32 @@ var randomIndex = require('./randomIndex.js');
 var unaryBaseFunctions = require('./baseFunctions/unaryBaseFunctions');
 var mutationProb = 1 / 3;
 
-var mutate = function(arr0) {
+var mutate = function(obj) {
 	if (Math.random() < mutationProb) {
-		return mutate(arr0.concat({
-			lib: 'unaryBaseFunctions',
-			fun: randomElement(unaryBaseFunctions)
-		}));
+		obj.libs.push('unaryBaseFunctions');
+		obj.funs.push(randomElement(unaryBaseFunctions));
+		
+		return mutate(obj);
 	}
-	return arr0;
+	return obj;
 };
 
-module.exports = function (arr0, arr1) {
+module.exports = function (obj0, obj1) {
 	//always include at least first element from arr0
-	var arr0Sliced = arr0.slice(0, randomIndex(arr0.length));
+	var randomIndex0 = randomIndex(obj0.funs.length);
+	var randomIndex1 = randomIndex(obj1.funs.length - 1);
+	var libs0Sliced = obj0.libs.slice(0, randomIndex0);
+	var funs0Sliced = obj0.funs.slice(0, randomIndex0);
 	//never include the first element of arr1
-	var arr1Sliced = arr1.slice(1, randomIndex(arr1.length -1));
-	return mutate(mutate(/*mutate([]).concat(*/arr0Sliced/*)*/).concat(arr1Sliced));
+	var libs1Sliced = obj1.libs.slice(1, randomIndex1);
+	var funs1Sliced = obj1.funs.slice(1, randomIndex1);
+
+	var child = {
+		libs: libs0Sliced,
+		funs: funs0Sliced
+	};
+	var mutantChild = mutate(child);
+	mutantChild.libs = mutantChild.libs.concat(libs1Sliced);
+	mutantChild.funs = mutantChild.funs.concat(funs1Sliced);
+	return mutate(mutantChild);
 };
