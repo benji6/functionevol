@@ -20,6 +20,7 @@
   "dependencies": {
     "browserify": "^8.0.2",
     "http-server": "^0.7.4",
-    "jshint": "^2.5.11"
+    "jshint": "^2.5.11",
+    "tinytic": "^1.1.0"
   }
 }

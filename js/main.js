@@ -1,3 +1,7 @@
+//time app
+var tinytic = require('tinytic');
+tinytic.toc();
+
 var compose = require('./lib/compose.js');
 var baseFunctions = require('./lib/baseFunctions/unaryBaseFunctions.js');
 var randomIndex = require('./lib/randomIndex.js');
@@ -5,6 +9,7 @@ var randomElement = require('./lib/randomElement.js');
 var applyFitness = require('./lib/applyFitness.js');
 var breed = require('./lib/breed.js');
 var printOutput = require('./lib/printOutput.js');
+
 
 //Initial Population
 var input = 4;
@@ -32,9 +37,8 @@ var newGeneration = function () {
 
 	survivors = applyFitness(population, input, desiredOutput);
 };
-
 while (generations--) {
 	newGeneration();
 }
-
 printOutput(population, input, desiredOutput);
+console.log('time elapsed: ' + tinytic.toc());

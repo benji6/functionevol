@@ -148,6 +148,10 @@ module.exports = function (len) {
 };
 
 },{}],9:[function(require,module,exports){
+//time app
+var tinytic = require('tinytic');
+tinytic.toc();
+
 var compose = require('./lib/compose.js');
 var baseFunctions = require('./lib/baseFunctions/unaryBaseFunctions.js');
 var randomIndex = require('./lib/randomIndex.js');
@@ -155,6 +159,7 @@ var randomElement = require('./lib/randomElement.js');
 var applyFitness = require('./lib/applyFitness.js');
 var breed = require('./lib/breed.js');
 var printOutput = require('./lib/printOutput.js');
+
 
 //Initial Population
 var input = 4;
@@ -182,11 +187,26 @@ var newGeneration = function () {
 
 	survivors = applyFitness(population, input, desiredOutput);
 };
-
 while (generations--) {
 	newGeneration();
 }
-
 printOutput(population, input, desiredOutput);
+console.log('time elapsed: ' + tinytic.toc());
 
-},{"./lib/applyFitness.js":1,"./lib/baseFunctions/unaryBaseFunctions.js":2,"./lib/breed.js":3,"./lib/compose.js":4,"./lib/printOutput.js":6,"./lib/randomElement.js":7,"./lib/randomIndex.js":8}]},{},[9]);
+},{"./lib/applyFitness.js":1,"./lib/baseFunctions/unaryBaseFunctions.js":2,"./lib/breed.js":3,"./lib/compose.js":4,"./lib/printOutput.js":6,"./lib/randomElement.js":7,"./lib/randomIndex.js":8,"tinytic":10}],10:[function(require,module,exports){
+var then = new Date().getTime();
+var now = new Date().getTime();
+
+var toc = function(maxDT) {
+	then = now;
+	now = new Date().getTime();
+	var dT = now - then;
+	if (maxDT !== undefined && maxDT < dT) {
+		return maxDT;
+	}
+	return dT;
+};
+
+exports.toc = toc;
+
+},{}]},{},[9]);
