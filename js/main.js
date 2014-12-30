@@ -14,17 +14,24 @@ var printOutput = require('./lib/printOutput.js');
 //Initial Population
 var input = 4;
 var desiredOutput = 12;
-var popSize = 128;
+var popSize = 256;
 var generations = popSize;
 var num = popSize;
 var population = [];
 while (num--) {
-	population[num] = [
-		{
-			lib: 'unaryBaseFunctions',
-			fun: randomElement(baseFunctions)
-		}
-	];
+	population[num] = {
+		//dev - trying to ensure first function is not overridden
+		libs: [
+			'none',
+			'unaryBaseFunctions'
+		],
+		funs: [
+			function(x) {
+				return x;
+			},
+			randomElement(baseFunctions)
+		]
+	};
 }
 var survivors = population.slice(0);
 var newGeneration = function () {
