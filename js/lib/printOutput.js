@@ -1,16 +1,13 @@
-var compose = require('./compose.js');
+var composeFunctionChain = require('./composeFunctionChain.js');
 
 module.exports = function (population, input, desiredOutput) {
 	var num = population.length;
 	var funChain;
 	while (num--) {
-		funChain = population[num].map(function(e) {
-			return e.fun;
-		});
-		console.log('length: ' + funChain.length);
-		console.log(funChain.toString());
-		var res = compose.apply(null, funChain);
-		console.log('output: ' + res(input));
+		res = composeFunctionChain(population[num]);
+		console.log('length: ' + res.funChain.length);
+		console.log(res.funChain.toString());
+		console.log('output: ' + res.composed(input));
 		console.log('/////////////////////');
 	}
 	console.log('input was: ' + input);

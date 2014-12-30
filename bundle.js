@@ -1,20 +1,16 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var compose = require('./compose.js');
+var composeFunctionChain = require('./composeFunctionChain.js');
 
 module.exports = function(population, input, desiredOutput) {
 	var survivorThreshold = (population.length * .1).toFixed(0);
 	population.sort(function (a, b) {
-		return Math.abs(compose.apply(null, a.map(function(e) {
-			return e.fun;
-		}))(input) - desiredOutput) -
-			Math.abs(compose.apply(null, b.map(function(e) {
-			return e.fun;
-		}))(input) - desiredOutput);
+		return Math.abs(composeFunctionChain(a).composed(input) - desiredOutput) -
+			Math.abs(composeFunctionChain(b).composed(input) - desiredOutput);
 	});
 	return population.splice(survivorThreshold).slice(0);
 };
 
-},{"./compose.js":4}],2:[function(require,module,exports){
+},{"./composeFunctionChain.js":5}],2:[function(require,module,exports){
 var add1 = function (x) {
 	return x + 1;
 };
@@ -83,7 +79,7 @@ module.exports = function (arr0, arr1) {
 	return mutate(mutate(mutate([]).concat(arr0)).concat(arr1));
 };
 
-},{"./baseFunctions/unaryBaseFunctions":2,"./randomElement.js":6}],4:[function(require,module,exports){
+},{"./baseFunctions/unaryBaseFunctions":2,"./randomElement.js":7}],4:[function(require,module,exports){
 module.exports = function() {
 	var fns = arguments;
 	return function (x) {
@@ -98,34 +94,45 @@ module.exports = function() {
 },{}],5:[function(require,module,exports){
 var compose = require('./compose.js');
 
+module.exports = function(arr) {
+	var funChain = arr.map(function(e) {
+		return e.fun;
+	});
+	var composed = compose.apply(null, funChain);
+	return {
+		funChain: funChain,
+		composed: composed
+	};
+}
+
+},{"./compose.js":4}],6:[function(require,module,exports){
+var composeFunctionChain = require('./composeFunctionChain.js');
+
 module.exports = function (population, input, desiredOutput) {
 	var num = population.length;
 	var funChain;
 	while (num--) {
-		funChain = population[num].map(function(e) {
-			return e.fun;
-		});
-		console.log('length: ' + funChain.length);
-		console.log(funChain.toString());
-		var res = compose.apply(null, funChain);
-		console.log('output: ' + res(input));
+		res = composeFunctionChain(population[num]);
+		console.log('length: ' + res.funChain.length);
+		console.log(res.funChain.toString());
+		console.log('output: ' + res.composed(input));
 		console.log('/////////////////////');
 	}
 	console.log('input was: ' + input);
 	console.log('desired output: ' + desiredOutput);
 };
 
-},{"./compose.js":4}],6:[function(require,module,exports){
+},{"./composeFunctionChain.js":5}],7:[function(require,module,exports){
 module.exports = function (arr) {
 	return arr[Math.floor(Math.random() * arr.length)];
 };
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 module.exports = function (len) {
 	return Math.floor(Math.random() * len);
 };
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 var compose = require('./lib/compose.js');
 var baseFunctions = require('./lib/baseFunctions/unaryBaseFunctions.js');
 var randomIndex = require('./lib/randomIndex.js');
@@ -171,4 +178,4 @@ printOutput(population, input, desiredOutput);
 
 //development - apply preferential treatment for more optimised functions where outputs are the same
 
-},{"./lib/applyFitness.js":1,"./lib/baseFunctions/unaryBaseFunctions.js":2,"./lib/breed.js":3,"./lib/compose.js":4,"./lib/printOutput.js":5,"./lib/randomElement.js":6,"./lib/randomIndex.js":7}]},{},[8]);
+},{"./lib/applyFitness.js":1,"./lib/baseFunctions/unaryBaseFunctions.js":2,"./lib/breed.js":3,"./lib/compose.js":4,"./lib/printOutput.js":6,"./lib/randomElement.js":7,"./lib/randomIndex.js":8}]},{},[9]);
