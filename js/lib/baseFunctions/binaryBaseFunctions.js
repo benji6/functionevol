@@ -14,7 +14,7 @@ var divide = function (x, y) {
 };
 var pow = function (x, y) {
 	return Math.pow(x, y);
-}
+};
 module.exports = [
 	add,
 	subtract,

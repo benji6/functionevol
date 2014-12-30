@@ -4,9 +4,9 @@ module.exports = function(arr) {
 	var funChain = arr.map(function(e) {
 		return e.fun;
 	});
-	var composed = compose.apply(null, funChain);
+	var composed = compose(funChain);
 	return {
 		funChain: funChain,
 		composed: composed
 	};
-}
+};

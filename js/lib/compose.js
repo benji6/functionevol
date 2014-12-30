@@ -1,5 +1,4 @@
-module.exports = function() {
-	var fns = arguments;
+module.exports = function(fns) {
 	return function (x) {
 		var num = fns.length;
 		while (num--) {
