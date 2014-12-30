@@ -14,7 +14,7 @@ var printOutput = require('./lib/printOutput.js');
 //Initial Population
 var input = 4;
 var desiredOutput = 12;
-var popSize = 256;
+var popSize = 128;
 var generations = popSize;
 var num = popSize;
 var population = [];

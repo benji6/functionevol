@@ -99,7 +99,7 @@ module.exports = function (obj0, obj1) {
 	return mutate(mutantChild);
 };
 
-},{"./baseFunctions/unaryBaseFunctions":2,"./randomElement.js":7,"./randomIndex.js":8}],4:[function(require,module,exports){
+},{"./baseFunctions/unaryBaseFunctions":2,"./randomElement.js":6,"./randomIndex.js":7}],4:[function(require,module,exports){
 module.exports = function(fns) {
 	return function (x) {
 		var num = fns.length;
@@ -113,27 +113,16 @@ module.exports = function(fns) {
 },{}],5:[function(require,module,exports){
 var compose = require('./compose.js');
 
-module.exports = function(obj) {
-	var funChain = obj.funs;
-	var composed = compose(funChain);
-	return {
-		funChain: funChain,
-		composed: composed
-	};
-};
-
-},{"./compose.js":4}],6:[function(require,module,exports){
-var composeFunctionChain = require('./composeFunctionChain.js');
-
 module.exports = function (population, input, desiredOutput) {
 	var num = population.length;
 	var funChain;
 	var composedRes;
+	var element;
 	while (num--) {
-		res = composeFunctionChain(population[num]);
-		console.log('length: ' + res.funChain.length);
-		console.log(res.funChain.toString());
-		composedRes = res.composed(input);
+		element = population[num];
+		console.log('length: ' + element.funs.length);
+		console.log(element.funs.toString());
+		composedRes = compose(element.funs)(input);
 		console.log('output: ' + composedRes);
 		console.log('accuracry: ' +
 			(1 - Math.abs(composedRes - desiredOutput)));
@@ -143,19 +132,19 @@ module.exports = function (population, input, desiredOutput) {
 	console.log('desired output: ' + desiredOutput);
 };
 
-},{"./composeFunctionChain.js":5}],7:[function(require,module,exports){
+},{"./compose.js":4}],6:[function(require,module,exports){
 var randomIndex = require('./randomIndex');
 
 module.exports = function (arr) {
 	return arr[randomIndex(arr.length)];
 };
 
-},{"./randomIndex":8}],8:[function(require,module,exports){
+},{"./randomIndex":7}],7:[function(require,module,exports){
 module.exports = function (len) {
 	return Math.floor(Math.random() * len);
 };
 
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 //time app
 var tinytic = require('tinytic');
 tinytic.toc();
@@ -172,7 +161,7 @@ var printOutput = require('./lib/printOutput.js');
 //Initial Population
 var input = 4;
 var desiredOutput = 12;
-var popSize = 256;
+var popSize = 128;
 var generations = popSize;
 var num = popSize;
 var population = [];
@@ -208,7 +197,7 @@ while (generations--) {
 printOutput(population, input, desiredOutput);
 console.log('time elapsed: ' + tinytic.toc());
 
-},{"./lib/applyFitness.js":1,"./lib/baseFunctions/unaryBaseFunctions.js":2,"./lib/breed.js":3,"./lib/compose.js":4,"./lib/printOutput.js":6,"./lib/randomElement.js":7,"./lib/randomIndex.js":8,"tinytic":10}],10:[function(require,module,exports){
+},{"./lib/applyFitness.js":1,"./lib/baseFunctions/unaryBaseFunctions.js":2,"./lib/breed.js":3,"./lib/compose.js":4,"./lib/printOutput.js":5,"./lib/randomElement.js":6,"./lib/randomIndex.js":7,"tinytic":9}],9:[function(require,module,exports){
 var then = new Date().getTime();
 var now = new Date().getTime();
 
@@ -224,4 +213,4 @@ var toc = function(maxDT) {
 
 exports.toc = toc;
 
-},{}]},{},[9]);
+},{}]},{},[8]);
