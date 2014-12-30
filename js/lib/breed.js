@@ -4,7 +4,9 @@ var mutationProb = 1 / 3;
 
 var mutate = function(arr0) {
 	if (Math.random() < mutationProb) {
-		return mutate(arr0.concat(randomElement(unaryBaseFunctions)));
+		return mutate(arr0.concat({
+			fun: randomElement(unaryBaseFunctions)
+		}));
 	}
 	return arr0;
 };

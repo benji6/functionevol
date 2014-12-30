@@ -14,7 +14,14 @@ var generations = 64;
 var num = popSize;
 var population = [];
 while (num--) {
-	population[num] = [randomElement(baseFunctions), randomElement(baseFunctions)];
+	population[num] = [
+		{
+			fun: randomElement(baseFunctions)
+		},
+		{
+			fun: randomElement(baseFunctions)
+		}
+	];
 }
 var survivors = population.slice(0);
 var newGeneration = function () {

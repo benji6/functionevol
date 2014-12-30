@@ -4,8 +4,12 @@ var compose = require('./compose.js');
 module.exports = function(population, input, desiredOutput) {
 	var survivorThreshold = (population.length * .1).toFixed(0);
 	population.sort(function (a, b) {
-		return Math.abs(compose.apply(null, a)(input) - desiredOutput) -
-			Math.abs(compose.apply(null, b)(input) - desiredOutput);
+		return Math.abs(compose.apply(null, a.map(function(e) {
+			return e.fun;
+		}))(input) - desiredOutput) -
+			Math.abs(compose.apply(null, b.map(function(e) {
+			return e.fun;
+		}))(input) - desiredOutput);
 	});
 	return population.splice(survivorThreshold).slice(0);
 };
@@ -66,7 +70,9 @@ var mutationProb = 1 / 3;
 
 var mutate = function(arr0) {
 	if (Math.random() < mutationProb) {
-		return mutate(arr0.concat(randomElement(unaryBaseFunctions)));
+		return mutate(arr0.concat({
+			fun: randomElement(unaryBaseFunctions)
+		}));
 	}
 	return arr0;
 };
@@ -132,7 +138,14 @@ var generations = 64;
 var num = popSize;
 var population = [];
 while (num--) {
-	population[num] = [randomElement(baseFunctions), randomElement(baseFunctions)];
+	population[num] = [
+		{
+			fun: randomElement(baseFunctions)
+		},
+		{
+			fun: randomElement(baseFunctions)
+		}
+	];
 }
 var survivors = population.slice(0);
 var newGeneration = function () {
