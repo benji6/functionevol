@@ -7,10 +7,10 @@ var breed = require('./lib/breed.js');
 var printOutput = require('./lib/printOutput.js');
 
 //Initial Population
-var input = 1;
-var desiredOutput = Math.PI;
+var input = 4;
+var desiredOutput = 12;
 var popSize = 128;
-var generations = 128;
+var generations = popSize;
 var num = popSize;
 var population = [];
 while (num--) {
@@ -38,5 +38,3 @@ while (generations--) {
 }
 
 printOutput(population, input, desiredOutput);
-
-//development - apply preferential treatment for more optimised functions where outputs are the same

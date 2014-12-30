@@ -4,8 +4,14 @@ var composeFunctionChain = require('./composeFunctionChain.js');
 module.exports = function(population, input, desiredOutput) {
 	var survivorThreshold = (population.length * .1).toFixed(0);
 	population.sort(function (a, b) {
-		return Math.abs(composeFunctionChain(a).composed(input) - desiredOutput) -
-			Math.abs(composeFunctionChain(b).composed(input) - desiredOutput);
+		var resA = composeFunctionChain(a);
+		var resB = composeFunctionChain(b);
+		var accuracyDiff = Math.abs(resA.composed(input) - desiredOutput) -
+			Math.abs(resB.composed(input) - desiredOutput);
+		if (accuracyDiff === 0) {
+			return resA.funChain.length - resB.funChain.length;
+		}
+		return accuracyDiff;
 	});
 	return population.splice(survivorThreshold).slice(0);
 };
@@ -149,10 +155,10 @@ var breed = require('./lib/breed.js');
 var printOutput = require('./lib/printOutput.js');
 
 //Initial Population
-var input = 1;
-var desiredOutput = Math.PI;
+var input = 4;
+var desiredOutput = 12;
 var popSize = 128;
-var generations = 128;
+var generations = popSize;
 var num = popSize;
 var population = [];
 while (num--) {
@@ -180,7 +186,5 @@ while (generations--) {
 }
 
 printOutput(population, input, desiredOutput);
-
-//development - apply preferential treatment for more optimised functions where outputs are the same
 
 },{"./lib/applyFitness.js":1,"./lib/baseFunctions/unaryBaseFunctions.js":2,"./lib/breed.js":3,"./lib/compose.js":4,"./lib/printOutput.js":6,"./lib/randomElement.js":7,"./lib/randomIndex.js":8}]},{},[9]);
