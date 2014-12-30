@@ -15,8 +15,8 @@ var mutate = function(arr0) {
 
 module.exports = function (arr0, arr1) {
 	//always include at least first element from arr0
-	arr0.splice(randomIndex(arr0.length) + 1);
-	//include any sub array of arr1
-	arr1.splice(randomIndex(arr1.length));
-	return mutate(mutate(mutate([]).concat(arr0)).concat(arr1));
+	var arr0Sliced = arr0.slice(0, randomIndex(arr0.length));
+	//never include the first element of arr1
+	var arr1Sliced = arr1.slice(1, randomIndex(arr1.length -1));
+	return mutate(mutate(mutate([]).concat(arr0Sliced)).concat(arr1Sliced));
 };
