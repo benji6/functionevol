@@ -20,6 +20,13 @@ var num = popSize;
 var population = [];
 while (num--) {
 	population[num] = [
+		//dev - trying to ensure first function is not overridden
+		{
+			lib: 'none',
+			fun: function(x) {
+				return x;
+			}
+		},
 		{
 			lib: 'unaryBaseFunctions',
 			fun: randomElement(baseFunctions)

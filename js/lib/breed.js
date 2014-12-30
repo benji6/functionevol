@@ -18,5 +18,5 @@ module.exports = function (arr0, arr1) {
 	var arr0Sliced = arr0.slice(0, randomIndex(arr0.length));
 	//never include the first element of arr1
 	var arr1Sliced = arr1.slice(1, randomIndex(arr1.length -1));
-	return mutate(mutate(mutate([]).concat(arr0Sliced)).concat(arr1Sliced));
+	return mutate(mutate(/*mutate([]).concat(*/arr0Sliced/*)*/).concat(arr1Sliced));
 };
