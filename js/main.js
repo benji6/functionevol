@@ -18,10 +18,6 @@ while (num--) {
 		{
 			lib: 'unaryBaseFunctions',
 			fun: randomElement(baseFunctions)
-		},
-		{
-			lib: 'unaryBaseFunctions',
-			fun: randomElement(baseFunctions)
 		}
 	];
 }
