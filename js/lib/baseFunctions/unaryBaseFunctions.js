@@ -16,7 +16,7 @@ var negate = function (x) {
 var invert = function (x) {
 	res = 1 / x;
 	if (isNaN(res)) {
-		return 0;
+		return x;
 	}
 	return 1 / x;
 };
