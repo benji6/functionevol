@@ -1,3 +1,6 @@
+var identity = function(x) {
+	return x;
+}
 var add1 = function (x) {
 	return x + 1;
 };
@@ -35,6 +38,7 @@ var sin = function (x) {
 };
 
 module.exports = [
+	identity,
 	add1,
 	minus1,
 	times2,

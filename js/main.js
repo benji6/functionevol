@@ -12,23 +12,20 @@ var printOutput = require('./lib/printOutput.js');
 
 
 //Initial Population
-var input = 1;
-var desiredOutput = 12;
+var input = [1, 2, 3, 4];
+var desiredOutput = [2, 4, 6, 8];
 var popSize = 128;
 var generations = popSize;
 var num = popSize;
 var population = [];
 while (num--) {
 	population[num] = {
-		//dev - trying to ensure first function is not overridden
+		accuracy: 0,
+		//dev - first function possibly a binary for dual input
 		libs: [
-			'none',
 			'unaryBaseFunctions'
 		],
 		funs: [
-			function(x) {
-				return x + 2;
-			},
 			randomElement(baseFunctions)
 		]
 	};

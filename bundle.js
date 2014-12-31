@@ -4,10 +4,14 @@ var compose = require('./compose.js');
 module.exports = function(population, input, desiredOutput) {
 	var survivorThreshold = (population.length * .1).toFixed(0);
 	population.sort(function (a, b) {
-		var accuracyDiff = Math.abs(compose(a.funs)(input) - desiredOutput) -
-			Math.abs(compose(b.funs)(input) - desiredOutput);
-		if (accuracyDiff === 0) {
-			return a.funs.length - b.funs.length;
+		var accuracyDiff = 0;
+		var i;
+		for (i = 0; i < input.length; i++) {
+			accuracyDiff += Math.abs(compose(a.funs)(input[i]) - desiredOutput[i]) -
+				Math.abs(compose(b.funs)(input[i]) - desiredOutput[i]);
+			if (accuracyDiff === 0) {
+				return a.funs.length - b.funs.length;
+			}
 		}
 		return accuracyDiff;
 	});
@@ -15,6 +19,9 @@ module.exports = function(population, input, desiredOutput) {
 };
 
 },{"./compose.js":4}],2:[function(require,module,exports){
+var identity = function(x) {
+	return x;
+}
 var add1 = function (x) {
 	return x + 1;
 };
@@ -52,6 +59,7 @@ var sin = function (x) {
 };
 
 module.exports = [
+	identity,
 	add1,
 	minus1,
 	times2,
@@ -125,10 +133,10 @@ module.exports = function (population, input, desiredOutput) {
 		element = population[num];
 		console.log('length: ' + element.funs.length);
 		console.log(element.funs.toString());
-		composedRes = compose(element.funs)(input);
+		composedRes = compose(element.funs)(input[0]);
 		console.log('output: ' + composedRes);
 		console.log('accuracry: ' +
-			(1 - Math.abs(composedRes - desiredOutput) / desiredOutput));
+			(1 - Math.abs(composedRes - desiredOutput[0]) / desiredOutput[0]));
 		console.log('/////////////////////');
 	}
 	console.log('input was: ' + input);
@@ -162,23 +170,20 @@ var printOutput = require('./lib/printOutput.js');
 
 
 //Initial Population
-var input = 1;
-var desiredOutput = 12;
+var input = [1, 2, 3, 4];
+var desiredOutput = [2, 4, 6, 8];
 var popSize = 128;
 var generations = popSize;
 var num = popSize;
 var population = [];
 while (num--) {
 	population[num] = {
-		//dev - trying to ensure first function is not overridden
+		accuracy: 0,
+		//dev - first function possibly a binary for dual input
 		libs: [
-			'none',
 			'unaryBaseFunctions'
 		],
 		funs: [
-			function(x) {
-				return x + 2;
-			},
 			randomElement(baseFunctions)
 		]
 	};
