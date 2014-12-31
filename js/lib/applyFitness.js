@@ -1,18 +1,20 @@
 var compose = require('./compose.js');
 
+var computeAccuracy = function(obj, input, desiredOutput) {
+	var accuracyDiff = 0;
+	for (i = 0; i < input.length; i++) {
+		accuracyDiff += Math.abs(compose(obj.funs)(input[i]) - desiredOutput[i]);
+	}
+	obj.accuracy = accuracyDiff;
+};
+
 module.exports = function(population, input, desiredOutput) {
-	var survivorThreshold = (population.length * .1).toFixed(0);
+	var survivorThreshold = (population.length / 16).toFixed(0);
+	population.forEach(function(el) {
+		computeAccuracy(el, input, desiredOutput);
+	});
 	population.sort(function (a, b) {
-		var accuracyDiff = 0;
-		var i;
-		for (i = 0; i < input.length; i++) {
-			accuracyDiff += Math.abs(compose(a.funs)(input[i]) - desiredOutput[i]) -
-				Math.abs(compose(b.funs)(input[i]) - desiredOutput[i]);
-			if (accuracyDiff === 0) {
-				return a.funs.length - b.funs.length;
-			}
-		}
-		return accuracyDiff;
+		return a.accuracy - b.accuracy;
 	});
 	return population.splice(survivorThreshold).slice(0);
 };

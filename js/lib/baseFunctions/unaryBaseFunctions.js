@@ -1,6 +1,6 @@
 var identity = function(x) {
 	return x;
-}
+};
 var add1 = function (x) {
 	return x + 1;
 };
