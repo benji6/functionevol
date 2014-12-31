@@ -81,11 +81,11 @@ var mutate = function(obj) {
 
 module.exports = function (obj0, obj1) {
 	//always include at least first element from arr0
-	var randomIndex0 = randomIndex(obj0.funs.length);
-	var randomIndex1 = randomIndex(obj1.funs.length - 1);
+	var randomIndex0 = randomIndex(obj0.funs.length - 1) + 1;
 	var libs0Sliced = obj0.libs.slice(0, randomIndex0);
 	var funs0Sliced = obj0.funs.slice(0, randomIndex0);
 	//never include the first element of arr1
+	var randomIndex1 = randomIndex(obj1.funs.length - 1);
 	var libs1Sliced = obj1.libs.slice(1, randomIndex1);
 	var funs1Sliced = obj1.funs.slice(1, randomIndex1);
 
@@ -93,18 +93,21 @@ module.exports = function (obj0, obj1) {
 		libs: libs0Sliced,
 		funs: funs0Sliced
 	};
+
 	var mutantChild = mutate(child);
+
 	mutantChild.libs = mutantChild.libs.concat(libs1Sliced);
 	mutantChild.funs = mutantChild.funs.concat(funs1Sliced);
+
 	return mutate(mutantChild);
 };
 
 },{"./baseFunctions/unaryBaseFunctions":2,"./randomElement.js":6,"./randomIndex.js":7}],4:[function(require,module,exports){
 module.exports = function(fns) {
 	return function (x) {
-		var num = fns.length;
-		while (num--) {
-			x = fns[num].call(this, x);
+		var i;
+		for (i = 0; i < fns.length; i++) {
+			x = fns[i].call(this, x);
 		}
 		return x;
 	};
@@ -160,7 +163,7 @@ var printOutput = require('./lib/printOutput.js');
 
 //Initial Population
 var input = 1;
-var desiredOutput = Math.PI;
+var desiredOutput = 12;
 var popSize = 128;
 var generations = popSize;
 var num = popSize;
@@ -174,7 +177,7 @@ while (num--) {
 		],
 		funs: [
 			function(x) {
-				return x;
+				return x + 2;
 			},
 			randomElement(baseFunctions)
 		]

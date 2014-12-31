@@ -13,7 +13,7 @@ var printOutput = require('./lib/printOutput.js');
 
 //Initial Population
 var input = 1;
-var desiredOutput = Math.PI;
+var desiredOutput = 12;
 var popSize = 128;
 var generations = popSize;
 var num = popSize;
@@ -27,7 +27,7 @@ while (num--) {
 		],
 		funs: [
 			function(x) {
-				return x;
+				return x + 2;
 			},
 			randomElement(baseFunctions)
 		]

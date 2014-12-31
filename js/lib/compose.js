@@ -1,8 +1,8 @@
 module.exports = function(fns) {
 	return function (x) {
-		var num = fns.length;
-		while (num--) {
-			x = fns[num].call(this, x);
+		var i;
+		for (i = 0; i < fns.length; i++) {
+			x = fns[i].call(this, x);
 		}
 		return x;
 	};
