@@ -12,7 +12,7 @@ module.exports = function (population, input, desiredOutput) {
 		composedRes = compose(element.funs)(input);
 		console.log('output: ' + composedRes);
 		console.log('accuracry: ' +
-			(1 - Math.abs(composedRes - desiredOutput)));
+			(1 - Math.abs(composedRes - desiredOutput) / desiredOutput));
 		console.log('/////////////////////');
 	}
 	console.log('input was: ' + input);

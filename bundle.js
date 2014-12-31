@@ -125,7 +125,7 @@ module.exports = function (population, input, desiredOutput) {
 		composedRes = compose(element.funs)(input);
 		console.log('output: ' + composedRes);
 		console.log('accuracry: ' +
-			(1 - Math.abs(composedRes - desiredOutput)));
+			(1 - Math.abs(composedRes - desiredOutput) / desiredOutput));
 		console.log('/////////////////////');
 	}
 	console.log('input was: ' + input);
@@ -159,8 +159,8 @@ var printOutput = require('./lib/printOutput.js');
 
 
 //Initial Population
-var input = 4;
-var desiredOutput = 12;
+var input = 1;
+var desiredOutput = Math.PI;
 var popSize = 128;
 var generations = popSize;
 var num = popSize;
