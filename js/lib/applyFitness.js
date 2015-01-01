@@ -14,7 +14,11 @@ module.exports = function(population, input, desiredOutput) {
 		computeAccuracy(el, input, desiredOutput);
 	});
 	population.sort(function (a, b) {
-		return a.accuracy - b.accuracy;
+		var accuracyDiff = a.accuracy - b.accuracy;
+		if (accuracyDiff === 0) {
+			return a.funs.length - b.funs.length;
+		}
+		return accuracyDiff;
 	});
 	return population.splice(survivorThreshold).slice(0);
 };

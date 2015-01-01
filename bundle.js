@@ -15,7 +15,11 @@ module.exports = function(population, input, desiredOutput) {
 		computeAccuracy(el, input, desiredOutput);
 	});
 	population.sort(function (a, b) {
-		return a.accuracy - b.accuracy;
+		var accuracyDiff = a.accuracy - b.accuracy;
+		if (accuracyDiff === 0) {
+			return a.funs.length - b.funs.length;
+		}
+		return accuracyDiff;
 	});
 	return population.splice(survivorThreshold).slice(0);
 };
@@ -23,7 +27,7 @@ module.exports = function(population, input, desiredOutput) {
 },{"./compose.js":4}],2:[function(require,module,exports){
 var identity = function(x) {
 	return x;
-}
+};
 var add1 = function (x) {
 	return x + 1;
 };
