@@ -216,30 +216,26 @@ var mutate = function(obj) {
 	}
 	return obj;
 };
-
+var objSlice = function(obj, fr, to) {
+	return {
+		libs: obj.libs.slice(0, to),
+		names: obj.names.slice(0, to),
+		funs: obj.funs.slice(0, to)
+	};
+};
+var objConcat = function(obj0, obj1) {
+	return {
+		libs: obj0.libs.concat(obj1.libs),
+		names: obj0.names.concat(obj1.names),
+		funs: obj0.funs.concat(obj1.funs)
+	};
+};
 module.exports = function (obj0, obj1) {
 	//always include at least first element from arr0
-	var randomIndex0 = randomIndex(obj0.funs.length - 1) + 1;
-	var libs0Sliced = obj0.libs.slice(0, randomIndex0);
-	var names0Sliced = obj0.names.slice(0, randomIndex0);
-	var funs0Sliced = obj0.funs.slice(0, randomIndex0);
-	//never include the first element of arr1
-	var randomIndex1 = randomIndex(obj1.funs.length - 1);
-	var libs1Sliced = obj1.libs.slice(1, randomIndex1);
-	var names1Sliced = obj1.names.slice(1, randomIndex1);
-	var funs1Sliced = obj1.funs.slice(1, randomIndex1);
-
-	var child = {
-		libs: libs0Sliced,
-		names: names0Sliced,
-		funs: funs0Sliced
-	};
-
+	var child = objSlice(obj0, 0, randomIndex(obj0.funs.length - 1) + 1);
 	var mutantChild = mutate(child);
-
-	mutantChild.libs = mutantChild.libs.concat(libs1Sliced);
-	mutantChild.names = mutantChild.names.concat(names1Sliced);
-	mutantChild.funs = mutantChild.funs.concat(funs1Sliced);
+	//never include the first element of arr1
+	objConcat(mutantChild, objSlice(obj1, 1, randomIndex(obj1.funs.length - 1)));
 
 	return mutate(mutantChild);
 };
