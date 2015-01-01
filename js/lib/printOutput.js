@@ -1,6 +1,6 @@
 var compose = require('./compose.js');
 
-module.exports = function (population, input, desiredOutput) {
+module.exports = function (population, inputs, desiredOutputs) {
 	var num = population.length;
 	var funChain;
 	var composedRes;
@@ -9,12 +9,11 @@ module.exports = function (population, input, desiredOutput) {
 		element = population[num];
 		console.log('length: ' + element.funs.length);
 		console.log(element.funs.toString());
-		composedRes = compose(element.funs)(input[0]);
+		composedRes = compose(element.funs)(inputs[0]);
 		console.log('output: ' + composedRes);
-		console.log('accuracry: ' +
-			(1 - Math.abs(composedRes - desiredOutput[0]) / desiredOutput[0]));
+		console.log('accuracry: ' + element.accuracy);
 		console.log('/////////////////////');
 	}
-	console.log('input was: ' + input);
-	console.log('desired output: ' + desiredOutput);
+	console.log('input was: ' + inputs);
+	console.log('desired output: ' + desiredOutputs);
 };

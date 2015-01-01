@@ -15,11 +15,11 @@ var printOutput = require('./lib/printOutput.js');
 var inputs = [1, 2, 3, 4];
 var desiredFunction = function(inputs) {
 	return inputs.map(function(elem) {
-		return elem * 4;
+		return elem * 3;
 	});
 };
 var desiredOutputs = desiredFunction(inputs);
-var popSize = 128;
+var popSize = 256;
 var generations = popSize;
 var num = popSize;
 var population = [];

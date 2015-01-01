@@ -1,10 +1,10 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var compose = require('./compose.js');
 
-var computeAccuracy = function(obj, input, desiredOutput) {
+var computeAccuracy = function(obj, inputs, desiredOutputs) {
 	var accuracyDiff = 0;
-	for (i = 0; i < input.length; i++) {
-		accuracyDiff += Math.abs(compose(obj.funs)(input[i]) - desiredOutput[i]);
+	for (i = 0; i < inputs.length; i++) {
+		accuracyDiff += Math.abs(compose(obj.funs)(inputs[i]) - desiredOutputs[i]);
 	}
 	obj.accuracy = accuracyDiff;
 };
@@ -130,7 +130,7 @@ module.exports = function(fns) {
 },{}],5:[function(require,module,exports){
 var compose = require('./compose.js');
 
-module.exports = function (population, input, desiredOutput) {
+module.exports = function (population, inputs, desiredOutputs) {
 	var num = population.length;
 	var funChain;
 	var composedRes;
@@ -139,14 +139,13 @@ module.exports = function (population, input, desiredOutput) {
 		element = population[num];
 		console.log('length: ' + element.funs.length);
 		console.log(element.funs.toString());
-		composedRes = compose(element.funs)(input[0]);
+		composedRes = compose(element.funs)(inputs[0]);
 		console.log('output: ' + composedRes);
-		console.log('accuracry: ' +
-			(1 - Math.abs(composedRes - desiredOutput[0]) / desiredOutput[0]));
+		console.log('accuracry: ' + element.accuracy);
 		console.log('/////////////////////');
 	}
-	console.log('input was: ' + input);
-	console.log('desired output: ' + desiredOutput);
+	console.log('input was: ' + inputs);
+	console.log('desired output: ' + desiredOutputs);
 };
 
 },{"./compose.js":4}],6:[function(require,module,exports){
@@ -179,11 +178,11 @@ var printOutput = require('./lib/printOutput.js');
 var inputs = [1, 2, 3, 4];
 var desiredFunction = function(inputs) {
 	return inputs.map(function(elem) {
-		return elem * 4;
+		return elem * 3;
 	});
 };
 var desiredOutputs = desiredFunction(inputs);
-var popSize = 128;
+var popSize = 256;
 var generations = popSize;
 var num = popSize;
 var population = [];

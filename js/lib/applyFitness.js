@@ -1,9 +1,9 @@
 var compose = require('./compose.js');
 
-var computeAccuracy = function(obj, input, desiredOutput) {
+var computeAccuracy = function(obj, inputs, desiredOutputs) {
 	var accuracyDiff = 0;
-	for (i = 0; i < input.length; i++) {
-		accuracyDiff += Math.abs(compose(obj.funs)(input[i]) - desiredOutput[i]);
+	for (i = 0; i < inputs.length; i++) {
+		accuracyDiff += Math.abs(compose(obj.funs)(inputs[i]) - desiredOutputs[i]);
 	}
 	obj.accuracy = accuracyDiff;
 };
