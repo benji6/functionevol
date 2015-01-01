@@ -13,7 +13,12 @@ var printOutput = require('./lib/printOutput.js');
 
 //Initial Population
 var input = [1, 2, 3, 4];
-var desiredOutput = [2, 4, 6, 8];
+var desiredFunction = function(inputs) {
+	return inputs.map(function(elem) {
+		return elem * 4;
+	});
+};
+var desiredOutput = desiredFunction(input);
 var popSize = 128;
 var generations = popSize;
 var num = popSize;
