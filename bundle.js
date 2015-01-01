@@ -176,13 +176,13 @@ var printOutput = require('./lib/printOutput.js');
 
 
 //Initial Population
-var input = [1, 2, 3, 4];
+var inputs = [1, 2, 3, 4];
 var desiredFunction = function(inputs) {
 	return inputs.map(function(elem) {
 		return elem * 4;
 	});
 };
-var desiredOutput = desiredFunction(input);
+var desiredOutputs = desiredFunction(inputs);
 var popSize = 128;
 var generations = popSize;
 var num = popSize;
@@ -208,12 +208,12 @@ var newGeneration = function () {
 		population.push(child);
 	}
 
-	survivors = applyFitness(population, input, desiredOutput);
+	survivors = applyFitness(population, inputs, desiredOutputs);
 };
 while (generations--) {
 	newGeneration();
 }
-printOutput(population, input, desiredOutput);
+printOutput(population, inputs, desiredOutputs);
 console.log('time elapsed: ' + tinytic.toc());
 
 },{"./lib/applyFitness.js":1,"./lib/baseFunctions/unaryBaseFunctions.js":2,"./lib/breed.js":3,"./lib/compose.js":4,"./lib/printOutput.js":5,"./lib/randomElement.js":6,"./lib/randomIndex.js":7,"tinytic":9}],9:[function(require,module,exports){
