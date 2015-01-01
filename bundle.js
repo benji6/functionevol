@@ -137,9 +137,9 @@ module.exports = function (population, inputs, desiredOutputs, timeElapsed) {
 	var element;
 	while (num--) {
 		element = population[num];
-		console.log('length: ' + element.funs.length);
 		console.log(element.funs.toString());
 		composedRes = compose(element.funs)(inputs[0]);
+		console.log('length: ' + element.funs.length);
 		console.log('output: ' + composedRes);
 		console.log(
 			'accuracy: ' +
@@ -183,7 +183,7 @@ var printOutput = require('./lib/printOutput.js');
 var inputs = [1, 2, 3, 4];
 var desiredFunction = function(inputs) {
 	return inputs.map(function(elem) {
-		return elem * 3;
+		return elem * 2;
 	});
 };
 var desiredOutputs = desiredFunction(inputs);
@@ -196,9 +196,13 @@ while (num--) {
 		accuracy: 0,
 		//dev - first function possibly a binary for dual input
 		libs: [
+			'none',
 			'unaryBaseFunctions'
 		],
 		funs: [
+			function(x) {
+				return x * 2 + 2;
+			},
 			randomElement(baseFunctions)
 		]
 	};

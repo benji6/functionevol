@@ -7,9 +7,9 @@ module.exports = function (population, inputs, desiredOutputs, timeElapsed) {
 	var element;
 	while (num--) {
 		element = population[num];
-		console.log('length: ' + element.funs.length);
 		console.log(element.funs.toString());
 		composedRes = compose(element.funs)(inputs[0]);
+		console.log('length: ' + element.funs.length);
 		console.log('output: ' + composedRes);
 		console.log(
 			'accuracy: ' +

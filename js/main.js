@@ -15,7 +15,7 @@ var printOutput = require('./lib/printOutput.js');
 var inputs = [1, 2, 3, 4];
 var desiredFunction = function(inputs) {
 	return inputs.map(function(elem) {
-		return elem * 3;
+		return elem * 2;
 	});
 };
 var desiredOutputs = desiredFunction(inputs);
@@ -28,9 +28,13 @@ while (num--) {
 		accuracy: 0,
 		//dev - first function possibly a binary for dual input
 		libs: [
+			'none',
 			'unaryBaseFunctions'
 		],
 		funs: [
+			function(x) {
+				return x * 2 + 2;
+			},
 			randomElement(baseFunctions)
 		]
 	};
