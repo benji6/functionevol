@@ -1,18 +1,29 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var compose = require('./compose.js');
 
-var computeAccuracy = function(obj, inputs, desiredOutputs) {
-	var accuracyDiff = 0;
+var computeOutput = function(obj, inputs) {
+	var outputs = [];
+	var i;
 	for (i = 0; i < inputs.length; i++) {
-		accuracyDiff += Math.abs(compose(obj.funs)(inputs[i]) - desiredOutputs[i]);
+		outputs.push(compose(obj.funs)(inputs[i]));
+	}
+	obj.outputs = outputs;
+};
+
+var computeAccuracy = function(obj, desiredOutputs) {
+	var accuracyDiff = 0;
+	var i;
+	for (i = 0; i < desiredOutputs.length; i++) {
+		accuracyDiff += Math.abs(obj.outputs[i] - desiredOutputs[i]);
 	}
 	obj.accuracy = accuracyDiff;
 };
 
-module.exports = function(population, input, desiredOutput) {
+module.exports = function(population, inputs, desiredOutput) {
 	var survivorThreshold = (population.length / 16).toFixed(0);
 	population.forEach(function(el) {
-		computeAccuracy(el, input, desiredOutput);
+		computeOutput(el, inputs);
+		computeAccuracy(el, inputs, desiredOutput);
 	});
 	population.sort(function (a, b) {
 		var accuracyDiff = a.accuracy - b.accuracy;
