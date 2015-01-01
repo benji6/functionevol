@@ -130,7 +130,7 @@ module.exports = function(fns) {
 },{}],5:[function(require,module,exports){
 var compose = require('./compose.js');
 
-module.exports = function (population, inputs, desiredOutputs) {
+module.exports = function (population, inputs, desiredOutputs, timeElapsed) {
 	var num = population.length;
 	var funChain;
 	var composedRes;
@@ -141,11 +141,16 @@ module.exports = function (population, inputs, desiredOutputs) {
 		console.log(element.funs.toString());
 		composedRes = compose(element.funs)(inputs[0]);
 		console.log('output: ' + composedRes);
-		console.log('accuracry: ' + element.accuracy);
+		console.log(
+			'accuracy: ' +
+			element.accuracy +
+			' (0 is optimal, greater number correlates to greater inaccuracy)'
+		);
 		console.log('/////////////////////');
 	}
 	console.log('input was: ' + inputs);
 	console.log('desired output: ' + desiredOutputs);
+	console.log('time elapsed: ' + timeElapsed + 'ms');
 };
 
 },{"./compose.js":4}],6:[function(require,module,exports){
@@ -182,7 +187,7 @@ var desiredFunction = function(inputs) {
 	});
 };
 var desiredOutputs = desiredFunction(inputs);
-var popSize = 256;
+var popSize = 128;
 var generations = popSize;
 var num = popSize;
 var population = [];
@@ -212,8 +217,7 @@ var newGeneration = function () {
 while (generations--) {
 	newGeneration();
 }
-printOutput(population, inputs, desiredOutputs);
-console.log('time elapsed: ' + tinytic.toc());
+printOutput(population, inputs, desiredOutputs, tinytic.toc());
 
 },{"./lib/applyFitness.js":1,"./lib/baseFunctions/unaryBaseFunctions.js":2,"./lib/breed.js":3,"./lib/compose.js":4,"./lib/printOutput.js":5,"./lib/randomElement.js":6,"./lib/randomIndex.js":7,"tinytic":9}],9:[function(require,module,exports){
 var then = new Date().getTime();

@@ -19,7 +19,7 @@ var desiredFunction = function(inputs) {
 	});
 };
 var desiredOutputs = desiredFunction(inputs);
-var popSize = 256;
+var popSize = 128;
 var generations = popSize;
 var num = popSize;
 var population = [];
@@ -49,5 +49,4 @@ var newGeneration = function () {
 while (generations--) {
 	newGeneration();
 }
-printOutput(population, inputs, desiredOutputs);
-console.log('time elapsed: ' + tinytic.toc());
+printOutput(population, inputs, desiredOutputs, tinytic.toc());
