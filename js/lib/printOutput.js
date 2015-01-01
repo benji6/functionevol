@@ -16,6 +16,6 @@ module.exports = function (population, inputs, desiredOutputs, timeElapsed) {
 		);
 		console.log('/////////////////////');
 	});
-	console.log('desired output: ' + desiredOutputs);
+	console.log('desired outputs: ' + desiredOutputs);
 	console.log('time elapsed: ' + timeElapsed + 'ms');
 };

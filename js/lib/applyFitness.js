@@ -3,8 +3,9 @@ var compose = require('./compose.js');
 var computeOutput = function(obj, inputs) {
 	var outputs = [];
 	var i;
+	var composed = compose(obj.funs);
 	for (i = 0; i < inputs.length; i++) {
-		outputs.push(compose(obj.funs)(inputs[i]));
+		outputs.push(composed(inputs[i]));
 	}
 	obj.outputs = outputs;
 };
@@ -18,11 +19,11 @@ var computeAccuracy = function(obj, desiredOutputs) {
 	obj.accuracy = accuracyDiff;
 };
 
-module.exports = function(population, inputs, desiredOutput) {
+module.exports = function(population, inputs, desiredOutputs) {
 	var survivorThreshold = (population.length / 16).toFixed(0);
 	population.forEach(function(el) {
 		computeOutput(el, inputs);
-		computeAccuracy(el, inputs, desiredOutput);
+		computeAccuracy(el, desiredOutputs);
 	});
 	population.sort(function (a, b) {
 		var accuracyDiff = a.accuracy - b.accuracy;

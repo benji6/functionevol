@@ -16,11 +16,11 @@ var printOutput = require('./lib/printOutput.js');
 var inputs = [1, 2, 3, 4];
 var desiredFunction = function(inputs) {
 	return inputs.map(function(elem) {
-		return elem * 2;
+		return (elem + 1) * 2;
 	});
 };
 var desiredOutputs = desiredFunction(inputs);
-var popSize = 128;
+var popSize = 256;
 var generations = popSize;
 var num = popSize;
 var population = [];
@@ -29,7 +29,7 @@ while (num--) {
 		accuracy: 0,
 		//dev - first function possibly a binary for dual input
 		libs: [
-			'none',
+			'binaryBaseFunctions',
 			'unaryBaseFunctions'
 		],
 		funs: [

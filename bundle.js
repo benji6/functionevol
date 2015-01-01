@@ -4,8 +4,9 @@ var compose = require('./compose.js');
 var computeOutput = function(obj, inputs) {
 	var outputs = [];
 	var i;
+	var composed = compose(obj.funs);
 	for (i = 0; i < inputs.length; i++) {
-		outputs.push(compose(obj.funs)(inputs[i]));
+		outputs.push(composed(inputs[i]));
 	}
 	obj.outputs = outputs;
 };
@@ -19,11 +20,11 @@ var computeAccuracy = function(obj, desiredOutputs) {
 	obj.accuracy = accuracyDiff;
 };
 
-module.exports = function(population, inputs, desiredOutput) {
+module.exports = function(population, inputs, desiredOutputs) {
 	var survivorThreshold = (population.length / 16).toFixed(0);
 	population.forEach(function(el) {
 		computeOutput(el, inputs);
-		computeAccuracy(el, inputs, desiredOutput);
+		computeAccuracy(el, desiredOutputs);
 	});
 	population.sort(function (a, b) {
 		var accuracyDiff = a.accuracy - b.accuracy;
@@ -38,10 +39,10 @@ module.exports = function(population, inputs, desiredOutput) {
 },{"./compose.js":5}],2:[function(require,module,exports){
 var flip = require('../flip.js');
 
-var applyDecorator = function(fn) {
+var binaryDecorator = function(fn) {
 	return function(arr) {
-		//hack - currently arguments are not passed in as arrays
-		return fn(arr, arr);
+		//hack
+		return fn(arr, 1);
 	};
 };
 
@@ -70,7 +71,7 @@ binaryBaseFunctions = [
 	flip(pow)
 ];
 module.exports = binaryBaseFunctions.map(function(elem) {
-	return applyDecorator(elem);
+	return binaryDecorator(elem);
 });
 
 },{"../flip.js":6}],3:[function(require,module,exports){
@@ -207,7 +208,7 @@ module.exports = function (population, inputs, desiredOutputs, timeElapsed) {
 		);
 		console.log('/////////////////////');
 	});
-	console.log('desired output: ' + desiredOutputs);
+	console.log('desired outputs: ' + desiredOutputs);
 	console.log('time elapsed: ' + timeElapsed + 'ms');
 };
 
@@ -242,11 +243,11 @@ var printOutput = require('./lib/printOutput.js');
 var inputs = [1, 2, 3, 4];
 var desiredFunction = function(inputs) {
 	return inputs.map(function(elem) {
-		return elem * 2;
+		return (elem + 1) * 2;
 	});
 };
 var desiredOutputs = desiredFunction(inputs);
-var popSize = 128;
+var popSize = 256;
 var generations = popSize;
 var num = popSize;
 var population = [];
@@ -255,7 +256,7 @@ while (num--) {
 		accuracy: 0,
 		//dev - first function possibly a binary for dual input
 		libs: [
-			'none',
+			'binaryBaseFunctions',
 			'unaryBaseFunctions'
 		],
 		funs: [

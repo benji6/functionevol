@@ -1,9 +1,9 @@
 var flip = require('../flip.js');
 
-var applyDecorator = function(fn) {
+var binaryDecorator = function(fn) {
 	return function(arr) {
-		//hack - currently arguments are not passed in as arrays
-		return fn(arr, arr);
+		//hack
+		return fn(arr, 1);
 	};
 };
 
@@ -32,5 +32,5 @@ binaryBaseFunctions = [
 	flip(pow)
 ];
 module.exports = binaryBaseFunctions.map(function(elem) {
-	return applyDecorator(elem);
+	return binaryDecorator(elem);
 });
