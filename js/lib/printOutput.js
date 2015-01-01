@@ -4,21 +4,18 @@ module.exports = function (population, inputs, desiredOutputs, timeElapsed) {
 	var num = population.length;
 	var funChain;
 	var composedRes;
-	var element;
-	while (num--) {
-		element = population[num];
-		console.log(element.funs.toString());
-		composedRes = compose(element.funs)(inputs[0]);
-		console.log('length: ' + element.funs.length);
-		console.log('output: ' + composedRes);
+	population.forEach(function(elem) {
+		console.log(elem.funs.toString());
+		console.log('length: ' + elem.funs.length);
+		console.log('inputs: ' + inputs);
+		console.log('outputs: ' + elem.outputs);
 		console.log(
 			'accuracy: ' +
-			element.accuracy +
+			elem.accuracy +
 			' (0 is optimal, greater number correlates to greater inaccuracy)'
 		);
 		console.log('/////////////////////');
-	}
-	console.log('input was: ' + inputs);
+	});
 	console.log('desired output: ' + desiredOutputs);
 	console.log('time elapsed: ' + timeElapsed + 'ms');
 };
