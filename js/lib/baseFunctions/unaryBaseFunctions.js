@@ -37,15 +37,29 @@ var sin = function (x) {
 	return Math.sin(x);
 };
 
-module.exports = [
-	identity,
-	add1,
-	minus1,
-	times2,
-	divide2,
-	negate,
-	invert,
-	square,
-	squareRoot,
-	sin
-];
+module.exports = {
+	names: [
+		"identity",
+		"add1",
+		"minus1",
+		"times2",
+		"divide2",
+		"negate",
+		"invert",
+		"square",
+		"squareRoot",
+		"sin"
+	],
+	funs: [
+		identity,
+		add1,
+		minus1,
+		times2,
+		divide2,
+		negate,
+		invert,
+		square,
+		squareRoot,
+		sin
+	]
+};

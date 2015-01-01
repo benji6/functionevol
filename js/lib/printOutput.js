@@ -5,7 +5,7 @@ module.exports = function (population, inputs, desiredOutputs, timeElapsed) {
 	var funChain;
 	var composedRes;
 	population.forEach(function(elem) {
-		console.log(elem.funs.toString());
+		console.log(elem.names.toString());
 		console.log('length: ' + elem.funs.length);
 		console.log('inputs: ' + inputs);
 		console.log('outputs: ' + elem.outputs);

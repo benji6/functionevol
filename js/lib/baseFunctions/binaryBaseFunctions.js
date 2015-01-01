@@ -1,8 +1,8 @@
 var flip = require('../flip.js');
 
 var binaryDecorator = function(fn) {
+	//hack
 	return function(arr) {
-		//hack
 		return fn(arr, 1);
 	};
 };

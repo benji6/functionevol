@@ -13,28 +13,32 @@ var printOutput = require('./lib/printOutput.js');
 
 
 //Initial Population
-var inputs = [1, 2, 3, 4];
+var inputs = [1, 2, 3, 4, 5];
 var desiredFunction = function(inputs) {
 	return inputs.map(function(elem) {
-		return (elem + 1) * 2;
+		return Math.pow(elem, 2) - 1;
 	});
 };
 var desiredOutputs = desiredFunction(inputs);
-var popSize = 256;
+var popSize = 384;
 var generations = popSize;
 var num = popSize;
 var population = [];
+var randomIndexUnary = randomIndex(unaryBaseFunctions.funs.length);
 while (num--) {
 	population[num] = {
 		accuracy: 0,
 		//dev - first function possibly a binary for dual input
 		libs: [
-			'binaryBaseFunctions',
+			//'binaryBaseFunctions',
 			'unaryBaseFunctions'
 		],
+		names: [
+			unaryBaseFunctions.names[randomIndexUnary]
+		],
 		funs: [
-			randomElement(binaryBaseFunctions),
-			randomElement(unaryBaseFunctions)
+			//randomElement(binaryBaseFunctions),
+			unaryBaseFunctions.funs[randomIndexUnary]
 		]
 	};
 }
