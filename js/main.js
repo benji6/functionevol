@@ -8,7 +8,7 @@ var binaryBaseFunctions = require('./lib/baseFunctions/binaryBaseFunctions.js');
 var randomIndex = require('./lib/randomIndex.js');
 var randomElement = require('./lib/randomElement.js');
 var applyFitness = require('./lib/applyFitness.js');
-var breed = require('./lib/breed.js');
+var reproduce = require('./lib/reproduce.js');
 var printOutput = require('./lib/printOutput.js');
 
 
@@ -20,7 +20,7 @@ var desiredFunction = function(inputs) {
 	});
 };
 var desiredOutputs = desiredFunction(inputs);
-var popSize = 384;
+var popSize = 256;
 var generations = popSize;
 var num = popSize;
 var population = [];
@@ -47,7 +47,7 @@ var newGeneration = function () {
 	var child;
 
 	while (population.length < popSize) {
-		child = breed(randomElement(survivors), randomElement(survivors));
+		child = reproduce(randomElement(survivors), randomElement(survivors));
 		population.push(child);
 	}
 

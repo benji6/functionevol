@@ -14,7 +14,7 @@ var computeAccuracy = function(obj, desiredOutputs) {
 	var accuracyDiff = 0;
 	var i;
 	for (i = 0; i < desiredOutputs.length; i++) {
-		accuracyDiff += Math.abs(obj.outputs[i] - desiredOutputs[i]);
+		accuracyDiff += Math.pow(obj.outputs[i] - desiredOutputs[i], 2);
 	}
 	obj.accuracy = accuracyDiff;
 };

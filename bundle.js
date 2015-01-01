@@ -15,7 +15,7 @@ var computeAccuracy = function(obj, desiredOutputs) {
 	var accuracyDiff = 0;
 	var i;
 	for (i = 0; i < desiredOutputs.length; i++) {
-		accuracyDiff += Math.abs(obj.outputs[i] - desiredOutputs[i]);
+		accuracyDiff += Math.pow(obj.outputs[i] - desiredOutputs[i], 2);
 	}
 	obj.accuracy = accuracyDiff;
 };
@@ -36,7 +36,7 @@ module.exports = function(population, inputs, desiredOutputs) {
 	return population.splice(survivorThreshold).slice(0);
 };
 
-},{"./compose.js":5}],2:[function(require,module,exports){
+},{"./compose.js":4}],2:[function(require,module,exports){
 var flip = require('../flip.js');
 
 var binaryDecorator = function(fn) {
@@ -74,7 +74,7 @@ module.exports = binaryBaseFunctions.map(function(elem) {
 	return binaryDecorator(elem);
 });
 
-},{"../flip.js":6}],3:[function(require,module,exports){
+},{"../flip.js":5}],3:[function(require,module,exports){
 var identity = function(x) {
 	return x;
 };
@@ -142,6 +142,64 @@ module.exports = {
 };
 
 },{}],4:[function(require,module,exports){
+module.exports = function(fns) {
+	return function (x) {
+		var i;
+		for (i = 0; i < fns.length; i++) {
+			x = fns[i].call(this, x);
+		}
+		return x;
+	};
+};
+
+},{}],5:[function(require,module,exports){
+module.exports = function(fn) {
+	return function(x, y) {
+		if (arguments.length === 2) {
+			return fn.call(this, y, x);
+		}
+		return function(y) {
+			return fn.call(this, y, x);
+		};
+	};
+};
+
+},{}],6:[function(require,module,exports){
+var compose = require('./compose.js');
+
+module.exports = function (population, inputs, desiredOutputs, timeElapsed) {
+	var num = population.length;
+	var funChain;
+	var composedRes;
+	population.forEach(function(elem) {
+		console.log(elem.names.toString());
+		console.log('length: ' + elem.funs.length);
+		console.log('inputs: ' + inputs);
+		console.log('outputs: ' + elem.outputs);
+		console.log(
+			'accuracy: ' +
+			elem.accuracy +
+			' (0 is optimal, greater number correlates to greater inaccuracy)'
+		);
+		console.log('/////////////////////');
+	});
+	console.log('desired outputs: ' + desiredOutputs);
+	console.log('time elapsed: ' + timeElapsed + 'ms');
+};
+
+},{"./compose.js":4}],7:[function(require,module,exports){
+var randomIndex = require('./randomIndex');
+
+module.exports = function (arr) {
+	return arr[randomIndex(arr.length)];
+};
+
+},{"./randomIndex":8}],8:[function(require,module,exports){
+module.exports = function (len) {
+	return Math.floor(Math.random() * len);
+};
+
+},{}],9:[function(require,module,exports){
 var randomElement = require('./randomElement.js');
 var randomIndex = require('./randomIndex.js');
 var unaryBaseFunctions = require('./baseFunctions/unaryBaseFunctions');
@@ -186,65 +244,7 @@ module.exports = function (obj0, obj1) {
 	return mutate(mutantChild);
 };
 
-},{"./baseFunctions/unaryBaseFunctions":3,"./randomElement.js":8,"./randomIndex.js":9}],5:[function(require,module,exports){
-module.exports = function(fns) {
-	return function (x) {
-		var i;
-		for (i = 0; i < fns.length; i++) {
-			x = fns[i].call(this, x);
-		}
-		return x;
-	};
-};
-
-},{}],6:[function(require,module,exports){
-module.exports = function(fn) {
-	return function(x, y) {
-		if (arguments.length === 2) {
-			return fn.call(this, y, x);
-		}
-		return function(y) {
-			return fn.call(this, y, x);
-		};
-	};
-};
-
-},{}],7:[function(require,module,exports){
-var compose = require('./compose.js');
-
-module.exports = function (population, inputs, desiredOutputs, timeElapsed) {
-	var num = population.length;
-	var funChain;
-	var composedRes;
-	population.forEach(function(elem) {
-		console.log(elem.names.toString());
-		console.log('length: ' + elem.funs.length);
-		console.log('inputs: ' + inputs);
-		console.log('outputs: ' + elem.outputs);
-		console.log(
-			'accuracy: ' +
-			elem.accuracy +
-			' (0 is optimal, greater number correlates to greater inaccuracy)'
-		);
-		console.log('/////////////////////');
-	});
-	console.log('desired outputs: ' + desiredOutputs);
-	console.log('time elapsed: ' + timeElapsed + 'ms');
-};
-
-},{"./compose.js":5}],8:[function(require,module,exports){
-var randomIndex = require('./randomIndex');
-
-module.exports = function (arr) {
-	return arr[randomIndex(arr.length)];
-};
-
-},{"./randomIndex":9}],9:[function(require,module,exports){
-module.exports = function (len) {
-	return Math.floor(Math.random() * len);
-};
-
-},{}],10:[function(require,module,exports){
+},{"./baseFunctions/unaryBaseFunctions":3,"./randomElement.js":7,"./randomIndex.js":8}],10:[function(require,module,exports){
 //time app
 var tinytic = require('tinytic');
 tinytic.toc();
@@ -255,7 +255,7 @@ var binaryBaseFunctions = require('./lib/baseFunctions/binaryBaseFunctions.js');
 var randomIndex = require('./lib/randomIndex.js');
 var randomElement = require('./lib/randomElement.js');
 var applyFitness = require('./lib/applyFitness.js');
-var breed = require('./lib/breed.js');
+var reproduce = require('./lib/reproduce.js');
 var printOutput = require('./lib/printOutput.js');
 
 
@@ -267,7 +267,7 @@ var desiredFunction = function(inputs) {
 	});
 };
 var desiredOutputs = desiredFunction(inputs);
-var popSize = 384;
+var popSize = 256;
 var generations = popSize;
 var num = popSize;
 var population = [];
@@ -294,7 +294,7 @@ var newGeneration = function () {
 	var child;
 
 	while (population.length < popSize) {
-		child = breed(randomElement(survivors), randomElement(survivors));
+		child = reproduce(randomElement(survivors), randomElement(survivors));
 		population.push(child);
 	}
 
@@ -305,7 +305,7 @@ while (generations--) {
 }
 printOutput(population, inputs, desiredOutputs, tinytic.toc());
 
-},{"./lib/applyFitness.js":1,"./lib/baseFunctions/binaryBaseFunctions.js":2,"./lib/baseFunctions/unaryBaseFunctions.js":3,"./lib/breed.js":4,"./lib/compose.js":5,"./lib/printOutput.js":7,"./lib/randomElement.js":8,"./lib/randomIndex.js":9,"tinytic":11}],11:[function(require,module,exports){
+},{"./lib/applyFitness.js":1,"./lib/baseFunctions/binaryBaseFunctions.js":2,"./lib/baseFunctions/unaryBaseFunctions.js":3,"./lib/compose.js":4,"./lib/printOutput.js":6,"./lib/randomElement.js":7,"./lib/randomIndex.js":8,"./lib/reproduce.js":9,"tinytic":11}],11:[function(require,module,exports){
 var then = new Date().getTime();
 var now = new Date().getTime();
 
