@@ -3,7 +3,8 @@ var tinytic = require('tinytic');
 tinytic.toc();
 
 var compose = require('./lib/compose.js');
-var baseFunctions = require('./lib/baseFunctions/unaryBaseFunctions.js');
+var unaryBaseFunctions = require('./lib/baseFunctions/unaryBaseFunctions.js');
+var binaryBaseFunctions = require('./lib/baseFunctions/binaryBaseFunctions.js');
 var randomIndex = require('./lib/randomIndex.js');
 var randomElement = require('./lib/randomElement.js');
 var applyFitness = require('./lib/applyFitness.js');
@@ -32,10 +33,8 @@ while (num--) {
 			'unaryBaseFunctions'
 		],
 		funs: [
-			function(x) {
-				return x * 2 + 2;
-			},
-			randomElement(baseFunctions)
+			randomElement(binaryBaseFunctions),
+			randomElement(unaryBaseFunctions)
 		]
 	};
 }

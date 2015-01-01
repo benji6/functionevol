@@ -35,7 +35,45 @@ module.exports = function(population, inputs, desiredOutput) {
 	return population.splice(survivorThreshold).slice(0);
 };
 
-},{"./compose.js":4}],2:[function(require,module,exports){
+},{"./compose.js":5}],2:[function(require,module,exports){
+var flip = require('../flip.js');
+
+var applyDecorator = function(fn) {
+	return function(arr) {
+		//hack - currently arguments are not passed in as arrays
+		return fn(arr, arr);
+	};
+};
+
+var add = function (x, y) {
+	return x + y;
+};
+var subtract = function (x, y) {
+	return x - y;
+};
+var multiply = function (x, y) {
+	return x * y;
+};
+var divide = function (x, y) {
+	return x / y;
+};
+var pow = function (x, y) {
+	return Math.pow(x, y);
+};
+binaryBaseFunctions = [
+	add,
+	subtract,
+	flip(subtract),
+	multiply,
+	flip(multiply),
+	pow,
+	flip(pow)
+];
+module.exports = binaryBaseFunctions.map(function(elem) {
+	return applyDecorator(elem);
+});
+
+},{"../flip.js":6}],3:[function(require,module,exports){
 var identity = function(x) {
 	return x;
 };
@@ -88,7 +126,7 @@ module.exports = [
 	sin
 ];
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 var randomElement = require('./randomElement.js');
 var randomIndex = require('./randomIndex.js');
 var unaryBaseFunctions = require('./baseFunctions/unaryBaseFunctions');
@@ -127,7 +165,7 @@ module.exports = function (obj0, obj1) {
 	return mutate(mutantChild);
 };
 
-},{"./baseFunctions/unaryBaseFunctions":2,"./randomElement.js":6,"./randomIndex.js":7}],4:[function(require,module,exports){
+},{"./baseFunctions/unaryBaseFunctions":3,"./randomElement.js":8,"./randomIndex.js":9}],5:[function(require,module,exports){
 module.exports = function(fns) {
 	return function (x) {
 		var i;
@@ -138,7 +176,19 @@ module.exports = function(fns) {
 	};
 };
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
+module.exports = function(fn) {
+	return function(x, y) {
+		if (arguments.length === 2) {
+			return fn.call(this, y, x);
+		}
+		return function(y) {
+			return fn.call(this, y, x);
+		};
+	};
+};
+
+},{}],7:[function(require,module,exports){
 var compose = require('./compose.js');
 
 module.exports = function (population, inputs, desiredOutputs, timeElapsed) {
@@ -161,25 +211,26 @@ module.exports = function (population, inputs, desiredOutputs, timeElapsed) {
 	console.log('time elapsed: ' + timeElapsed + 'ms');
 };
 
-},{"./compose.js":4}],6:[function(require,module,exports){
+},{"./compose.js":5}],8:[function(require,module,exports){
 var randomIndex = require('./randomIndex');
 
 module.exports = function (arr) {
 	return arr[randomIndex(arr.length)];
 };
 
-},{"./randomIndex":7}],7:[function(require,module,exports){
+},{"./randomIndex":9}],9:[function(require,module,exports){
 module.exports = function (len) {
 	return Math.floor(Math.random() * len);
 };
 
-},{}],8:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 //time app
 var tinytic = require('tinytic');
 tinytic.toc();
 
 var compose = require('./lib/compose.js');
-var baseFunctions = require('./lib/baseFunctions/unaryBaseFunctions.js');
+var unaryBaseFunctions = require('./lib/baseFunctions/unaryBaseFunctions.js');
+var binaryBaseFunctions = require('./lib/baseFunctions/binaryBaseFunctions.js');
 var randomIndex = require('./lib/randomIndex.js');
 var randomElement = require('./lib/randomElement.js');
 var applyFitness = require('./lib/applyFitness.js');
@@ -208,10 +259,8 @@ while (num--) {
 			'unaryBaseFunctions'
 		],
 		funs: [
-			function(x) {
-				return x * 2 + 2;
-			},
-			randomElement(baseFunctions)
+			randomElement(binaryBaseFunctions),
+			randomElement(unaryBaseFunctions)
 		]
 	};
 }
@@ -231,7 +280,7 @@ while (generations--) {
 }
 printOutput(population, inputs, desiredOutputs, tinytic.toc());
 
-},{"./lib/applyFitness.js":1,"./lib/baseFunctions/unaryBaseFunctions.js":2,"./lib/breed.js":3,"./lib/compose.js":4,"./lib/printOutput.js":5,"./lib/randomElement.js":6,"./lib/randomIndex.js":7,"tinytic":9}],9:[function(require,module,exports){
+},{"./lib/applyFitness.js":1,"./lib/baseFunctions/binaryBaseFunctions.js":2,"./lib/baseFunctions/unaryBaseFunctions.js":3,"./lib/breed.js":4,"./lib/compose.js":5,"./lib/printOutput.js":7,"./lib/randomElement.js":8,"./lib/randomIndex.js":9,"tinytic":11}],11:[function(require,module,exports){
 var then = new Date().getTime();
 var now = new Date().getTime();
 
@@ -247,4 +296,4 @@ var toc = function(maxDT) {
 
 exports.toc = toc;
 
-},{}]},{},[8]);
+},{}]},{},[10]);
