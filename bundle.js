@@ -14,10 +14,11 @@ var computeOutput = function(obj, inputs) {
 var computeAccuracy = function(obj, desiredOutputs) {
 	var accuracyDiff = 0;
 	var i;
+	var desiredOutputsLen = desiredOutputs.length;
 	for (i = 0; i < desiredOutputs.length; i++) {
-		accuracyDiff += Math.pow(obj.outputs[i] - desiredOutputs[i], 2);
+		accuracyDiff += Math.abs(obj.outputs[i] - desiredOutputs[i]);
 	}
-	obj.accuracy = accuracyDiff;
+	obj.accuracy = accuracyDiff / desiredOutputsLen;
 };
 
 module.exports = function(population, inputs, desiredOutputs) {
@@ -211,6 +212,8 @@ var unaryBaseFunctions = require('./baseFunctions/unaryBaseFunctions');
 var mutationProb = 1 / 3;
 
 //dev would be great to evolve this module
+//dev self optimisation by checking if there exists a pair of functions
+//which can be spliced out
 
 var objPush = function(obj, e1, e2, e3) {
 		obj.libs.push(e1);
@@ -295,7 +298,8 @@ module.exports = function (parent0, parent1) {
 },{"./baseFunctions/unaryBaseFunctions":3,"./randomElement.js":7,"./randomIndex.js":8}],10:[function(require,module,exports){
 //time app
 var tinytic = require('tinytic');
-tinytic.toc();
+var startTime = tinytic.toc();
+var timeElapsed = 0;
 
 var compose = require('./lib/compose.js');
 var unaryBaseFunctions = require('./lib/baseFunctions/unaryBaseFunctions.js');
@@ -315,7 +319,7 @@ for (i = 0; i < 32; i++) {
 }
 var desiredFunction = function(inputs) {
 	return inputs.map(function(elem) {
-		return Math.sin(-(Math.pow(elem, 2) - 2) * 2);
+		return Math.sin(-(Math.pow(elem, 2) - 1) * 2);
 	});
 };
 var desiredOutputs = desiredFunction(inputs);
@@ -352,10 +356,11 @@ var newGeneration = function () {
 
 	survivors = applyFitness(population, inputs, desiredOutputs);
 };
-while (generations--) {
+while (timeElapsed < 512) {
 	newGeneration();
+	timeElapsed += tinytic.toc();
 }
-printOutput(population, inputs, desiredOutputs, tinytic.toc());
+printOutput(population, inputs, desiredOutputs, timeElapsed);
 
 },{"./lib/applyFitness.js":1,"./lib/baseFunctions/binaryBaseFunctions.js":2,"./lib/baseFunctions/unaryBaseFunctions.js":3,"./lib/compose.js":4,"./lib/printOutput.js":6,"./lib/randomElement.js":7,"./lib/randomIndex.js":8,"./lib/reproduce.js":9,"tinytic":11}],11:[function(require,module,exports){
 var then = new Date().getTime();

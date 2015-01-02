@@ -13,10 +13,11 @@ var computeOutput = function(obj, inputs) {
 var computeAccuracy = function(obj, desiredOutputs) {
 	var accuracyDiff = 0;
 	var i;
+	var desiredOutputsLen = desiredOutputs.length;
 	for (i = 0; i < desiredOutputs.length; i++) {
-		accuracyDiff += Math.pow(obj.outputs[i] - desiredOutputs[i], 2);
+		accuracyDiff += Math.abs(obj.outputs[i] - desiredOutputs[i]);
 	}
-	obj.accuracy = accuracyDiff;
+	obj.accuracy = accuracyDiff / desiredOutputsLen;
 };
 
 module.exports = function(population, inputs, desiredOutputs) {
