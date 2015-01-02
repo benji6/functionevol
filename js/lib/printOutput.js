@@ -9,6 +9,7 @@ module.exports = function (population, inputs, desiredOutputs, timeElapsed) {
 		console.log('length: ' + elem.funs.length);
 		console.log('inputs: ' + inputs);
 		console.log('outputs: ' + elem.outputs);
+		console.log('desired outputs: ' + desiredOutputs);
 		console.log(
 			'accuracy: ' +
 			elem.accuracy +
@@ -16,6 +17,6 @@ module.exports = function (population, inputs, desiredOutputs, timeElapsed) {
 		);
 		console.log('/////////////////////');
 	});
-	console.log('desired outputs: ' + desiredOutputs);
+
 	console.log('time elapsed: ' + timeElapsed + 'ms');
 };

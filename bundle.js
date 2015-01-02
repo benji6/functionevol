@@ -176,6 +176,7 @@ module.exports = function (population, inputs, desiredOutputs, timeElapsed) {
 		console.log('length: ' + elem.funs.length);
 		console.log('inputs: ' + inputs);
 		console.log('outputs: ' + elem.outputs);
+		console.log('desired outputs: ' + desiredOutputs);
 		console.log(
 			'accuracy: ' +
 			elem.accuracy +
@@ -183,7 +184,7 @@ module.exports = function (population, inputs, desiredOutputs, timeElapsed) {
 		);
 		console.log('/////////////////////');
 	});
-	console.log('desired outputs: ' + desiredOutputs);
+
 	console.log('time elapsed: ' + timeElapsed + 'ms');
 };
 
@@ -205,6 +206,7 @@ var randomIndex = require('./randomIndex.js');
 var unaryBaseFunctions = require('./baseFunctions/unaryBaseFunctions');
 var mutationProb = 1 / 3;
 
+//dev would be great to evolve this module
 
 var objPush = function(obj, e1, e2, e3) {
 		obj.libs.push(e1);
@@ -247,7 +249,7 @@ var mutate = function(obj) {
 
 		return mutate(obj);
 	}
-	if (Math.random() < mutationProb / 2) {
+	if (Math.random() < mutationProb) {
 		var funsLength = obj.funs.length;
 		if (funsLength > 1) {
 			var randomIdx = randomIndex(funsLength);
@@ -258,21 +260,32 @@ var mutate = function(obj) {
 	}
 	return obj;
 };
-var computeGametes = function(obj, fr, to) {
+var computeGamete = function(obj, fr, to) {
 	if (Math.random() < mutationProb * 16) {
 		return objSlice(obj, fr, to);
 	}
 	return objSlice(obj, fr);
 };
-module.exports = function (obj0, obj1) {
+var fertilisation = function(gamete0, gamete1) {
+	if (Math.random() < mutationProb) {
+		return objConcat(gamete0, gamete1);
+	}
+	return gamete0;
+};
+module.exports = function (parent0, parent1) {
+	var mutantParent0 = mutate(parent0);
+	var mutantParent1 = mutate(parent1);
 	//always include at least first element from arr0
-	var child = computeGametes(obj0, 0, randomIndex(obj0.funs.length - 1) + 1);
-
-	var mutantChild = mutate(child);
+	var gamete0 = computeGamete(mutantParent0, 0, randomIndex(mutantParent0.funs.length - 1) + 1);
 	//never include the first element of arr1
-	objConcat(mutantChild, computeGametes(obj1, 1, randomIndex(obj1.funs.length - 1)));
+	var gamete1 = computeGamete(mutantParent1, 1, randomIndex(mutantParent1.funs.length - 1));
 
-	return mutate(mutantChild);
+	var mutantGamete0 = mutate(gamete0);
+	var mutantGamete1 = mutate(gamete1);
+
+	var child = fertilisation(mutantGamete0, mutantGamete1);
+
+	return mutate(child);
 };
 
 },{"./baseFunctions/unaryBaseFunctions":3,"./randomElement.js":7,"./randomIndex.js":8}],10:[function(require,module,exports){
