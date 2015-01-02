@@ -9,12 +9,8 @@ var printLn = function(str) {
 };
 
 module.exports = function (population, inputs, desiredOutputs, timeElapsed) {
-	var num = population.length;
-	var elem;
 	printLn('time elapsed: ' + timeElapsed + 'ms');
-	//backwards loop so best results display first
-	while (num--) {
-		elem = population[num];
+	population.forEach(function(elem){
 		printLn(elem.names.toString());
 		printLn('length: ' + elem.funs.length);
 		printLn('inputs: ' + inputs);
@@ -26,5 +22,5 @@ module.exports = function (population, inputs, desiredOutputs, timeElapsed) {
 			' (0 is optimal, greater number correlates to greater inaccuracy)'
 		);
 		printLn('/////////////////////');
-	}
+	});
 };

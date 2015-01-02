@@ -176,12 +176,8 @@ var printLn = function(str) {
 };
 
 module.exports = function (population, inputs, desiredOutputs, timeElapsed) {
-	var num = population.length;
-	var elem;
 	printLn('time elapsed: ' + timeElapsed + 'ms');
-	//backwards loop so best results display first
-	while (num--) {
-		elem = population[num];
+	population.forEach(function(elem){
 		printLn(elem.names.toString());
 		printLn('length: ' + elem.funs.length);
 		printLn('inputs: ' + inputs);
@@ -193,7 +189,7 @@ module.exports = function (population, inputs, desiredOutputs, timeElapsed) {
 			' (0 is optimal, greater number correlates to greater inaccuracy)'
 		);
 		printLn('/////////////////////');
-	}
+	});
 };
 
 },{}],7:[function(require,module,exports){
@@ -312,10 +308,14 @@ var printOutput = require('./lib/printOutput.js');
 
 
 //Initial Population
-var inputs = [1, 2, 3, 4, 5];
+var i;
+var inputs = [];
+for (i = 0; i < 32; i++) {
+	inputs.push(i);
+}
 var desiredFunction = function(inputs) {
 	return inputs.map(function(elem) {
-		return -(Math.pow(elem, 2) - 1) * 2;
+		return Math.sin(-(Math.pow(elem, 2) - 2) * 2);
 	});
 };
 var desiredOutputs = desiredFunction(inputs);

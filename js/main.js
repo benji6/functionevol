@@ -13,10 +13,14 @@ var printOutput = require('./lib/printOutput.js');
 
 
 //Initial Population
-var inputs = [1, 2, 3, 4, 5];
+var i;
+var inputs = [];
+for (i = 0; i < 32; i++) {
+	inputs.push(i);
+}
 var desiredFunction = function(inputs) {
 	return inputs.map(function(elem) {
-		return -(Math.pow(elem, 2) - 1) * 2;
+		return Math.sin(-(Math.pow(elem, 2) - 2) * 2);
 	});
 };
 var desiredOutputs = desiredFunction(inputs);
