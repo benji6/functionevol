@@ -176,8 +176,9 @@ var printLn = function(str) {
 	document.body.appendChild(p);
 };
 
-module.exports = function (population, inputs, desiredOutputs, timeElapsed) {
+module.exports = function (population, inputs, desiredOutputs, timeElapsed, iterationCount) {
 	printLn('time elapsed: ' + timeElapsed + 'ms');
+	printLn('iterations: ' + iterationCount);
 	population.forEach(function(elem){
 		printLn(elem.names.toString());
 		printLn('length: ' + elem.funs.length);
@@ -214,6 +215,7 @@ var mutationProb = 1 / 3;
 //dev would be great to evolve this module
 //dev self optimisation by checking if there exists a pair of functions
 //which can be spliced out
+//dev randomly insert function
 
 var objPush = function(obj, e1, e2, e3) {
 		obj.libs.push(e1);
@@ -323,9 +325,10 @@ var desiredFunction = function(inputs) {
 	});
 };
 var desiredOutputs = desiredFunction(inputs);
-var popSize = 768;
-var generations = popSize;
+var popSize = 512;
 var num = popSize;
+var duration = 512;
+var iterationCount = 0;
 var population = [];
 var randomIndexUnary = randomIndex(unaryBaseFunctions.funs.length);
 while (num--) {
@@ -356,11 +359,12 @@ var newGeneration = function () {
 
 	survivors = applyFitness(population, inputs, desiredOutputs);
 };
-while (timeElapsed < 512) {
+while (timeElapsed < duration) {
+	iterationCount++;
 	newGeneration();
 	timeElapsed += tinytic.toc();
 }
-printOutput(population, inputs, desiredOutputs, timeElapsed);
+printOutput(population, inputs, desiredOutputs, timeElapsed, iterationCount);
 
 },{"./lib/applyFitness.js":1,"./lib/baseFunctions/binaryBaseFunctions.js":2,"./lib/baseFunctions/unaryBaseFunctions.js":3,"./lib/compose.js":4,"./lib/printOutput.js":6,"./lib/randomElement.js":7,"./lib/randomIndex.js":8,"./lib/reproduce.js":9,"tinytic":11}],11:[function(require,module,exports){
 var then = new Date().getTime();

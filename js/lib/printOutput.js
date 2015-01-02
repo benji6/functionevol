@@ -8,8 +8,9 @@ var printLn = function(str) {
 	document.body.appendChild(p);
 };
 
-module.exports = function (population, inputs, desiredOutputs, timeElapsed) {
+module.exports = function (population, inputs, desiredOutputs, timeElapsed, iterationCount) {
 	printLn('time elapsed: ' + timeElapsed + 'ms');
+	printLn('iterations: ' + iterationCount);
 	population.forEach(function(elem){
 		printLn(elem.names.toString());
 		printLn('length: ' + elem.funs.length);

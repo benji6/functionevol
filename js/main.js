@@ -25,9 +25,10 @@ var desiredFunction = function(inputs) {
 	});
 };
 var desiredOutputs = desiredFunction(inputs);
-var popSize = 768;
-var generations = popSize;
+var popSize = 512;
 var num = popSize;
+var duration = 512;
+var iterationCount = 0;
 var population = [];
 var randomIndexUnary = randomIndex(unaryBaseFunctions.funs.length);
 while (num--) {
@@ -58,8 +59,9 @@ var newGeneration = function () {
 
 	survivors = applyFitness(population, inputs, desiredOutputs);
 };
-while (timeElapsed < 512) {
+while (timeElapsed < duration) {
+	iterationCount++;
 	newGeneration();
 	timeElapsed += tinytic.toc();
 }
-printOutput(population, inputs, desiredOutputs, timeElapsed);
+printOutput(population, inputs, desiredOutputs, timeElapsed, iterationCount);

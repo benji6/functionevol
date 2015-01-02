@@ -6,6 +6,7 @@ var mutationProb = 1 / 3;
 //dev would be great to evolve this module
 //dev self optimisation by checking if there exists a pair of functions
 //which can be spliced out
+//dev randomly insert function
 
 var objPush = function(obj, e1, e2, e3) {
 		obj.libs.push(e1);
