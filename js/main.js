@@ -16,11 +16,11 @@ var printOutput = require('./lib/printOutput.js');
 var inputs = [1, 2, 3, 4, 5];
 var desiredFunction = function(inputs) {
 	return inputs.map(function(elem) {
-		return (Math.pow(elem, 2) - 1) * 2;
+		return -(Math.pow(elem, 2) - 1) * 2;
 	});
 };
 var desiredOutputs = desiredFunction(inputs);
-var popSize = 256;
+var popSize = 768;
 var generations = popSize;
 var num = popSize;
 var population = [];

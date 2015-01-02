@@ -1,22 +1,30 @@
-var compose = require('./compose.js');
+var printLn = function(str) {
+	var p = document.createElement('p');
+	var txt = document.createTextNode(str);
+	if (str === 'accuracy: 0') {
+		p.style.color = red;
+	}
+	p.appendChild(txt);
+	document.body.appendChild(p);
+};
 
 module.exports = function (population, inputs, desiredOutputs, timeElapsed) {
 	var num = population.length;
-	var funChain;
-	var composedRes;
-	population.forEach(function(elem) {
-		console.log(elem.names.toString());
-		console.log('length: ' + elem.funs.length);
-		console.log('inputs: ' + inputs);
-		console.log('outputs: ' + elem.outputs);
-		console.log('desired outputs: ' + desiredOutputs);
-		console.log(
+	var elem;
+	printLn('time elapsed: ' + timeElapsed + 'ms');
+	//backwards loop so best results display first
+	while (num--) {
+		elem = population[num];
+		printLn(elem.names.toString());
+		printLn('length: ' + elem.funs.length);
+		printLn('inputs: ' + inputs);
+		printLn('outputs: ' + elem.outputs);
+		printLn('desired outputs: ' + desiredOutputs);
+		printLn(
 			'accuracy: ' +
 			elem.accuracy +
 			' (0 is optimal, greater number correlates to greater inaccuracy)'
 		);
-		console.log('/////////////////////');
-	});
-
-	console.log('time elapsed: ' + timeElapsed + 'ms');
+		printLn('/////////////////////');
+	}
 };
