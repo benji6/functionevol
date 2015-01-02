@@ -169,16 +169,23 @@ module.exports = function(fn) {
 var printLn = function(str) {
 	var p = document.createElement('p');
 	var txt = document.createTextNode(str);
-	if (str === 'accuracy: 0') {
-		p.style.color = red;
+	if (str.slice(0, 12) === 'accuracy: 0 ') {
+		p.style.backgroundColor = '#EEE';
+		p.style.color = '#000';
+		p.style.fontWeight = 'bold';
 	}
 	p.appendChild(txt);
 	document.body.appendChild(p);
+};
+var printHr = function() {
+	var hr = document.createElement('hr');
+	document.body.appendChild(hr);
 };
 
 module.exports = function (population, inputs, desiredOutputs, timeElapsed, iterationCount) {
 	printLn('time elapsed: ' + timeElapsed + 'ms');
 	printLn('iterations: ' + iterationCount);
+	printHr();
 	population.forEach(function(elem){
 		printLn(elem.names.toString());
 		printLn('length: ' + elem.funs.length);
@@ -190,7 +197,7 @@ module.exports = function (population, inputs, desiredOutputs, timeElapsed, iter
 			elem.accuracy +
 			' (0 is optimal, greater number correlates to greater inaccuracy)'
 		);
-		printLn('/////////////////////');
+		printHr();
 	});
 };
 
@@ -316,7 +323,7 @@ var printOutput = require('./lib/printOutput.js');
 //Initial Population
 var i;
 var inputs = [];
-for (i = 0; i < 32; i++) {
+for (i = 0; i < 8; i++) {
 	inputs.push(i);
 }
 var desiredFunction = function(inputs) {
