@@ -1,7 +1,6 @@
 //time app
 var tinytic = require('tinytic');
-var startTime = tinytic.toc();
-var timeElapsed = 0;
+tinytic.toc();
 
 var compose = require('./lib/compose.js');
 var unaryBaseFunctions = require('./lib/baseFunctions/unaryBaseFunctions.js');
@@ -59,9 +58,8 @@ var newGeneration = function () {
 
 	survivors = applyFitness(population, inputs, desiredOutputs);
 };
-while (timeElapsed < duration) {
+while (tinytic.total() < duration) {
 	iterationCount++;
 	newGeneration();
-	timeElapsed += tinytic.toc();
 }
-printOutput(population, inputs, desiredOutputs, timeElapsed, iterationCount);
+printOutput(population, inputs, desiredOutputs, duration, iterationCount);

@@ -182,8 +182,8 @@ var printHr = function() {
 	document.body.appendChild(hr);
 };
 
-module.exports = function (population, inputs, desiredOutputs, timeElapsed, iterationCount) {
-	printLn('time elapsed: ' + timeElapsed + 'ms');
+module.exports = function (population, inputs, desiredOutputs, duration, iterationCount) {
+	printLn('duration: ' + duration + 'ms');
 	printLn('iterations: ' + iterationCount);
 	printHr();
 	population.forEach(function(elem){
@@ -307,8 +307,7 @@ module.exports = function (parent0, parent1) {
 },{"./baseFunctions/unaryBaseFunctions":3,"./randomElement.js":7,"./randomIndex.js":8}],10:[function(require,module,exports){
 //time app
 var tinytic = require('tinytic');
-var startTime = tinytic.toc();
-var timeElapsed = 0;
+tinytic.toc();
 
 var compose = require('./lib/compose.js');
 var unaryBaseFunctions = require('./lib/baseFunctions/unaryBaseFunctions.js');
@@ -366,27 +365,37 @@ var newGeneration = function () {
 
 	survivors = applyFitness(population, inputs, desiredOutputs);
 };
-while (timeElapsed < duration) {
+while (tinytic.total() < duration) {
 	iterationCount++;
 	newGeneration();
-	timeElapsed += tinytic.toc();
 }
-printOutput(population, inputs, desiredOutputs, timeElapsed, iterationCount);
+printOutput(population, inputs, desiredOutputs, duration, iterationCount);
 
 },{"./lib/applyFitness.js":1,"./lib/baseFunctions/binaryBaseFunctions.js":2,"./lib/baseFunctions/unaryBaseFunctions.js":3,"./lib/compose.js":4,"./lib/printOutput.js":6,"./lib/randomElement.js":7,"./lib/randomIndex.js":8,"./lib/reproduce.js":9,"tinytic":11}],11:[function(require,module,exports){
-var then = new Date().getTime();
-var now = new Date().getTime();
+var firstTime = new Date().getTime();
+var then = firstTime;
+var now = then;
 
-var toc = function(maxDT) {
+module.exports.toc = function(maxDT) {
 	then = now;
 	now = new Date().getTime();
 	var dT = now - then;
-	if (maxDT !== undefined && maxDT < dT) {
+	if (maxDT < dT) {
 		return maxDT;
 	}
 	return dT;
 };
-
-exports.toc = toc;
+module.exports.total = function(maxDT) {
+	var dT = new Date().getTime() - firstTime;
+	if (maxDT < dT) {
+		return maxDT;
+	}
+	return dT;
+};
+module.exports.reset = function() {
+	firstTime = new Date().getTime();
+	then = firstTime;
+	now = then;
+};
 
 },{}]},{},[10]);

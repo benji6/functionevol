@@ -14,8 +14,8 @@ var printHr = function() {
 	document.body.appendChild(hr);
 };
 
-module.exports = function (population, inputs, desiredOutputs, timeElapsed, iterationCount) {
-	printLn('time elapsed: ' + timeElapsed + 'ms');
+module.exports = function (population, inputs, desiredOutputs, duration, iterationCount) {
+	printLn('duration: ' + duration + 'ms');
 	printLn('iterations: ' + iterationCount);
 	printHr();
 	population.forEach(function(elem){
