@@ -2,7 +2,6 @@
 var tinytic = require('tinytic');
 tinytic.toc();
 
-var compose = require('./lib/compose.js');
 var unaryBaseFunctions = require('./lib/baseFunctions/unaryBaseFunctions.js');
 var binaryBaseFunctions = require('./lib/baseFunctions/binaryBaseFunctions.js');
 var randomIndex = require('./lib/randomIndex.js');
@@ -10,7 +9,6 @@ var randomElement = require('./lib/randomElement.js');
 var applyFitness = require('./lib/applyFitness.js');
 var reproduce = require('./lib/reproduce.js');
 var printOutput = require('./lib/printOutput.js');
-
 
 //Initial Population
 var i;
