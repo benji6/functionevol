@@ -1,11 +1,11 @@
-var compose = require('./compose.js');
+var chain = require('./chain.js');
 
 var computeOutput = function(obj, inputs) {
 	var outputs = [];
 	var i;
-	var composed = compose(obj.funs);
+	var chained = chain(obj.funs);
 	for (i = 0; i < inputs.length; i++) {
-		outputs.push(composed(inputs[i]));
+		outputs.push(chained(inputs[i]));
 	}
 	obj.outputs = outputs;
 };

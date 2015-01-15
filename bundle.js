@@ -1,12 +1,12 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var compose = require('./compose.js');
+var chain = require('./chain.js');
 
 var computeOutput = function(obj, inputs) {
 	var outputs = [];
 	var i;
-	var composed = compose(obj.funs);
+	var chained = chain(obj.funs);
 	for (i = 0; i < inputs.length; i++) {
-		outputs.push(composed(inputs[i]));
+		outputs.push(chained(inputs[i]));
 	}
 	obj.outputs = outputs;
 };
@@ -37,7 +37,7 @@ module.exports = function(population, inputs, desiredOutputs) {
 	return population.splice(survivorThreshold).slice(0);
 };
 
-},{"./compose.js":4}],2:[function(require,module,exports){
+},{"./chain.js":4}],2:[function(require,module,exports){
 var flip = require('../flip.js');
 
 var binaryDecorator = function(fn) {
@@ -143,14 +143,29 @@ module.exports = {
 };
 
 },{}],4:[function(require,module,exports){
-module.exports = function(fns) {
-	return function (x) {
-		var i;
-		for (i = 0; i < fns.length; i++) {
-			x = fns[i].call(this, x);
-		}
-		return x;
-	};
+module.exports = function chain (fns) {
+  // var fns;
+  // if (arguments[0].constructor === Array) {
+  //   fns = arguments[0];
+  // } else {
+  //   fns = [].slice.call(arguments);
+  // }
+  return function (x, i) {
+    i = i || 0;
+    var fn;
+    var binaryReturnFn = function (y) {
+      return chain(fns)(fn(x, y), ++i);
+    };
+    while (i < fns.length) {
+      fn = fns[i];
+      if (fn.length === 2) {
+        return binaryReturnFn;
+      }
+      x = fn(x);
+      i++;
+    }
+    return x;
+  };
 };
 
 },{}],5:[function(require,module,exports){
@@ -309,7 +324,6 @@ module.exports = function (parent0, parent1) {
 var tinytic = require('tinytic');
 tinytic.toc();
 
-var compose = require('./lib/compose.js');
 var unaryBaseFunctions = require('./lib/baseFunctions/unaryBaseFunctions.js');
 var binaryBaseFunctions = require('./lib/baseFunctions/binaryBaseFunctions.js');
 var randomIndex = require('./lib/randomIndex.js');
@@ -317,7 +331,6 @@ var randomElement = require('./lib/randomElement.js');
 var applyFitness = require('./lib/applyFitness.js');
 var reproduce = require('./lib/reproduce.js');
 var printOutput = require('./lib/printOutput.js');
-
 
 //Initial Population
 var i;
@@ -371,7 +384,7 @@ while (tinytic.total() < duration) {
 }
 printOutput(population, inputs, desiredOutputs, duration, iterationCount);
 
-},{"./lib/applyFitness.js":1,"./lib/baseFunctions/binaryBaseFunctions.js":2,"./lib/baseFunctions/unaryBaseFunctions.js":3,"./lib/compose.js":4,"./lib/printOutput.js":6,"./lib/randomElement.js":7,"./lib/randomIndex.js":8,"./lib/reproduce.js":9,"tinytic":11}],11:[function(require,module,exports){
+},{"./lib/applyFitness.js":1,"./lib/baseFunctions/binaryBaseFunctions.js":2,"./lib/baseFunctions/unaryBaseFunctions.js":3,"./lib/printOutput.js":6,"./lib/randomElement.js":7,"./lib/randomIndex.js":8,"./lib/reproduce.js":9,"tinytic":11}],11:[function(require,module,exports){
 var firstTime = new Date().getTime();
 var then = firstTime;
 var now = then;
