@@ -1,10 +1,4 @@
 module.exports = function chain (fns) {
-  // var fns;
-  // if (arguments[0].constructor === Array) {
-  //   fns = arguments[0];
-  // } else {
-  //   fns = [].slice.call(arguments);
-  // }
   return function (x, i) {
     i = i || 0;
     var fn;
