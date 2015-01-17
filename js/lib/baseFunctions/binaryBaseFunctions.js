@@ -1,9 +1,6 @@
-var flip = require('../flip.js');
-
-var binaryDecorator = function(fn) {
-	//hack
-	return function(arr) {
-		return fn(arr, 1);
+var flip = function(fn) {
+	return function(x, y) {
+		return fn(y, x);
 	};
 };
 
@@ -22,15 +19,24 @@ var divide = function (x, y) {
 var pow = function (x, y) {
 	return Math.pow(x, y);
 };
-binaryBaseFunctions = [
-	add,
-	subtract,
-	flip(subtract),
-	multiply,
-	flip(multiply),
-	pow,
-	flip(pow)
-];
-module.exports = binaryBaseFunctions.map(function(elem) {
-	return binaryDecorator(elem);
-});
+
+module.exports = {
+	names: [
+		'add',
+		'subtract',
+		'flip(subtract)',
+		'multiply',
+		'flip(multiply)',
+		'pow',
+		'flip(pow)'
+	],
+	funs: [
+		add,
+		subtract,
+		flip(subtract),
+		multiply,
+		flip(multiply),
+		pow,
+		flip(pow)
+	]
+};

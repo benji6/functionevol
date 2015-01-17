@@ -38,12 +38,9 @@ module.exports = function(population, inputs, desiredOutputs) {
 };
 
 },{"./chain.js":4}],2:[function(require,module,exports){
-var flip = require('../flip.js');
-
-var binaryDecorator = function(fn) {
-	//hack
-	return function(arr) {
-		return fn(arr, 1);
+var flip = function(fn) {
+	return function(x, y) {
+		return fn(y, x);
 	};
 };
 
@@ -62,20 +59,29 @@ var divide = function (x, y) {
 var pow = function (x, y) {
 	return Math.pow(x, y);
 };
-binaryBaseFunctions = [
-	add,
-	subtract,
-	flip(subtract),
-	multiply,
-	flip(multiply),
-	pow,
-	flip(pow)
-];
-module.exports = binaryBaseFunctions.map(function(elem) {
-	return binaryDecorator(elem);
-});
 
-},{"../flip.js":5}],3:[function(require,module,exports){
+module.exports = {
+	names: [
+		'add',
+		'subtract',
+		'flip(subtract)',
+		'multiply',
+		'flip(multiply)',
+		'pow',
+		'flip(pow)'
+	],
+	funs: [
+		add,
+		subtract,
+		flip(subtract),
+		multiply,
+		flip(multiply),
+		pow,
+		flip(pow)
+	]
+};
+
+},{}],3:[function(require,module,exports){
 var identity = function(x) {
 	return x;
 };
@@ -144,12 +150,6 @@ module.exports = {
 
 },{}],4:[function(require,module,exports){
 module.exports = function chain (fns) {
-  // var fns;
-  // if (arguments[0].constructor === Array) {
-  //   fns = arguments[0];
-  // } else {
-  //   fns = [].slice.call(arguments);
-  // }
   return function (x, i) {
     i = i || 0;
     var fn;
@@ -169,18 +169,6 @@ module.exports = function chain (fns) {
 };
 
 },{}],5:[function(require,module,exports){
-module.exports = function(fn) {
-	return function(x, y) {
-		if (arguments.length === 2) {
-			return fn.call(this, y, x);
-		}
-		return function(y) {
-			return fn.call(this, y, x);
-		};
-	};
-};
-
-},{}],6:[function(require,module,exports){
 var printLn = function(str) {
 	var p = document.createElement('p');
 	var txt = document.createTextNode(str);
@@ -216,19 +204,19 @@ module.exports = function (population, inputs, desiredOutputs, duration, iterati
 	});
 };
 
-},{}],7:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 var randomIndex = require('./randomIndex');
 
 module.exports = function (arr) {
 	return arr[randomIndex(arr.length)];
 };
 
-},{"./randomIndex":8}],8:[function(require,module,exports){
+},{"./randomIndex":7}],7:[function(require,module,exports){
 module.exports = function (len) {
 	return Math.floor(Math.random() * len);
 };
 
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 var randomElement = require('./randomElement.js');
 var randomIndex = require('./randomIndex.js');
 var unaryBaseFunctions = require('./baseFunctions/unaryBaseFunctions');
@@ -319,7 +307,7 @@ module.exports = function (parent0, parent1) {
 	return mutate(child);
 };
 
-},{"./baseFunctions/unaryBaseFunctions":3,"./randomElement.js":7,"./randomIndex.js":8}],10:[function(require,module,exports){
+},{"./baseFunctions/unaryBaseFunctions":3,"./randomElement.js":6,"./randomIndex.js":7}],9:[function(require,module,exports){
 //time app
 var tinytic = require('tinytic');
 tinytic.toc();
@@ -350,6 +338,7 @@ var duration = 512;
 var iterationCount = 0;
 var population = [];
 var randomIndexUnary = randomIndex(unaryBaseFunctions.funs.length);
+var randomIndexBinary = randomIndex(binaryBaseFunctions.funs.length);
 while (num--) {
 	population[num] = {
 		accuracy: 0,
@@ -384,7 +373,7 @@ while (tinytic.total() < duration) {
 }
 printOutput(population, inputs, desiredOutputs, duration, iterationCount);
 
-},{"./lib/applyFitness.js":1,"./lib/baseFunctions/binaryBaseFunctions.js":2,"./lib/baseFunctions/unaryBaseFunctions.js":3,"./lib/printOutput.js":6,"./lib/randomElement.js":7,"./lib/randomIndex.js":8,"./lib/reproduce.js":9,"tinytic":11}],11:[function(require,module,exports){
+},{"./lib/applyFitness.js":1,"./lib/baseFunctions/binaryBaseFunctions.js":2,"./lib/baseFunctions/unaryBaseFunctions.js":3,"./lib/printOutput.js":5,"./lib/randomElement.js":6,"./lib/randomIndex.js":7,"./lib/reproduce.js":8,"tinytic":10}],10:[function(require,module,exports){
 var firstTime = new Date().getTime();
 var then = firstTime;
 var now = then;
@@ -411,4 +400,4 @@ module.exports.reset = function() {
 	now = then;
 };
 
-},{}]},{},[10]);
+},{}]},{},[9]);

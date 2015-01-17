@@ -28,6 +28,7 @@ var duration = 512;
 var iterationCount = 0;
 var population = [];
 var randomIndexUnary = randomIndex(unaryBaseFunctions.funs.length);
+var randomIndexBinary = randomIndex(binaryBaseFunctions.funs.length);
 while (num--) {
 	population[num] = {
 		accuracy: 0,
