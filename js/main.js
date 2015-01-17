@@ -1,13 +1,11 @@
-//time app
 var tinytic = require('tinytic');
-tinytic.toc();
 
 var unaryBaseFunctions = require('./lib/baseFunctions/unaryBaseFunctions.js');
 var binaryBaseFunctions = require('./lib/baseFunctions/binaryBaseFunctions.js');
 var randomIndex = require('./lib/randomIndex.js');
 var randomElement = require('./lib/randomElement.js');
 var applyFitness = require('./lib/applyFitness.js');
-var reproduce = require('./lib/reproduce.js');
+var reproduce = require('./lib/reproduction/randomUnaryAdding.js');
 var printOutput = require('./lib/printOutput.js');
 
 //Initial Population
@@ -22,9 +20,10 @@ var desiredFunction = function(inputs) {
 	});
 };
 var desiredOutputs = desiredFunction(inputs);
+var duration = 512;
 var popSize = 512;
 var num = popSize;
-var duration = 512;
+var secondArgument = Math.random();
 var iterationCount = 0;
 var population = [];
 var randomIndexUnary = randomIndex(unaryBaseFunctions.funs.length);
@@ -34,14 +33,15 @@ while (num--) {
 		accuracy: 0,
 		//dev - first function possibly a binary for dual input
 		libs: [
-			//'binaryBaseFunctions',
+			'binaryBaseFunctions',
 			'unaryBaseFunctions'
 		],
 		names: [
+			binaryBaseFunctions.names[randomIndexBinary],
 			unaryBaseFunctions.names[randomIndexUnary]
 		],
 		funs: [
-			//randomElement(binaryBaseFunctions),
+			binaryBaseFunctions.funs[randomIndexBinary],
 			unaryBaseFunctions.funs[randomIndexUnary]
 		]
 	};
@@ -55,7 +55,7 @@ var newGeneration = function () {
 		population.push(child);
 	}
 
-	survivors = applyFitness(population, inputs, desiredOutputs);
+	survivors = applyFitness(population, inputs, desiredOutputs, secondArgument);
 };
 while (tinytic.total() < duration) {
 	iterationCount++;

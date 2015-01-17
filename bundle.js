@@ -1,12 +1,12 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var chain = require('./chain.js');
 
-var computeOutput = function(obj, inputs) {
+var computeOutput = function(obj, inputs, secondArgument) {
 	var outputs = [];
 	var i;
 	var chained = chain(obj.funs);
 	for (i = 0; i < inputs.length; i++) {
-		outputs.push(chained(inputs[i]));
+		outputs.push(chained(inputs[i])(secondArgument));
 	}
 	obj.outputs = outputs;
 };
@@ -21,10 +21,10 @@ var computeAccuracy = function(obj, desiredOutputs) {
 	obj.accuracy = accuracyDiff / desiredOutputsLen;
 };
 
-module.exports = function(population, inputs, desiredOutputs) {
+module.exports = function(population, inputs, desiredOutputs, secondArgument) {
 	var survivorThreshold = (population.length / 16).toFixed(0);
 	population.forEach(function(el) {
-		computeOutput(el, inputs);
+		computeOutput(el, inputs, secondArgument);
 		computeAccuracy(el, desiredOutputs);
 	});
 	population.sort(function (a, b) {
@@ -217,107 +217,54 @@ module.exports = function (len) {
 };
 
 },{}],8:[function(require,module,exports){
-var randomElement = require('./randomElement.js');
-var randomIndex = require('./randomIndex.js');
-var unaryBaseFunctions = require('./baseFunctions/unaryBaseFunctions');
-var mutationProb = 1 / 3;
+var randomIndex = require('../randomIndex.js');
+var unaryBaseFunctions = require('../baseFunctions/unaryBaseFunctions');
 
-//dev would be great to evolve this module
-//dev self optimisation by checking if there exists a pair of functions
-//which can be spliced out
-//dev randomly insert function
+var mutationProb = 1 / 2;
 
-var objPush = function(obj, e1, e2, e3) {
-		obj.libs.push(e1);
-		obj.names.push(e2);
-		obj.funs.push(e3);
+var objSplice = function(obj, idx, count, e1, e2, e3) {
+	obj.libs.splice(idx, count, e1);
+	obj.names.splice(idx, count, e2);
+	obj.funs.splice(idx, count, e3);
 };
-var objSlice = function(obj, fr, to) {
-	if (to) {
-		return {
-			libs: obj.libs.slice(0, to),
-			names: obj.names.slice(0, to),
-			funs: obj.funs.slice(0, to)
-		};
+
+var deleteCount = function (parent) {
+	var deleteCount = 0;
+	while (Math.random() < mutationProb) {
+		deleteCount++;
 	}
-	return {
-		libs: obj.libs.slice(0),
-		names: obj.names.slice(0),
-		funs: obj.funs.slice(0)
-	};
-};
-var objSplice = function(obj, idx) {
-	obj.libs.splice(idx, 1);
-	obj.names.splice(idx, 1);
-	obj.funs.splice(idx, 1);
-};
-var objConcat = function(obj0, obj1) {
-	return {
-		libs: obj0.libs.concat(obj1.libs),
-		names: obj0.names.concat(obj1.names),
-		funs: obj0.funs.concat(obj1.funs)
-	};
+
+	if (deleteCount >= parent.funs.length - 1) {
+		deleteCount = parent.funs.length - 1;
+	}
+	return deleteCount;
 };
 
-var mutate = function(obj) {
+module.exports = function (parent) {
 	if (Math.random() < mutationProb) {
 		var randomFn = randomIndex(unaryBaseFunctions.funs.length);
-		objPush(obj, 'unaryBaseFunctions',
+		//do not splice out the first function (which is binary)
+		objSplice(
+			parent,
+			randomIndex(parent.funs.length - 1) + 1,
+			deleteCount(parent),
+			'unaryBaseFunctions',
 			unaryBaseFunctions.names[randomFn],
-			unaryBaseFunctions.funs[randomFn]);
-
-		return mutate(obj);
+			unaryBaseFunctions.funs[randomFn]
+		);
 	}
-	if (Math.random() < mutationProb) {
-		var funsLength = obj.funs.length;
-		if (funsLength > 1) {
-			var randomIdx = randomIndex(funsLength);
-			objSplice(obj);
-
-			return mutate(obj);
-		}
-	}
-	return obj;
-};
-var computeGamete = function(obj, fr, to) {
-	if (Math.random() < mutationProb * 16) {
-		return objSlice(obj, fr, to);
-	}
-	return objSlice(obj, fr);
-};
-var fertilisation = function(gamete0, gamete1) {
-	if (Math.random() < mutationProb) {
-		return objConcat(gamete0, gamete1);
-	}
-	return gamete0;
-};
-module.exports = function (parent0, parent1) {
-	var mutantParent0 = mutate(parent0);
-	var mutantParent1 = mutate(parent1);
-	//always include at least first element from arr0
-	var gamete0 = computeGamete(mutantParent0, 0, randomIndex(mutantParent0.funs.length - 1) + 1);
-	//never include the first element of arr1
-	var gamete1 = computeGamete(mutantParent1, 1, randomIndex(mutantParent1.funs.length - 1));
-
-	var mutantGamete0 = mutate(gamete0);
-	var mutantGamete1 = mutate(gamete1);
-
-	var child = fertilisation(mutantGamete0, mutantGamete1);
-
-	return mutate(child);
+	return parent;
 };
 
-},{"./baseFunctions/unaryBaseFunctions":3,"./randomElement.js":6,"./randomIndex.js":7}],9:[function(require,module,exports){
-//time app
+},{"../baseFunctions/unaryBaseFunctions":3,"../randomIndex.js":7}],9:[function(require,module,exports){
 var tinytic = require('tinytic');
-tinytic.toc();
 
 var unaryBaseFunctions = require('./lib/baseFunctions/unaryBaseFunctions.js');
 var binaryBaseFunctions = require('./lib/baseFunctions/binaryBaseFunctions.js');
 var randomIndex = require('./lib/randomIndex.js');
 var randomElement = require('./lib/randomElement.js');
 var applyFitness = require('./lib/applyFitness.js');
-var reproduce = require('./lib/reproduce.js');
+var reproduce = require('./lib/reproduction/randomUnaryAdding.js');
 var printOutput = require('./lib/printOutput.js');
 
 //Initial Population
@@ -332,9 +279,10 @@ var desiredFunction = function(inputs) {
 	});
 };
 var desiredOutputs = desiredFunction(inputs);
+var duration = 512;
 var popSize = 512;
 var num = popSize;
-var duration = 512;
+var secondArgument = Math.random();
 var iterationCount = 0;
 var population = [];
 var randomIndexUnary = randomIndex(unaryBaseFunctions.funs.length);
@@ -344,14 +292,15 @@ while (num--) {
 		accuracy: 0,
 		//dev - first function possibly a binary for dual input
 		libs: [
-			//'binaryBaseFunctions',
+			'binaryBaseFunctions',
 			'unaryBaseFunctions'
 		],
 		names: [
+			binaryBaseFunctions.names[randomIndexBinary],
 			unaryBaseFunctions.names[randomIndexUnary]
 		],
 		funs: [
-			//randomElement(binaryBaseFunctions),
+			binaryBaseFunctions.funs[randomIndexBinary],
 			unaryBaseFunctions.funs[randomIndexUnary]
 		]
 	};
@@ -365,7 +314,7 @@ var newGeneration = function () {
 		population.push(child);
 	}
 
-	survivors = applyFitness(population, inputs, desiredOutputs);
+	survivors = applyFitness(population, inputs, desiredOutputs, secondArgument);
 };
 while (tinytic.total() < duration) {
 	iterationCount++;
@@ -373,31 +322,45 @@ while (tinytic.total() < duration) {
 }
 printOutput(population, inputs, desiredOutputs, duration, iterationCount);
 
-},{"./lib/applyFitness.js":1,"./lib/baseFunctions/binaryBaseFunctions.js":2,"./lib/baseFunctions/unaryBaseFunctions.js":3,"./lib/printOutput.js":5,"./lib/randomElement.js":6,"./lib/randomIndex.js":7,"./lib/reproduce.js":8,"tinytic":10}],10:[function(require,module,exports){
-var firstTime = new Date().getTime();
-var then = firstTime;
-var now = then;
+},{"./lib/applyFitness.js":1,"./lib/baseFunctions/binaryBaseFunctions.js":2,"./lib/baseFunctions/unaryBaseFunctions.js":3,"./lib/printOutput.js":5,"./lib/randomElement.js":6,"./lib/randomIndex.js":7,"./lib/reproduction/randomUnaryAdding.js":8,"tinytic":10}],10:[function(require,module,exports){
+var tinytic = (function() {
+	var getNow = Date.now || function() {return new Date().getTime();};
 
-module.exports.toc = function(maxDT) {
-	then = now;
-	now = new Date().getTime();
-	var dT = now - then;
-	if (maxDT < dT) {
-		return maxDT;
-	}
-	return dT;
-};
-module.exports.total = function(maxDT) {
-	var dT = new Date().getTime() - firstTime;
-	if (maxDT < dT) {
-		return maxDT;
-	}
-	return dT;
-};
-module.exports.reset = function() {
-	firstTime = new Date().getTime();
-	then = firstTime;
-	now = then;
-};
+	var t0 = getNow(),
+		then = t0,
+		now = then;
+
+	var toc = function(maxDT) {
+		then = now;
+		now = getNow();
+		var dT = now - then;
+		if (maxDT < dT) {
+			return maxDT;
+		}
+		return dT;
+	};
+
+	var total = function(maxDT) {
+		var dT = getNow() - t0;
+		if (maxDT < dT) {
+			return maxDT;
+		}
+		return dT;
+	};
+
+	var reset = function() {
+		t0 = then = now = getNow();
+	};
+
+	return {
+		toc: toc,
+		total: total,
+		reset: reset
+	};
+}());
+
+if (typeof module === 'object') {
+	module.exports = tinytic;
+}
 
 },{}]},{},[9]);
