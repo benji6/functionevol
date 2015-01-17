@@ -5,7 +5,8 @@
   "main": "functionevol.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon -w js --exec \"browserify -e js/main.js -o bundle.js\""
+    "build": "browserify -e js/main.js -o bundle.js",
+    "dev": "nodemon -w js --exec \"npm run build\""
   },
   "repository": {
     "type": "git",
