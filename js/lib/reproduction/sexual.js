@@ -1,6 +1,6 @@
-var randomElement = require('./randomElement.js');
-var randomIndex = require('./randomIndex.js');
-var unaryBaseFunctions = require('./baseFunctions/unaryBaseFunctions');
+var randomIndex = require('../randomIndex.js');
+var unaryBaseFunctions = require('../baseFunctions/unaryBaseFunctions');
+
 var mutationProb = 1 / 3;
 
 //dev would be great to evolve this module
@@ -43,9 +43,12 @@ var objConcat = function(obj0, obj1) {
 var mutate = function(obj) {
 	if (Math.random() < mutationProb) {
 		var randomFn = randomIndex(unaryBaseFunctions.funs.length);
-		objPush(obj, 'unaryBaseFunctions',
+		objPush(
+			obj,
+			'unaryBaseFunctions',
 			unaryBaseFunctions.names[randomFn],
-			unaryBaseFunctions.funs[randomFn]);
+			unaryBaseFunctions.funs[randomFn]
+		);
 
 		return mutate(obj);
 	}
