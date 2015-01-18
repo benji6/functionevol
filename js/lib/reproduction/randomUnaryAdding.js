@@ -1,7 +1,7 @@
 var randomIndex = require('../randomIndex.js');
 var unaryBaseFunctions = require('../baseFunctions/unaryBaseFunctions');
 
-var mutationProb = 1 / 2;
+var mutationProb = 3 / 4;
 
 var objSplice = function(obj, idx, count, e1, e2, e3) {
 	obj.libs.splice(idx, count, e1);
@@ -13,10 +13,9 @@ var deleteCount = function (parent) {
 	var deleteCount = 0;
 	while (Math.random() < mutationProb) {
 		deleteCount++;
-	}
-
-	if (deleteCount >= parent.funs.length - 1) {
-		deleteCount = parent.funs.length - 1;
+		if (deleteCount >= parent.funs.length - 1) {
+			break;
+		}
 	}
 	return deleteCount;
 };

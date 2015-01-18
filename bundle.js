@@ -1,4 +1,29 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var randomIndex = require('./randomIndex.js');
+var randomElement = require('./randomElement.js');
+var unaryBaseFunctions = require('./baseFunctions/unaryBaseFunctions.js');
+var binaryBaseFunctions = require('./baseFunctions/binaryBaseFunctions.js');
+
+var randomIndexUnary = randomIndex(unaryBaseFunctions.funs.length);
+var randomIndexBinary = randomIndex(binaryBaseFunctions.funs.length);
+
+module.exports = function () {
+  this.accuracy = 0;
+  this.libs = [
+    'binaryBaseFunctions',
+    'unaryBaseFunctions'
+  ];
+  this.names = [
+    binaryBaseFunctions.names[randomIndexBinary],
+    unaryBaseFunctions.names[randomIndexUnary]
+  ];
+  this.funs = [
+    binaryBaseFunctions.funs[randomIndexBinary],
+    unaryBaseFunctions.funs[randomIndexUnary]
+  ];
+};
+
+},{"./baseFunctions/binaryBaseFunctions.js":3,"./baseFunctions/unaryBaseFunctions.js":4,"./randomElement.js":7,"./randomIndex.js":8}],2:[function(require,module,exports){
 var chain = require('./chain.js');
 
 var computeOutput = function(obj, inputs, secondArgument) {
@@ -37,7 +62,7 @@ module.exports = function(population, inputs, desiredOutputs, secondArgument) {
 	return population.splice(survivorThreshold).slice(0);
 };
 
-},{"./chain.js":4}],2:[function(require,module,exports){
+},{"./chain.js":5}],3:[function(require,module,exports){
 var flip = function(fn) {
 	return function(x, y) {
 		return fn(y, x);
@@ -81,7 +106,7 @@ module.exports = {
 	]
 };
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 var identity = function(x) {
 	return x;
 };
@@ -148,7 +173,7 @@ module.exports = {
 	]
 };
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 module.exports = function chain (fns) {
   return function (x, i) {
     i = i || 0;
@@ -168,7 +193,7 @@ module.exports = function chain (fns) {
   };
 };
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 var printLn = function(str) {
 	var p = document.createElement('p');
 	var txt = document.createTextNode(str);
@@ -204,23 +229,23 @@ module.exports = function (population, inputs, desiredOutputs, duration, iterati
 	});
 };
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 var randomIndex = require('./randomIndex');
 
 module.exports = function (arr) {
 	return arr[randomIndex(arr.length)];
 };
 
-},{"./randomIndex":7}],7:[function(require,module,exports){
+},{"./randomIndex":8}],8:[function(require,module,exports){
 module.exports = function (len) {
 	return Math.floor(Math.random() * len);
 };
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 var randomIndex = require('../randomIndex.js');
 var unaryBaseFunctions = require('../baseFunctions/unaryBaseFunctions');
 
-var mutationProb = 1 / 2;
+var mutationProb = 3 / 4;
 
 var objSplice = function(obj, idx, count, e1, e2, e3) {
 	obj.libs.splice(idx, count, e1);
@@ -232,10 +257,9 @@ var deleteCount = function (parent) {
 	var deleteCount = 0;
 	while (Math.random() < mutationProb) {
 		deleteCount++;
-	}
-
-	if (deleteCount >= parent.funs.length - 1) {
-		deleteCount = parent.funs.length - 1;
+		if (deleteCount >= parent.funs.length - 1) {
+			break;
+		}
 	}
 	return deleteCount;
 };
@@ -256,16 +280,14 @@ module.exports = function (parent) {
 	return parent;
 };
 
-},{"../baseFunctions/unaryBaseFunctions":3,"../randomIndex.js":7}],9:[function(require,module,exports){
+},{"../baseFunctions/unaryBaseFunctions":4,"../randomIndex.js":8}],10:[function(require,module,exports){
 var tinytic = require('tinytic');
 
-var unaryBaseFunctions = require('./lib/baseFunctions/unaryBaseFunctions.js');
-var binaryBaseFunctions = require('./lib/baseFunctions/binaryBaseFunctions.js');
-var randomIndex = require('./lib/randomIndex.js');
 var randomElement = require('./lib/randomElement.js');
 var applyFitness = require('./lib/applyFitness.js');
 var reproduce = require('./lib/reproduction/randomUnaryAdding.js');
 var printOutput = require('./lib/printOutput.js');
+var Ghost = require('./lib/Ghost.js');
 
 //Initial Population
 var i;
@@ -280,30 +302,14 @@ var desiredFunction = function(inputs) {
 };
 var desiredOutputs = desiredFunction(inputs);
 var duration = 512;
-var popSize = 512;
+var popSize = duration;
 var num = popSize;
 var secondArgument = Math.random();
 var iterationCount = 0;
 var population = [];
-var randomIndexUnary = randomIndex(unaryBaseFunctions.funs.length);
-var randomIndexBinary = randomIndex(binaryBaseFunctions.funs.length);
+
 while (num--) {
-	population[num] = {
-		accuracy: 0,
-		//dev - first function possibly a binary for dual input
-		libs: [
-			'binaryBaseFunctions',
-			'unaryBaseFunctions'
-		],
-		names: [
-			binaryBaseFunctions.names[randomIndexBinary],
-			unaryBaseFunctions.names[randomIndexUnary]
-		],
-		funs: [
-			binaryBaseFunctions.funs[randomIndexBinary],
-			unaryBaseFunctions.funs[randomIndexUnary]
-		]
-	};
+	population[num] = new Ghost();
 }
 var survivors = population.slice(0);
 var newGeneration = function () {
@@ -322,7 +328,7 @@ while (tinytic.total() < duration) {
 }
 printOutput(population, inputs, desiredOutputs, duration, iterationCount);
 
-},{"./lib/applyFitness.js":1,"./lib/baseFunctions/binaryBaseFunctions.js":2,"./lib/baseFunctions/unaryBaseFunctions.js":3,"./lib/printOutput.js":5,"./lib/randomElement.js":6,"./lib/randomIndex.js":7,"./lib/reproduction/randomUnaryAdding.js":8,"tinytic":10}],10:[function(require,module,exports){
+},{"./lib/Ghost.js":1,"./lib/applyFitness.js":2,"./lib/printOutput.js":6,"./lib/randomElement.js":7,"./lib/reproduction/randomUnaryAdding.js":9,"tinytic":11}],11:[function(require,module,exports){
 var tinytic = (function() {
 	var getNow = Date.now || function() {return new Date().getTime();};
 
@@ -363,4 +369,4 @@ if (typeof module === 'object') {
 	module.exports = tinytic;
 }
 
-},{}]},{},[9]);
+},{}]},{},[10]);
