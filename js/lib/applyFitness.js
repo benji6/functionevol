@@ -1,11 +1,11 @@
 var chain = require('./chain.js');
 
-var computeOutput = function(obj, inputs, secondArgument) {
+var computeOutput = function(obj, inputs) {
 	var outputs = [];
 	var i;
 	var chained = chain(obj.funs);
 	for (i = 0; i < inputs.length; i++) {
-		outputs.push(chained(inputs[i])(secondArgument));
+		outputs.push(chained(inputs[i]));
 	}
 	obj.outputs = outputs;
 };
@@ -20,10 +20,10 @@ var computeAccuracy = function(obj, desiredOutputs) {
 	obj.accuracy = accuracyDiff / desiredOutputsLen;
 };
 
-module.exports = function(population, inputs, desiredOutputs, secondArgument) {
+module.exports = function(population, inputs, desiredOutputs) {
 	var survivorThreshold = (population.length / 16).toFixed(0);
 	population.forEach(function(el) {
-		computeOutput(el, inputs, secondArgument);
+		computeOutput(el, inputs);
 		computeAccuracy(el, desiredOutputs);
 	});
 	population.sort(function (a, b) {

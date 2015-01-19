@@ -1,23 +1,19 @@
-var randomIndex = require('./randomIndex.js');
-var randomElement = require('./randomElement.js');
-var unaryBaseFunctions = require('./baseFunctions/unaryBaseFunctions.js');
-var binaryBaseFunctions = require('./baseFunctions/binaryBaseFunctions.js');
+var getRandomBaseFunction = require('./baseFunctions/getRandomBaseFunction');
 
-var randomIndexUnary = randomIndex(unaryBaseFunctions.funs.length);
-var randomIndexBinary = randomIndex(binaryBaseFunctions.funs.length);
+var Ghost = function (arity, libs, names, fns) {
+  var firstFunction = getRandomBaseFunction(1);
 
-module.exports = function () {
+  this.arity = arity;
   this.accuracy = 0;
-  this.libs = [
-    'binaryBaseFunctions',
-    'unaryBaseFunctions'
+  this.libs = libs || [
+    firstFunction.lib
   ];
-  this.names = [
-    binaryBaseFunctions.names[randomIndexBinary],
-    unaryBaseFunctions.names[randomIndexUnary]
+  this.names = names || [
+    firstFunction.name
   ];
-  this.funs = [
-    binaryBaseFunctions.funs[randomIndexBinary],
-    unaryBaseFunctions.funs[randomIndexUnary]
+  this.funs = fns || [
+    firstFunction.fn
   ];
 };
+
+module.exports = Ghost;

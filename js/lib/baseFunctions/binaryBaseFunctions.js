@@ -30,7 +30,7 @@ module.exports = {
 		'pow',
 		'flip(pow)'
 	],
-	funs: [
+	fns: [
 		add,
 		subtract,
 		flip(subtract),

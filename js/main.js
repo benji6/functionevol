@@ -1,10 +1,13 @@
 var tinytic = require('tinytic');
 
-var randomElement = require('./lib/randomElement.js');
 var applyFitness = require('./lib/applyFitness.js');
-var reproduce = require('./lib/reproduction/randomUnaryAdding.js');
+var reproduce = require('./lib/reproduction/sexual.js');
 var printOutput = require('./lib/printOutput.js');
 var Ghost = require('./lib/Ghost.js');
+
+var randomElement = function (arr) {
+	return arr[Math.floor(Math.random() * (arr.length))];
+};
 
 //Initial Population
 var i;
@@ -18,7 +21,7 @@ var desiredFunction = function(inputs) {
 	});
 };
 var desiredOutputs = desiredFunction(inputs);
-var duration = 512;
+var duration = 128;
 var popSize = duration;
 var num = popSize;
 var secondArgument = Math.random();
@@ -26,7 +29,7 @@ var iterationCount = 0;
 var population = [];
 
 while (num--) {
-	population[num] = new Ghost();
+	population[num] = new Ghost(1);
 }
 var survivors = population.slice(0);
 var newGeneration = function () {
@@ -37,7 +40,7 @@ var newGeneration = function () {
 		population.push(child);
 	}
 
-	survivors = applyFitness(population, inputs, desiredOutputs, secondArgument);
+	survivors = applyFitness(population, inputs, desiredOutputs);
 };
 while (tinytic.total() < duration) {
 	iterationCount++;

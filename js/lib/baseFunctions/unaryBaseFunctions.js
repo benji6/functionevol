@@ -50,7 +50,7 @@ module.exports = {
 		"squareRoot",
 		"sin"
 	],
-	funs: [
+	fns: [
 		identity,
 		add1,
 		minus1,
