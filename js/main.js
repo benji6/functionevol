@@ -29,7 +29,7 @@ var iterationCount = 0;
 var population = [];
 
 while (num--) {
-	population[num] = new Ghost(1, 1);
+	population[num] = new Ghost(1, 5);
 }
 var survivors = population.slice(0);
 var newGeneration = function () {

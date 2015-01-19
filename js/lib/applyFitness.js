@@ -23,6 +23,7 @@ var computeAccuracy = function(obj, desiredOutputs) {
 module.exports = function(population, inputs, desiredOutputs) {
 	var survivorThreshold = (population.length / 16).toFixed(0);
 	population.forEach(function(el) {
+		el.computeFns();
 		computeOutput(el, inputs);
 		computeAccuracy(el, desiredOutputs);
 	});
