@@ -16,6 +16,7 @@ module.exports = function (arity) {
   return {
     lib: libraryNames[randomIndex],
     name: baseFunctionLib.names[randomIndex],
-    fn: baseFunctionLib.fns[randomIndex]
+    fn: baseFunctionLib.fns[randomIndex],
+    dominance: baseFunctionLib.dominance[randomIndex]
   };
 };

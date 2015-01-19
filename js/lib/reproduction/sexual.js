@@ -1,10 +1,7 @@
 var Ghost = require('../Ghost.js');
-var unaryBaseFunctions = require('../baseFunctions/unaryBaseFunctions');
-var binaryBaseFunctions = require('../baseFunctions/binaryBaseFunctions');
 
-var shouldI = function (mutationProb) {
-  mutationProb = mutationProb || 1 / 3;
-  if (Math.random() < mutationProb) {
+var shouldI = function (prob) {
+  if (Math.random() < prob) {
     return true;
   }
 };

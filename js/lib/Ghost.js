@@ -11,6 +11,12 @@ var Ghost = function (arity, libs, names, fns) {
   this.names = names || [
     firstFunction.name
   ];
+  this.chromosomes = [
+    [
+      firstFunction.fn,
+      firstFunction.fn
+    ]
+  ],
   this.funs = fns || [
     firstFunction.fn
   ];

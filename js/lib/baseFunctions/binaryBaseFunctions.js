@@ -38,5 +38,14 @@ module.exports = {
 		flip(multiply),
 		pow,
 		flip(pow)
+	],
+	dominance: [
+		0.2,
+		0.2,
+		0.2,
+		0.4,
+		0.4,
+		0.6,
+		0.6
 	]
 };
