@@ -20,7 +20,7 @@ module.exports = function (population, inputs, desiredOutputs, duration, iterati
 	printHr();
 	population.forEach(function(elem){
 		printLn(elem.names.toString());
-		printLn('length: ' + elem.funs.length);
+		printLn('length: ' + elem.fns.length);
 		printLn('inputs: ' + inputs);
 		printLn('outputs: ' + elem.outputs);
 		printLn('desired outputs: ' + desiredOutputs);

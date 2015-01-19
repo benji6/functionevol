@@ -1,25 +1,18 @@
-var getRandomBaseFunction = require('./baseFunctions/getRandomBaseFunction');
+var getRandomBaseFunctions = require('./baseFunctions/getRandomBaseFunctions.js');
 
-var Ghost = function (arity, libs, names, fns) {
-  var firstFunction = getRandomBaseFunction(1);
+var Ghost = function (arity, length, fns, libs, names) {
+  var initialFunctions = getRandomBaseFunctions(arity, length);
 
   this.arity = arity;
   this.accuracy = 0;
-  this.libs = libs || [
-    firstFunction.lib
-  ];
-  this.names = names || [
-    firstFunction.name
-  ];
+  this.libs = libs || initialFunctions.libs;
+  this.names = names || initialFunctions.names;
   this.chromosomes = [
     [
-      firstFunction.fn,
-      firstFunction.fn
+
     ]
   ],
-  this.funs = fns || [
-    firstFunction.fn
-  ];
+  this.fns = fns || initialFunctions.fns;
 };
 
 module.exports = Ghost;

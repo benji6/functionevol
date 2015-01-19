@@ -3,7 +3,7 @@ var chain = require('./chain.js');
 var computeOutput = function(obj, inputs) {
 	var outputs = [];
 	var i;
-	var chained = chain(obj.funs);
+	var chained = chain(obj.fns);
 	for (i = 0; i < inputs.length; i++) {
 		outputs.push(chained(inputs[i]));
 	}
@@ -29,7 +29,7 @@ module.exports = function(population, inputs, desiredOutputs) {
 	population.sort(function (a, b) {
 		var accuracyDiff = a.accuracy - b.accuracy;
 		if (accuracyDiff === 0) {
-			return a.funs.length - b.funs.length;
+			return a.fns.length - b.fns.length;
 		}
 		return accuracyDiff;
 	});

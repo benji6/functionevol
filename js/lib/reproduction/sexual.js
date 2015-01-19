@@ -7,6 +7,5 @@ var shouldI = function (prob) {
 };
 
 module.exports = function (parent0, parent1) {
-  var child = new Ghost(parent0.arity, parent0.libs, parent0.names, parent0.fns);
-  return child;
+  return parent0;
 };

@@ -39,7 +39,7 @@ module.exports = {
 		pow,
 		flip(pow)
 	],
-	dominance: [
+	dominances: [
 		0.2,
 		0.2,
 		0.2,
