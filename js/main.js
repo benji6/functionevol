@@ -23,14 +23,17 @@ var desiredFunction = function(inputs) {
 var desiredOutputs = desiredFunction(inputs);
 var duration = 512;
 var popSize = duration;
-var num = popSize;
 var secondArgument = Math.random();
 var iterationCount = 0;
 var population = [];
 
-while (num--) {
-	population[num] = new Ghost(1, 8);
-}
+(function createPopulation (num) {
+	if (num--) {
+		population[num] = new Ghost(1, 8);
+		createPopulation(num);
+	}
+}(popSize));
+
 var survivors = population.slice(0);
 
 (function newGeneration () {
