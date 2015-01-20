@@ -19,7 +19,6 @@ module.exports = function (population, inputs, desiredOutputs, duration, iterati
 	printLn('iterations: ' + iterationCount);
 	printHr();
 	population.forEach(function(elem){
-		elem.computeFns();
 		printLn(elem.names.toString());
 		printLn('length: ' + elem.fns.length);
 		printLn('inputs: ' + inputs);

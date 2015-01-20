@@ -21,7 +21,7 @@ var desiredFunction = function(inputs) {
 	});
 };
 var desiredOutputs = desiredFunction(inputs);
-var duration = 128;
+var duration = 512;
 var popSize = duration;
 var num = popSize;
 var secondArgument = Math.random();
@@ -29,10 +29,12 @@ var iterationCount = 0;
 var population = [];
 
 while (num--) {
-	population[num] = new Ghost(1, 5);
+	population[num] = new Ghost(1, 8);
 }
 var survivors = population.slice(0);
-var newGeneration = function () {
+
+(function newGeneration () {
+	iterationCount++;
 	var child;
 
 	while (population.length < popSize) {
@@ -41,9 +43,9 @@ var newGeneration = function () {
 	}
 
 	survivors = applyFitness(population, inputs, desiredOutputs);
-};
-while (tinytic.total() < duration) {
-	iterationCount++;
-	newGeneration();
-}
+	if (tinytic.total() < duration) {
+		newGeneration();
+	}
+}());
+
 printOutput(population, inputs, desiredOutputs, duration, iterationCount);
