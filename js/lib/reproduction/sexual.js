@@ -7,5 +7,16 @@ var shouldI = function (prob) {
 };
 
 module.exports = function (parent0, parent1) {
-  return parent0;
+  //parents are randomly selected
+  var child = new Ghost({
+    arity: 1,
+    length: parent0.length
+  });
+  var getRandom = function (int) {
+    return Math.floor(Math.random() * int);
+  };
+  child.chromosomes[0] = parent0.chromosomes[getRandom(2)];
+  child.chromosomes[1] = parent1.chromosomes[getRandom(2)];
+
+  return child;
 };

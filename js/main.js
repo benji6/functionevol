@@ -21,7 +21,7 @@ var desiredFunction = function(inputs) {
 	});
 };
 var desiredOutputs = desiredFunction(inputs);
-var duration = 512;
+var duration = 128;
 var popSize = duration;
 var secondArgument = Math.random();
 var iterationCount = 0;
@@ -29,7 +29,10 @@ var population = [];
 
 (function createPopulation (num) {
 	if (num--) {
-		population[num] = new Ghost(1, 8);
+		population[num] = new Ghost({
+			arity: 1,
+			length: 8
+		});
 		createPopulation(num);
 	}
 }(popSize));
