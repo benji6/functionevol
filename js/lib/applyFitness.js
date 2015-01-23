@@ -1,13 +1,13 @@
 var chain = require('./chain.js');
 
-var computeOutput = function(obj, inputs) {
+var computeOutput = function(ghost, inputs) {
 	var outputs = [];
 	var i;
-	var chained = chain(obj.fns);
+	var chained = chain(ghost.fns);
 	for (i = 0; i < inputs.length; i++) {
-		outputs.push(chained(inputs[i]));
+		outputs.push(chained(inputs[i])(1)(2)(3)(4));
 	}
-	obj.outputs = outputs;
+	ghost.outputs = outputs;
 };
 
 var computeAccuracy = function(obj, desiredOutputs) {

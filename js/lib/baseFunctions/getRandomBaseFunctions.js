@@ -1,7 +1,7 @@
 var baseFunctions = [
   undefined,
-  require('./unaryBaseFunctions.js'),
-  require('./binaryBaseFunctions.js')
+  require('./lib/unaryBaseFunctions.js'),
+  require('./lib/binaryBaseFunctions.js')
 ];
 
 var libraryNames = [
@@ -10,8 +10,15 @@ var libraryNames = [
   'binaryBaseFunctions'
 ];
 
+var pushFromLibrary = function (baseFunctionLib, returnedBaseFunctions) {
+  randomIndex = Math.floor(Math.random() * baseFunctionLib.fns.length);
+  returnedBaseFunctions.libs.push(libraryNames[randomIndex]);
+  returnedBaseFunctions.names.push(baseFunctionLib.names[randomIndex]);
+  returnedBaseFunctions.fns.push(baseFunctionLib.fns[randomIndex]);
+  returnedBaseFunctions.dominances.push(baseFunctionLib.dominances[randomIndex]);
+};
+
 module.exports = function (arity, totalRequestedBaseFunctions) {
-  var baseFunctionLib = baseFunctions[arity];
   var i;
   var randomIndex;
   var returnedBaseFunctions = {
@@ -20,12 +27,13 @@ module.exports = function (arity, totalRequestedBaseFunctions) {
     fns: [],
     dominances: []
   };
-  for (i = 0; i < totalRequestedBaseFunctions; i++) {
-    randomIndex = Math.floor(Math.random() * baseFunctionLib.fns.length);
-    returnedBaseFunctions.libs.push(libraryNames[randomIndex]);
-    returnedBaseFunctions.names.push(baseFunctionLib.names[randomIndex]);
-    returnedBaseFunctions.fns.push(baseFunctionLib.fns[randomIndex]);
-    returnedBaseFunctions.dominances.push(baseFunctionLib.dominances[randomIndex]);
-  }
+  pushFromLibrary(baseFunctions[2], returnedBaseFunctions);
+  pushFromLibrary(baseFunctions[2], returnedBaseFunctions);
+  pushFromLibrary(baseFunctions[2], returnedBaseFunctions);
+  pushFromLibrary(baseFunctions[2], returnedBaseFunctions);
+  (function loop (num) {
+    pushFromLibrary(baseFunctions[arity], returnedBaseFunctions);
+    --num && loop(num);
+  }(8));
   return returnedBaseFunctions;
 };

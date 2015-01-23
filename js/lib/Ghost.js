@@ -1,17 +1,28 @@
 var getRandomBaseFunctions = require('./baseFunctions/getRandomBaseFunctions.js');
 
 var Ghost = function (params) {
-  var initialFunctions = getRandomBaseFunctions(params.arity, params.length);
+  var chromosome0 = getRandomBaseFunctions(params.arity, params.length);
+  var chromosome1 = getRandomBaseFunctions(params.arity, params.length);
 
   this.arity = params.arity;
   this.accuracy = 0;
-  this.libs = initialFunctions.libs;
-  this.names = initialFunctions.names;
+  this.libs = [
+    chromosome0.libs,
+    chromosome1.libs
+  ];
+  this.names = [
+    chromosome0.names,
+    chromosome1.names
+  ];
   this.chromosomes = [
-      initialFunctions.fns,
-      initialFunctions.fns
-  ],
-  this.fns = [],
+    chromosome0.fns,
+    chromosome1.fns
+  ];
+  this.dominance = [
+    chromosome0.dominance,
+    chromosome1.dominance
+  ];
+  this.fns = [];
   this.outputs = [];
 };
 

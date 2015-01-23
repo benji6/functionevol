@@ -1,4 +1,4 @@
-	var printLn = function(str) {
+	var printLn = function (str) {
 	var p = document.createElement('p');
 	var txt = document.createTextNode(str);
 	if (str.slice(0, 12) === 'accuracy: 0 ') {
@@ -18,8 +18,9 @@ module.exports = function (population, inputs, desiredOutputs, duration, iterati
 	printLn('duration: ' + duration + 'ms');
 	printLn('iterations: ' + iterationCount);
 	printHr();
-	population.forEach(function(elem){
-		printLn(elem.names.toString());
+	population.forEach(function (elem){
+		printLn('chromosome0: ' + elem.names[0].toString());
+		printLn('chromosome1: ' + elem.names[1].toString());
 		printLn('length: ' + elem.fns.length);
 		printLn('inputs: ' + inputs);
 		printLn('outputs: ' + elem.outputs);
