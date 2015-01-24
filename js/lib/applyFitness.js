@@ -29,6 +29,9 @@ module.exports = function(population, inputs, desiredOutputs) {
 		computeAccuracy(el, desiredOutputs);
 	});
 	population.sort(function (a, b) {
+		if (isNaN(a.accuracy)) {
+			return Infinity;
+		}
 		var accuracyDiff = a.accuracy - b.accuracy;
 		if (accuracyDiff === 0) {
 			return a.fns.length - b.fns.length;

@@ -28,7 +28,7 @@ window.population = [];
 	if (!num--) {
 	 return;
 	}
-	population.push(Ghost(4, 8));
+	population.push(Ghost(5, 6));
 	createPopulation(num);
 }(popSize));
 

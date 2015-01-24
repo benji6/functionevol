@@ -20,32 +20,35 @@ var pow = function (x, y) {
 	return Math.pow(x, y);
 };
 
+var names = [
+	'add',
+	'subtract',
+	'flip(subtract)',
+	'multiply',
+	'pow',
+	'flip(pow)'
+];
+
+var fns = [
+	add,
+	subtract,
+	flip(subtract),
+	multiply,
+	pow,
+	flip(pow)
+];
+
+var dominances = [
+	0.2,
+	0.2,
+	0.2,
+	0.4,
+	0.6,
+	0.6
+];
+
 module.exports = {
-	names: [
-		'add',
-		'subtract',
-		'flip(subtract)',
-		'multiply',
-		'flip(multiply)',
-		'pow',
-		'flip(pow)'
-	],
-	fns: [
-		add,
-		subtract,
-		flip(subtract),
-		multiply,
-		flip(multiply),
-		pow,
-		flip(pow)
-	],
-	dominances: [
-		0.2,
-		0.2,
-		0.2,
-		0.4,
-		0.4,
-		0.6,
-		0.6
-	]
+	names,
+	fns,
+	dominances
 };

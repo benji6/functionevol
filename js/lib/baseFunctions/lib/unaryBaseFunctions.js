@@ -11,23 +11,28 @@ var cos = function (x) {
 	return Math.cos(x);
 };
 
+var names = [
+	"identity",
+	"negate",
+	"sin",
+	"cos"
+];
+
+var fns = [
+	identity,
+	negate,
+	sin,
+	cos
+];
+var dominances = [
+	0.2,
+	0.4,
+	0.6,
+	0.8
+];
+
 module.exports = {
-	names: [
-		"identity",
-		"negate",
-		"sin",
-		"cos"
-	],
-	fns: [
-		identity,
-		negate,
-		sin,
-		cos
-	],
-	dominances: [
-		0.2,
-		0.4,
-		0.6,
-		0.8
-	]
+	names,
+	fns,
+	dominances
 };
