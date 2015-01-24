@@ -23,7 +23,7 @@ var desiredFunction = function(inputs) {
 var desiredOutputs = desiredFunction(inputs);
 var duration = 128;
 var popSize = duration;
-var population = [];
+window.population = [];
 
 (function createPopulation (num) {
 	if (!num--) {

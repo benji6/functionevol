@@ -4,9 +4,9 @@ var computeOutput = function(ghost, inputs) {
 	var outputs = [];
 	var i;
 	var chained = chain(ghost.fns);
-	for (i = 0; i < inputs.length; i++) {
-		outputs.push(chained(inputs[i])(1));
-	}
+	inputs.forEach(function (element) {
+		outputs.push(chained(element)(ghost.args[0]));
+	});
 	ghost.outputs = outputs;
 };
 
@@ -34,5 +34,5 @@ module.exports = function(population, inputs, desiredOutputs) {
 		}
 		return accuracyDiff;
 	});
-	return population.splice(survivorThreshold).slice(0);
+	return population.splice(survivorThreshold);
 };

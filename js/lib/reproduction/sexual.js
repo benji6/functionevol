@@ -8,7 +8,7 @@ var shouldI = function (prob) {
 
 module.exports = function (parent0, parent1) {
   //parents are randomly selected
-  var child = Ghost(parent0.arity,parent0.length);
+  var child = Ghost(parent0.arity, parent0.length);
   var getRandom = function (int) {
     return Math.floor(Math.random() * int);
   };

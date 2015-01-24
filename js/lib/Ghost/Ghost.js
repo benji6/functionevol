@@ -41,7 +41,16 @@ var Ghost = function (arity, length) {
   ];
   var fns = [];
   var outputs = [];
+  var args = [];
 
+  (function populateArgs (arity) {
+    if (arity <= 1) {
+      return;
+    }
+    args.push(Math.random());
+    populateArgs(--arity);
+  }(arity));
+  
   return {
     arity,
     accuracy,
@@ -51,6 +60,7 @@ var Ghost = function (arity, length) {
     dominance,
     fns,
     outputs,
+    args,
 
     computeFns
   };
