@@ -2,3 +2,4 @@
 bundle.js
 jasmine-2.1.3
 node_modules
+tests/specBundle.js
