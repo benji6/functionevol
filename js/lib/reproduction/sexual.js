@@ -12,8 +12,12 @@ module.exports = function (parent0, parent1) {
   var getRandom = function (int) {
     return Math.floor(Math.random() * int);
   };
-  child.chromosomes[0] = parent0.chromosomes[getRandom(2)];
-  child.chromosomes[1] = parent1.chromosomes[getRandom(2)];
+  var random0 = getRandom(2);
+  var random1 = getRandom(2);
+  child.chromosomes[0] = parent0.chromosomes[random0];
+  child.chromosomes[1] = parent1.chromosomes[random1];
+  child.names[0] = parent0.names[random0];
+  child.names[1] = parent1.names[random1];
 
   return child;
 };
