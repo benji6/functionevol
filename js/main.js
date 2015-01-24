@@ -9,7 +9,6 @@ var randomElement = function (arr) {
 	return arr[Math.floor(Math.random() * (arr.length))];
 };
 
-//Initial Population
 var i;
 var inputs = [];
 for (i = 0; i < 8; i++) {
@@ -29,7 +28,7 @@ window.population = [];
 	if (!num--) {
 	 return;
 	}
-	population.push(Ghost(2, 8));
+	population.push(Ghost(4, 8));
 	createPopulation(num);
 }(popSize));
 

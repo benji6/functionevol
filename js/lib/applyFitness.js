@@ -2,10 +2,11 @@ var chain = require('./chain.js');
 
 var computeOutput = function(ghost, inputs) {
 	var outputs = [];
-	var i;
 	var chained = chain(ghost.fns);
 	inputs.forEach(function (element) {
-		outputs.push(chained(element)(ghost.args[0]));
+		outputs.push(ghost.args.reduce(function (previous, current) {
+			return previous(current);
+		}, chained(element)));
 	});
 	ghost.outputs = outputs;
 };
