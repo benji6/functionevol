@@ -23,35 +23,36 @@ var desiredFunction = function(inputs) {
 var desiredOutputs = desiredFunction(inputs);
 var duration = 128;
 var popSize = duration;
-var iterationCount = 0;
 var population = [];
 
 (function createPopulation (num) {
 	if (!num--) {
 	 return;
 	}
-	population[num] = Ghost(2, 8);
+	population.push(Ghost(2, 8));
 	createPopulation(num);
 }(popSize));
 
 var survivors = population.slice(0);
 
-(function newGeneration () {
-	iterationCount++;
-
-	(function repopulate () {
-		if (population.length >= popSize) {
-			return;
-		}
-		var child = reproduce(randomElement(survivors), randomElement(survivors));
-		population.push(child);
-		repopulate();
-	}());
-
-	survivors = applyFitness(population, inputs, desiredOutputs);
-	if (tinytic.total() < duration) {
-		newGeneration();
+var repopulate = function repopulate () {
+	if (population.length >= popSize) {
+		return;
 	}
-}());
+	var child = reproduce(randomElement(survivors), randomElement(survivors));
+	population.push(child);
+	repopulate();
+};
+
+var iterationCount = (function newGeneration (iterationCount) {
+	repopulate();
+	survivors = applyFitness(population, inputs, desiredOutputs);
+
+	if (tinytic.total() < duration) {
+		return newGeneration(++iterationCount);
+	}
+
+	return iterationCount;
+}(0));
 
 printOutput(population, inputs, desiredOutputs, duration, iterationCount);
