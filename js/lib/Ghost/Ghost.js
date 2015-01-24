@@ -52,7 +52,6 @@ var Ghost = function (params) {
     fns: fns,
     outputs: outputs,
 
-    
     computeFns: computeFns
   };
 };
