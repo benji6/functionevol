@@ -42,17 +42,18 @@ var Ghost = function (params) {
   ];
   var fns = [];
   var outputs = [];
-  return {
-    arity: arity,
-    accuracy: accuracy,
-    libs: libs,
-    names: names,
-    chromosomes: chromosomes,
-    dominance: dominance,
-    fns: fns,
-    outputs: outputs,
 
-    computeFns: computeFns
+  return {
+    arity,
+    accuracy,
+    libs,
+    names,
+    chromosomes,
+    dominance,
+    fns,
+    outputs,
+
+    computeFns
   };
 };
 

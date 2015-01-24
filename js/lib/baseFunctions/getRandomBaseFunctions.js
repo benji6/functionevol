@@ -19,7 +19,6 @@ var pushFromLibrary = function (baseFunctionLib, returnedBaseFunctions) {
 };
 
 module.exports = function (arity, totalRequestedBaseFunctions) {
-  var i;
   var randomIndex;
   var returnedBaseFunctions = {
     libs: [],
