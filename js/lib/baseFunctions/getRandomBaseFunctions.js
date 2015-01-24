@@ -11,7 +11,7 @@ var libraryNames = [
 ];
 
 var pushFromLibrary = function (baseFunctionLib, returnedBaseFunctions) {
-  randomIndex = Math.floor(Math.random() * baseFunctionLib.fns.length);
+  var randomIndex = Math.floor(Math.random() * baseFunctionLib.fns.length);
   returnedBaseFunctions.libs.push(libraryNames[randomIndex]);
   returnedBaseFunctions.names.push(baseFunctionLib.names[randomIndex]);
   returnedBaseFunctions.fns.push(baseFunctionLib.fns[randomIndex]);
@@ -19,20 +19,27 @@ var pushFromLibrary = function (baseFunctionLib, returnedBaseFunctions) {
 };
 
 module.exports = function (arity, totalRequestedBaseFunctions) {
-  var randomIndex;
   var returnedBaseFunctions = {
     libs: [],
     names: [],
     fns: [],
     dominances: []
   };
-  pushFromLibrary(baseFunctions[2], returnedBaseFunctions);
-  pushFromLibrary(baseFunctions[2], returnedBaseFunctions);
-  pushFromLibrary(baseFunctions[2], returnedBaseFunctions);
-  pushFromLibrary(baseFunctions[2], returnedBaseFunctions);
-  (function loop (num) {
-    pushFromLibrary(baseFunctions[arity], returnedBaseFunctions);
-    --num && loop(num);
-  }(8));
+
+  (function pushBinaryFunctions (num) {
+    if (!--num) {
+      return;
+    }
+    pushFromLibrary(baseFunctions[2], returnedBaseFunctions);
+    pushBinaryFunctions(num);
+  }(arity));
+
+  (function pushUnaryFunctions (num) {
+    pushFromLibrary(baseFunctions[1], returnedBaseFunctions);
+    if (--num) {
+      pushUnaryFunctions(num);
+    }
+  }(totalRequestedBaseFunctions - arity + 1));
+
   return returnedBaseFunctions;
 };

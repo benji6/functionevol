@@ -5,7 +5,7 @@ var computeOutput = function(ghost, inputs) {
 	var i;
 	var chained = chain(ghost.fns);
 	for (i = 0; i < inputs.length; i++) {
-		outputs.push(chained(inputs[i])(1)(2)(3)(4));
+		outputs.push(chained(inputs[i])(1));
 	}
 	ghost.outputs = outputs;
 };

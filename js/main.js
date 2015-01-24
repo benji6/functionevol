@@ -23,14 +23,13 @@ var desiredFunction = function(inputs) {
 var desiredOutputs = desiredFunction(inputs);
 var duration = 128;
 var popSize = duration;
-var secondArgument = Math.random();
 var iterationCount = 0;
 var population = [];
 
 (function createPopulation (num) {
 	if (num--) {
 		population[num] = Ghost({
-			arity: 1,
+			arity: 2,
 			length: 8
 		});
 		createPopulation(num);
