@@ -1,4 +1,4 @@
-var Ghost = require('../Ghost.js');
+var Ghost = require('../Ghost/Ghost.js');
 
 var shouldI = function (prob) {
   if (Math.random() < prob) {

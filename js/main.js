@@ -3,7 +3,7 @@ var tinytic = require('tinytic');
 var applyFitness = require('./lib/applyFitness.js');
 var reproduce = require('./lib/reproduction/sexual.js');
 var printOutput = require('./lib/printOutput.js');
-var Ghost = require('./lib/Ghost.js');
+var Ghost = require('./lib/Ghost/Ghost.js');
 
 var randomElement = function (arr) {
 	return arr[Math.floor(Math.random() * (arr.length))];

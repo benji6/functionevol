@@ -1,4 +1,4 @@
-var getRandomBaseFunctions = require('./baseFunctions/getRandomBaseFunctions.js');
+var getRandomBaseFunctions = require('../baseFunctions/getRandomBaseFunctions.js');
 
 var Ghost = function (params) {
   var chromosome0 = getRandomBaseFunctions(params.arity, params.length);
