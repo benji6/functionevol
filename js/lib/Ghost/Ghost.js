@@ -18,11 +18,10 @@ var computeFns = function () {
   }
 };
 
-var Ghost = function (params) {
-  var chromosome0 = getRandomBaseFunctions(params.arity, params.length);
-  var chromosome1 = getRandomBaseFunctions(params.arity, params.length);
+var Ghost = function (arity, length) {
+  var chromosome0 = getRandomBaseFunctions(arity, length);
+  var chromosome1 = getRandomBaseFunctions(arity, length);
 
-  var arity = params.arity;
   var accuracy = 0;
   var libs = [
     chromosome0.libs,

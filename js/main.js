@@ -27,25 +27,26 @@ var iterationCount = 0;
 var population = [];
 
 (function createPopulation (num) {
-	if (num--) {
-		population[num] = Ghost({
-			arity: 2,
-			length: 8
-		});
-		createPopulation(num);
+	if (!num--) {
+	 return;
 	}
+	population[num] = Ghost(2, 8);
+	createPopulation(num);
 }(popSize));
 
 var survivors = population.slice(0);
 
 (function newGeneration () {
 	iterationCount++;
-	var child;
 
-	while (population.length < popSize) {
-		child = reproduce(randomElement(survivors), randomElement(survivors));
+	(function repopulate () {
+		if (population.length >= popSize) {
+			return;
+		}
+		var child = reproduce(randomElement(survivors), randomElement(survivors));
 		population.push(child);
-	}
+		repopulate();
+	}());
 
 	survivors = applyFitness(population, inputs, desiredOutputs);
 	if (tinytic.total() < duration) {
