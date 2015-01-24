@@ -29,7 +29,7 @@ var population = [];
 
 (function createPopulation (num) {
 	if (num--) {
-		population[num] = new Ghost({
+		population[num] = Ghost({
 			arity: 1,
 			length: 8
 		});

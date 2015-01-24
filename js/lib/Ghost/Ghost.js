@@ -1,32 +1,6 @@
 var getRandomBaseFunctions = require('../baseFunctions/getRandomBaseFunctions.js');
 
-var Ghost = function (params) {
-  var chromosome0 = getRandomBaseFunctions(params.arity, params.length);
-  var chromosome1 = getRandomBaseFunctions(params.arity, params.length);
-
-  this.arity = params.arity;
-  this.accuracy = 0;
-  this.libs = [
-    chromosome0.libs,
-    chromosome1.libs
-  ];
-  this.names = [
-    chromosome0.names,
-    chromosome1.names
-  ];
-  this.chromosomes = [
-    chromosome0.fns,
-    chromosome1.fns
-  ];
-  this.dominance = [
-    chromosome0.dominance,
-    chromosome1.dominance
-  ];
-  this.fns = [];
-  this.outputs = [];
-};
-
-Ghost.prototype.computeFns = function () {
+var computeFns = function () {
   var i;
   var chromosome0 = this.chromosomes[0];
   var chromosome1 = this.chromosomes[1];
@@ -42,6 +16,45 @@ Ghost.prototype.computeFns = function () {
       this.fns[i] = chromosome0[i];
     }
   }
+};
+
+var Ghost = function (params) {
+  var chromosome0 = getRandomBaseFunctions(params.arity, params.length);
+  var chromosome1 = getRandomBaseFunctions(params.arity, params.length);
+
+  var arity = params.arity;
+  var accuracy = 0;
+  var libs = [
+    chromosome0.libs,
+    chromosome1.libs
+  ];
+  var names = [
+    chromosome0.names,
+    chromosome1.names
+  ];
+  var chromosomes = [
+    chromosome0.fns,
+    chromosome1.fns
+  ];
+  var dominance = [
+    chromosome0.dominance,
+    chromosome1.dominance
+  ];
+  var fns = [];
+  var outputs = [];
+  return {
+    arity: arity,
+    accuracy: accuracy,
+    libs: libs,
+    names: names,
+    chromosomes: chromosomes,
+    dominance: dominance,
+    fns: fns,
+    outputs: outputs,
+
+    
+    computeFns: computeFns
+  };
 };
 
 module.exports = Ghost;
