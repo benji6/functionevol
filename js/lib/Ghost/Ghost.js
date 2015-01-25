@@ -41,16 +41,15 @@ var Ghost = function (arity, length) {
   ];
   var fns = [];
   var outputs = [];
-  var args = [];
 
-  (function populateArgs (arity) {
+  var args = (function populateArgs (arity, args) {
     if (arity <= 1) {
-      return;
+      return args;
     }
     args.push(Math.random());
-    populateArgs(--arity);
-  }(arity));
-  
+    return populateArgs(--arity, args);
+  }(arity, []));
+
   return {
     arity,
     accuracy,
