@@ -4,7 +4,7 @@ var computeFns = require('./Ghost/computeFns.js');
 var computeOutput = function(ghost, inputs) {
 	var outputs = [];
 	var chained = chain(ghost.fns);
-	inputs.forEach(function (element) {
+	inputs.forEach((element) => {
 		outputs.push(ghost.args.reduce(function (previous, current) {
 			return previous(current);
 		}, chained(element)));

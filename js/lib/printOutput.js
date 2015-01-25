@@ -1,4 +1,4 @@
-	var printLn = function (str) {
+var printLn = (str) => {
 	var p = document.createElement('p');
 	var txt = document.createTextNode(str);
 	if (str.slice(0, 12) === 'accuracy: 0 ') {
@@ -9,7 +9,7 @@
 	p.appendChild(txt);
 	document.body.appendChild(p);
 };
-var printHr = function() {
+var printHr = () => {
 	var hr = document.createElement('hr');
 	document.body.appendChild(hr);
 };
@@ -18,7 +18,7 @@ module.exports = function (population, inputs, desiredOutputs, duration, iterati
 	printLn('duration: ' + duration + 'ms');
 	printLn('iterations: ' + iterationCount);
 	printHr();
-	population.forEach(function (elem){
+	population.forEach((elem) => {
 		printLn('chromosome0: ' + elem.names[0].toString());
 		printLn('chromosome1: ' + elem.names[1].toString());
 		printLn('arity: ' + elem.arity.toString());
