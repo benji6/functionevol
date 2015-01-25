@@ -1,125 +1,96 @@
 var Ghost = require('../js/lib/Ghost/Ghost.js');
 var getRandomBaseFunctions = require('../js/lib/baseFunctions/getRandomBaseFunctions.js');
 
-describe("getRandomBaseFunctions", function () {
-  it("returns an object when called", function () {
-    expect(getRandomBaseFunctions()).toEqual(jasmine.any(Object));
-  });
-  describe("var result = getRandomBaseFunctions(2, 8)", function () {
+describe("getRandomBaseFunctions", () => {
+  it("returns an object when called", () =>
+    expect(getRandomBaseFunctions()).toEqual(jasmine.any(Object)));
+  describe("var result = getRandomBaseFunctions(2, 8)", () => {
     var randomBaseFunctions;
-    beforeEach(function() {
-      randomBaseFunctions = getRandomBaseFunctions(2, 8);
+    beforeEach(() => randomBaseFunctions = getRandomBaseFunctions(2, 8));
+    describe("randomBaseFunctions.fns", () => {
+      it("is an array", () =>
+        expect(randomBaseFunctions.fns).toEqual(jasmine.any(Array)));
+      it("is has length 8", () =>
+        expect(randomBaseFunctions.fns.length).toEqual(8));
     });
-    describe("randomBaseFunctions.fns", function () {
-      it("is an array", function () {
-        expect(randomBaseFunctions.fns).toEqual(jasmine.any(Array));
-      });
-      it("is has length 8", function () {
-        expect(randomBaseFunctions.fns.length).toEqual(8);
-      });
+    describe("randomBaseFunctions.names", () => {
+      it("is an array", () =>
+        expect(randomBaseFunctions.names).toEqual(jasmine.any(Array)));
+      it("is has length 8", () =>
+        expect(randomBaseFunctions.names.length).toEqual(8));
     });
-    describe("randomBaseFunctions.names", function () {
-      it("is an array", function () {
-        expect(randomBaseFunctions.names).toEqual(jasmine.any(Array));
-      });
-      it("is has length 8", function () {
-        expect(randomBaseFunctions.names.length).toEqual(8);
-      });
-    });
-    describe("randomBaseFunctions.dominances", function () {
-      it("is an array", function () {
-        expect(randomBaseFunctions.dominances).toEqual(jasmine.any(Array));
-      });
-      it("is has length 8", function () {
-        expect(randomBaseFunctions.dominances.length).toEqual(8);
-      });
-      it("all elements are numbers", function () {
-        expect(randomBaseFunctions.dominances.every(function (element) {
-          return typeof element === "number";
-        })).toEqual(true);
+    describe("randomBaseFunctions.dominances", () => {
+      it("is an array", () =>
+        expect(randomBaseFunctions.dominances).toEqual(jasmine.any(Array)));
+      it("is has length 8", () =>
+        expect(randomBaseFunctions.dominances.length).toEqual(8));
+      it("all elements are numbers", () => {
+        expect(randomBaseFunctions.dominances.every((element) =>
+          typeof element === "number")).toEqual(true);
       });
     });
 
   });
 });
 
-describe("Ghost", function () {
-  it("returns an object when called", function () {
-    expect(Ghost(1, 8)).toEqual(jasmine.any(Object));
-  });
-  describe("var ghost = Ghost(1, 8)", function () {
+describe("Ghost", () => {
+  it("returns an object when called", () =>
+    expect(Ghost(1, 8)).toEqual(jasmine.any(Object)));
+  describe("var ghost = Ghost(1, 8)", () => {
     var ghost;
-    beforeEach(function() {
-      ghost = Ghost(1, 8);
-    });
-    describe("chromosomes propery", function () {
-      it("is an array", function () {
-        expect(ghost.chromosomes).toEqual(jasmine.any(Array));
+    beforeEach(() => ghost = Ghost(1, 8));
+    describe("chromosomes propery", () => {
+      it("is an array", () =>
+        expect(ghost.chromosomes).toEqual(jasmine.any(Array)));
+      it("of length 2", () =>
+        expect(ghost.chromosomes.length).toEqual(2));
+      describe("chromosomes[0]", () => {
+        it("is an array", () =>
+          expect(ghost.chromosomes[0]).toEqual(jasmine.any(Array)));
+        it("of length 8", () =>
+          expect(ghost.chromosomes[0].length).toEqual(8));
       });
-      it("of length 2", function () {
-        expect(ghost.chromosomes.length).toEqual(2);
-      });
-      describe("chromosomes[0]", function () {
-        it("is an array", function () {
-          expect(ghost.chromosomes[0]).toEqual(jasmine.any(Array));
-        });
-        it("of length 8", function () {
-          expect(ghost.chromosomes[0].length).toEqual(8);
-        });
-      });
-      describe("chromosomes[1]", function () {
-        it("is an array", function () {
-          expect(ghost.chromosomes[1]).toEqual(jasmine.any(Array));
-        });
-        it("of length 8", function () {
-          expect(ghost.chromosomes[1].length).toEqual(8);
-        });
+      describe("chromosomes[1]", () => {
+        it("is an array", () =>
+          expect(ghost.chromosomes[1]).toEqual(jasmine.any(Array)));
+        it("of length 8", () =>
+          expect(ghost.chromosomes[1].length).toEqual(8));
       });
     });
-    describe("dominances propery", function () {
-      it("is an array", function () {
-        expect(ghost.dominances).toEqual(jasmine.any(Array));
+    describe("dominances propery", () => {
+      it("is an array", () =>
+        expect(ghost.dominances).toEqual(jasmine.any(Array)));
+      it("of length 2", () =>
+        expect(ghost.dominances.length).toEqual(2));
+      describe("dominances[0]", () => {
+        it("is an array", () =>
+          expect(ghost.dominances[0]).toEqual(jasmine.any(Array)));
+        it("of length 8", () =>
+          expect(ghost.dominances[0].length).toEqual(8));
       });
-      it("of length 2", function () {
-        expect(ghost.dominances.length).toEqual(2);
-      });
-      describe("dominances[0]", function () {
-        it("is an array", function () {
-          expect(ghost.dominances[0]).toEqual(jasmine.any(Array));
-        });
-        it("of length 8", function () {
-          expect(ghost.dominances[0].length).toEqual(8);
-        });
-      });
-      describe("dominances[1]", function () {
-        it("is an array", function () {
-          expect(ghost.dominances[1]).toEqual(jasmine.any(Array));
-        });
-        it("of length 8", function () {
-          expect(ghost.dominances[1].length).toEqual(8);
-        });
+      describe("dominances[1]", () => {
+        it("is an array", () =>
+          expect(ghost.dominances[1]).toEqual(jasmine.any(Array)));
+        it("of length 8", () =>
+          expect(ghost.dominances[1].length).toEqual(8));
       });
     });
   });
 });
 
 var computeFns = require('../js/lib/Ghost/computeFns.js');
-describe("computeFns", function () {
-  it("is a function", function () {
-    expect(computeFns).toEqual(jasmine.any(Function));
-  });
-});
+describe("computeFns", () =>
+  it("is a function", () =>
+    expect(computeFns).toEqual(jasmine.any(Function))));
 
 var reproduce = require('../js/lib/reproduction/sexual.js');
-describe("reproduce", function () {
-  it("is a function", function () {
-    expect(reproduce).toEqual(jasmine.any(Function));
-  });
-  describe("reproduce(Ghost(5, 6), Ghost(5, 6))", function () {
-    it("returns an object", function () {
-      expect(reproduce(Ghost(5, 6), Ghost(5, 6))).toEqual(jasmine.any(Object));
-    });
-    describe("var child = reproduce(Ghost(1, 9), Ghost(5, 8))", function () {
+describe("reproduce", () => {
+  it("is a function", () =>
+    expect(reproduce).toEqual(jasmine.any(Function)));
+  describe("reproduce(Ghost(5, 6), Ghost(5, 6))", () => {
+    it("returns an object", () =>
+      expect(reproduce(Ghost(5, 6), Ghost(5, 6))).toEqual(jasmine.any(Object)));
+    describe("var child = reproduce(Ghost(1, 9), Ghost(5, 8))", () => {
       var child = reproduce(Ghost(1, 9), Ghost(5, 8));
       describe("chromosomes", () => {
         it("is an array", () =>
@@ -127,23 +98,18 @@ describe("reproduce", function () {
         it("has length 2", () =>
           expect(child.chromosomes.length).toEqual(2));
       });
-      describe("computeFns(child)", function () {
+      describe("computeFns(child)", () => {
         computeFns(child);
-        it("is an object", function () {
-          expect(child).toEqual(jasmine.any(Object));
-        });
-        describe("child.fns", function () {
-          it("is an array", function () {
-            expect(child.fns).toEqual(jasmine.any(Array));
-          });
-          it("of length 9", function () {
-            expect(child.fns.length).toEqual(9);
-          });
-          it("all elements are functions", function () {
-            expect(child.fns.every(function (element) {
-              return typeof element === "function";
-            })).toEqual(true);
-          });
+        it("is an object", () =>
+          expect(child).toEqual(jasmine.any(Object)));
+        describe("child.fns", () => {
+          it("is an array", () =>
+            expect(child.fns).toEqual(jasmine.any(Array)));
+          it("of length 9", () =>
+            expect(child.fns.length).toEqual(9));
+          it("all elements are functions", () =>
+            expect(child.fns.every((element) =>
+              typeof element === "function")).toEqual(true));
           console.log(child);
         });
       });
