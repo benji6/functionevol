@@ -20,7 +20,7 @@ var desiredFunction = function(inputs) {
 	});
 };
 var desiredOutputs = desiredFunction(inputs);
-var duration = 512;
+var duration = 128;
 var popSize = duration;
 window.population = [];
 

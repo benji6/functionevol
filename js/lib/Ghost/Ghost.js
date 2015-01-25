@@ -17,9 +17,9 @@ var Ghost = function (arity, length) {
     chromosome0.fns,
     chromosome1.fns
   ];
-  var dominance = [
-    chromosome0.dominance,
-    chromosome1.dominance
+  var dominances = [
+    chromosome0.dominances,
+    chromosome1.dominances
   ];
   var fns = [];
   var outputs = [];
@@ -40,7 +40,7 @@ var Ghost = function (arity, length) {
     libs,
     names,
     chromosomes,
-    dominance,
+    dominances,
     fns,
     outputs,
     args,
