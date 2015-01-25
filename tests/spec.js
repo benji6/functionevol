@@ -102,3 +102,51 @@ describe("Ghost", function () {
     });
   });
 });
+
+var computeFns = require('../js/lib/Ghost/computeFns.js');
+describe("computeFns", function () {
+  it("is a function", function () {
+    expect(computeFns).toEqual(jasmine.any(Function));
+  });
+});
+
+var reproduce = require('../js/lib/reproduction/sexual.js');
+describe("reproduce", function () {
+  it("is a function", function () {
+    expect(reproduce).toEqual(jasmine.any(Function));
+  });
+  describe("reproduce(Ghost(5, 6), Ghost(5, 6))", function () {
+    it("returns an object", function () {
+      expect(reproduce(Ghost(5, 6), Ghost(5, 6))).toEqual(jasmine.any(Object));
+    });
+    describe("var child = reproduce(Ghost(1, 9), Ghost(5, 8))", function () {
+      var child = reproduce(Ghost(1, 9), Ghost(5, 8));
+      describe("chromosomes", () => {
+        it("is an array", () =>
+          expect(child.chromosomes).toEqual(jasmine.any(Array)));
+        it("has length 2", () =>
+          expect(child.chromosomes.length).toEqual(2));
+      });
+      describe("computeFns(child)", function () {
+        computeFns(child);
+        it("is an object", function () {
+          expect(child).toEqual(jasmine.any(Object));
+        });
+        describe("child.fns", function () {
+          it("is an array", function () {
+            expect(child.fns).toEqual(jasmine.any(Array));
+          });
+          it("of length 9", function () {
+            expect(child.fns.length).toEqual(9);
+          });
+          it("all elements are functions", function () {
+            expect(child.fns.every(function (element) {
+              return typeof element === "function";
+            })).toEqual(true);
+          });
+          console.log(child);
+        });
+      });
+    });
+  });
+});
