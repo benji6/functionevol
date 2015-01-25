@@ -1,4 +1,5 @@
 var chain = require('./chain.js');
+var computeFns = require('./Ghost/computeFns.js');
 
 var computeOutput = function(ghost, inputs) {
 	var outputs = [];
@@ -24,7 +25,7 @@ var computeAccuracy = function(obj, desiredOutputs) {
 module.exports = function(population, inputs, desiredOutputs) {
 	var survivorThreshold = (population.length / 16).toFixed(0);
 	population.forEach(function(el) {
-		el.computeFns();
+		computeFns(el);
 		computeOutput(el, inputs);
 		computeAccuracy(el, desiredOutputs);
 	});
