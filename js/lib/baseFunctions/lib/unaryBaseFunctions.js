@@ -1,15 +1,7 @@
-var identity = function(x) {
-	return x;
-};
-var negate = function (x) {
-	return -x;
-};
-var sin = function (x) {
-	return Math.sin(x);
-};
-var cos = function (x) {
-	return Math.cos(x);
-};
+var identity = (x) => x;
+var negate = (x) => -x;
+var sin = (x) => Math.sin(x);
+var cos = (x) => Math.cos(x);
 
 var names = [
 	"identity",
