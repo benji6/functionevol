@@ -18,6 +18,9 @@ module.exports = function (parent0, parent1) {
   child.chromosomes[1] = parent1.chromosomes[random1];
   child.names[0] = parent0.names[random0];
   child.names[1] = parent1.names[random1];
+  child.args.forEach(function (element) {
+    return element * (1 + 2 * (0.5 - Math.random()) * child.mutationCoefficient);
+  });
 
   return child;
 };

@@ -50,6 +50,8 @@ var Ghost = function (arity, length) {
     return populateArgs(--arity, args);
   }(arity, []));
 
+  var mutationCoefficient = 1 / 8;
+
   return {
     arity,
     accuracy,
@@ -60,6 +62,7 @@ var Ghost = function (arity, length) {
     fns,
     outputs,
     args,
+    mutationCoefficient,
 
     computeFns
   };
