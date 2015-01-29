@@ -21,6 +21,7 @@ module.exports = function (population, inputs, desiredOutputs, duration, iterati
 	population.forEach((elem) => {
 		printLn('chromosome0: ' + elem.names[0].toString());
 		printLn('chromosome1: ' + elem.names[1].toString());
+		printLn('fns: ' + elem.fns.toString());
 		printLn('arity: ' + elem.arity.toString());
 		printLn('args: ' + elem.args.toString());
 		printLn('length: ' + elem.fns.length);
