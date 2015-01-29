@@ -1,8 +1,4 @@
-var baseFunctions = [
-  undefined,
-  require('./lib/unaryBaseFunctions.js'),
-  require('./lib/binaryBaseFunctions.js')
-];
+var baseFunctions = require('./lib/index.js');
 
 var pushFromLibrary = function (baseFunctionLib, response) {
   var randomIndex = Math.floor(Math.random() * baseFunctionLib.fns.length);
