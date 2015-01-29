@@ -17,6 +17,7 @@ module.exports = function (arity, totalRequestedBaseFunctions) {
       return;
     }
     pushFromLibrary(baseFunctions[2], response);
+    pushBinaryFunctions(num);
   }(arity));
 
   (function pushUnaryFunctions (num) {

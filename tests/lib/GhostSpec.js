@@ -4,7 +4,7 @@ module.exports = () => {
   describe("Ghost", () => {
     describe("var ghost = Ghost(1, 8)", () => {
       var ghost;
-      beforeEach(() => ghost = Ghost(1, 8));
+      beforeEach(() => ghost = Ghost(5, 8));
       describe("chromosomes propery", () => {
         it("is an array of 2 objects", () => {
           expect(ghost.chromosomes).toEqual(jasmine.any(Array));
