@@ -1,3 +1,6 @@
+var getBaseFunction = require('./baseFunctions/getBaseFunction.js');
+var computeFns = require('./Ghost/computeFns.js');
+
 var printLn = (str) => {
 	var p = document.createElement('p');
 	var txt = document.createTextNode(str);
@@ -19,12 +22,15 @@ module.exports = function (population, inputs, desiredOutputs, duration, iterati
 	printLn('iterations: ' + iterationCount);
 	printHr();
 	population.forEach((elem) => {
-		printLn('chromosome0: ' + elem.names[0].toString());
-		printLn('chromosome1: ' + elem.names[1].toString());
-		printLn('fns: ' + elem.fns.toString());
+		var chromosome0 = elem.chromosomes[0];
+		var chromosome1 = elem.chromosomes[1];
+		var fns = computeFns(elem);
+		printLn('chromosome0: ' + getBaseFunction.names(chromosome0.libs, chromosome0.indices).toString());
+		printLn('chromosome1: ' + getBaseFunction.names(chromosome1.libs, chromosome1.indices).toString());
+		printLn('fns: ' + fns.toString());
 		printLn('arity: ' + elem.arity.toString());
 		printLn('args: ' + elem.args.toString());
-		printLn('length: ' + elem.fns.length);
+		printLn('length: ' + fns.length);
 		printLn('inputs: ' + inputs);
 		printLn('outputs: ' + elem.outputs);
 		printLn('desired outputs: ' + desiredOutputs);
