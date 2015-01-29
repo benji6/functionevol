@@ -6,7 +6,6 @@ var Ghost = function (arity, length) {
     getRandomBaseFunctions(arity, length),
     getRandomBaseFunctions(arity, length)
   ];
-  var fns = [];
   var outputs = [];
 
   var args = (function populateArgs (arity, args) {
@@ -23,7 +22,6 @@ var Ghost = function (arity, length) {
     arity,
     accuracy,
     chromosomes,
-    fns,
     outputs,
     args,
     mutationCoefficient
