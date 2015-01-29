@@ -12,10 +12,10 @@ module.exports = () => {
       describe("var child = reproduce(Ghost(1, 9), Ghost(5, 8))", () => {
         var child = reproduce(Ghost(1, 9), Ghost(5, 8));
         describe("chromosomes", () => {
-          it("is an array", () =>
-          expect(child.chromosomes).toEqual(jasmine.any(Array)));
-          it("has length 2", () =>
-          expect(child.chromosomes.length).toEqual(2));
+          it("is an array of length 2", () => {
+            expect(child.chromosomes).toEqual(jasmine.any(Array));
+            expect(child.chromosomes.length).toEqual(2);
+          });
         });
         describe("computeFns(child)", () => {
           computeFns(child);

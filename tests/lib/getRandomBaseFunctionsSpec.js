@@ -2,31 +2,31 @@ var getRandomBaseFunctions = require('../../js/lib/baseFunctions/getRandomBaseFu
 
 module.exports = () => {
   describe("getRandomBaseFunctions", () => {
-    it("returns an object when called", () =>
-    expect(getRandomBaseFunctions()).toEqual(jasmine.any(Object)));
     describe("var result = getRandomBaseFunctions(2, 8)", () => {
       var randomBaseFunctions;
       beforeEach(() => randomBaseFunctions = getRandomBaseFunctions(2, 8));
       describe("randomBaseFunctions.fns", () => {
-        it("is an array", () =>
-        expect(randomBaseFunctions.fns).toEqual(jasmine.any(Array)));
-        it("is has length 8", () =>
-        expect(randomBaseFunctions.fns.length).toEqual(8));
+        it("is an array of 8 functions", () => {
+          expect(randomBaseFunctions.fns).toEqual(jasmine.any(Array));
+          expect(randomBaseFunctions.fns.length).toBe(8);
+          expect(randomBaseFunctions.fns.every((element) =>
+            typeof element === "function")).toEqual(true);
+        });
       });
       describe("randomBaseFunctions.names", () => {
-        it("is an array", () =>
-        expect(randomBaseFunctions.names).toEqual(jasmine.any(Array)));
-        it("is has length 8", () =>
-        expect(randomBaseFunctions.names.length).toEqual(8));
+        it("is an array of 8 strings", () => {
+          expect(randomBaseFunctions.names).toEqual(jasmine.any(Array));
+          expect(randomBaseFunctions.names.length).toBe(8);
+          expect(randomBaseFunctions.names.every((element) =>
+            typeof element === "string")).toEqual(true);
+        });
       });
       describe("randomBaseFunctions.dominances", () => {
-        it("is an array", () =>
-        expect(randomBaseFunctions.dominances).toEqual(jasmine.any(Array)));
-        it("is has length 8", () =>
-        expect(randomBaseFunctions.dominances.length).toEqual(8));
-        it("all elements are numbers", () => {
+        it("is an array of 8 numbers", () => {
+          expect(randomBaseFunctions.dominances).toEqual(jasmine.any(Array));
+          expect(randomBaseFunctions.dominances.length).toEqual(8);
           expect(randomBaseFunctions.dominances.every((element) =>
-          typeof element === "number")).toEqual(true);
+            typeof element === "number")).toEqual(true);
         });
       });
     });
