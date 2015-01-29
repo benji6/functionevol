@@ -6,21 +6,21 @@ var baseFunctions = [
 
 var pushFromLibrary = function (baseFunctionLib, response) {
   var randomIndex = Math.floor(Math.random() * baseFunctionLib.fns.length);
-  response.lib.push(baseFunctionLib);
-  response.idx.push(randomIndex);
+  response.libs.push(baseFunctionLib);
+  response.indices.push(randomIndex);
 };
 
 module.exports = function (arity, totalRequestedBaseFunctions) {
   var response = {
-    lib: [],
-    idx: []
+    libs: [],
+    indices: []
   };
 
   (function pushBinaryFunctions (num) {
-    pushFromLibrary(baseFunctions[2], response);
-    if (--num) {
-      pushBinaryFunctions(num);
+    if (!--num) {
+      return;
     }
+    pushFromLibrary(baseFunctions[2], response);
   }(arity));
 
   (function pushUnaryFunctions (num) {
