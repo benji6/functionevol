@@ -13,34 +13,26 @@ module.exports = () => {
             elem.constructor === Array)).toBe(true);
         });
         describe("chromosomes[0]", () => {
-          it("is an array of length 8", () => {
-            expect(ghost.chromosomes[0]).toEqual(jasmine.any(Array));
-            expect(ghost.chromosomes[0].length).toEqual(8);
-          });
+          it("is an array of 8 objects,\
+            each with a libs (object) and and indices (number) property", () => {
+              expect(ghost.chromosomes[0]).toEqual(jasmine.any(Array));
+              expect(ghost.chromosomes[0].length).toEqual(8);
+              expect(ghost.chromosomes.every((elem) =>
+                elem.constructor === Object &&
+                  elem.libs.constructor === Object &&
+                  elem.indices === "string")).toBe(true);
+            });
         });
         describe("chromosomes[1]", () => {
-          it("is an array of length 8", () => {
-            expect(ghost.chromosomes[1]).toEqual(jasmine.any(Array));
-            expect(ghost.chromosomes[1].length).toEqual(8);
-          });
-        });
-      });
-      describe("dominances propery", () => {
-        it("is an array of length 2", () => {
-          expect(ghost.dominances).toEqual(jasmine.any(Array));
-          expect(ghost.dominances.length).toEqual(2);
-        });
-        describe("dominances[0]", () => {
-          it("is an array of length 8", () => {
-            expect(ghost.dominances[0]).toEqual(jasmine.any(Array));
-            expect(ghost.dominances[0].length).toEqual(8);
-          });
-        });
-        describe("dominances[1]", () => {
-          it("is an array of length 8", () => {
-            expect(ghost.dominances[1]).toEqual(jasmine.any(Array));
-            expect(ghost.dominances[1].length).toEqual(8);
-          });
+          it("is an array of 8 objects,\
+            each with a libs (object) and and indices (number) property", () => {
+              expect(ghost.chromosomes[1]).toEqual(jasmine.any(Array));
+              expect(ghost.chromosomes[1].length).toEqual(8);
+              expect(ghost.chromosomes.every((elem) =>
+                elem.constructor === Object &&
+                  elem.libs.constructor === Object &&
+                  elem.indices === "string")).toBe(true);
+            });
         });
       });
     });
