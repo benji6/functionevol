@@ -24,6 +24,7 @@
     "tinytic": "^1.1.0"
   },
   "jshintConfig": {
-    "esnext": "true"
+    "esnext": "true",
+    "multistr": "true"
   }
 }

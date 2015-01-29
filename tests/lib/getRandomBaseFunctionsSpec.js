@@ -2,30 +2,22 @@ var getRandomBaseFunctions = require('../../js/lib/baseFunctions/getRandomBaseFu
 
 module.exports = () => {
   describe("getRandomBaseFunctions", () => {
-    describe("var result = getRandomBaseFunctions(2, 8)", () => {
+    describe("var randomBaseFunctions = getRandomBaseFunctions(2, 8)", () => {
       var randomBaseFunctions;
       beforeEach(() => randomBaseFunctions = getRandomBaseFunctions(2, 8));
-      describe("randomBaseFunctions.fns", () => {
-        it("is an array of 8 functions", () => {
-          expect(randomBaseFunctions.fns).toEqual(jasmine.any(Array));
-          expect(randomBaseFunctions.fns.length).toBe(8);
-          expect(randomBaseFunctions.fns.every((element) =>
-            typeof element === "function")).toEqual(true);
+      describe("randomBaseFunctions.libs", () => {
+        it("is an array of 8 objects", () => {
+          expect(randomBaseFunctions.libs).toEqual(jasmine.any(Array));
+          expect(randomBaseFunctions.libs.length).toBe(8);
+          expect(randomBaseFunctions.libs.every((element) =>
+            typeof element === "object")).toEqual(true);
         });
       });
-      describe("randomBaseFunctions.names", () => {
-        it("is an array of 8 strings", () => {
-          expect(randomBaseFunctions.names).toEqual(jasmine.any(Array));
-          expect(randomBaseFunctions.names.length).toBe(8);
-          expect(randomBaseFunctions.names.every((element) =>
-            typeof element === "string")).toEqual(true);
-        });
-      });
-      describe("randomBaseFunctions.dominances", () => {
+      describe("randomBaseFunctions.indices", () => {
         it("is an array of 8 numbers", () => {
-          expect(randomBaseFunctions.dominances).toEqual(jasmine.any(Array));
-          expect(randomBaseFunctions.dominances.length).toEqual(8);
-          expect(randomBaseFunctions.dominances.every((element) =>
+          expect(randomBaseFunctions.indices).toEqual(jasmine.any(Array));
+          expect(randomBaseFunctions.indices.length).toBe(8);
+          expect(randomBaseFunctions.indices.every((element) =>
             typeof element === "number")).toEqual(true);
         });
       });
