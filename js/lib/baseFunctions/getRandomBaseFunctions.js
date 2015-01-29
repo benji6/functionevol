@@ -4,42 +4,31 @@ var baseFunctions = [
   require('./lib/binaryBaseFunctions.js')
 ];
 
-var libraryNames = [
-  undefined,
-  'unaryBaseFunctions',
-  'binaryBaseFunctions'
-];
-
-var pushFromLibrary = function (baseFunctionLib, returnedBaseFunctions) {
+var pushFromLibrary = function (baseFunctionLib, response) {
   var randomIndex = Math.floor(Math.random() * baseFunctionLib.fns.length);
-  returnedBaseFunctions.libs.push(libraryNames[randomIndex]);
-  returnedBaseFunctions.names.push(baseFunctionLib.names[randomIndex]);
-  returnedBaseFunctions.fns.push(baseFunctionLib.fns[randomIndex]);
-  returnedBaseFunctions.dominances.push(baseFunctionLib.dominances[randomIndex]);
+  response.lib.push(baseFunctionLib);
+  response.idx.push(randomIndex);
 };
 
 module.exports = function (arity, totalRequestedBaseFunctions) {
-  var returnedBaseFunctions = {
-    libs: [],
-    names: [],
-    fns: [],
-    dominances: []
+  var response = {
+    lib: [],
+    idx: []
   };
 
   (function pushBinaryFunctions (num) {
-    if (!--num) {
-      return;
+    pushFromLibrary(baseFunctions[2], response);
+    if (--num) {
+      pushBinaryFunctions(num);
     }
-    pushFromLibrary(baseFunctions[2], returnedBaseFunctions);
-    pushBinaryFunctions(num);
   }(arity));
 
   (function pushUnaryFunctions (num) {
-    pushFromLibrary(baseFunctions[1], returnedBaseFunctions);
+    pushFromLibrary(baseFunctions[1], response);
     if (--num) {
       pushUnaryFunctions(num);
     }
   }(totalRequestedBaseFunctions - arity + 1));
 
-  return returnedBaseFunctions;
+  return response;
 };
