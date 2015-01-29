@@ -1,19 +1,23 @@
+var getBaseFunction = require('../baseFunctions/getBaseFunction.js');
+
 module.exports = function (ghost) {
-  ghost.fns = [];
-  ghost.chromosomes.sort(function (a, b) {
-    return a.length < b.length;
+  var fns = [];
+  var chromosomesCopy = ghost.chromosomes.slice(0, ghost.chromosomes.length);
+  chromosomesCopy.sort(function (a, b) {
+    return a.libs.length < b.libs.length;
   });
-  var chromosome1 = ghost.chromosomes[1];
-  ghost.chromosomes[0].forEach(function (element, index) {
-    var dominance0 = this.dominances[0][index];
-    var dominance1 = chromosome1[index] || 0;
-    if (dominance1) {
-      dominance1 = this.dominances[1][index];
-    }
+  var libs1 = chromosomesCopy[1].libs;
+  var indices1 = chromosomesCopy[1].indices;
+  chromosomesCopy[0].libs.forEach(function (lib0, i) {
+    var index0 = chromosomesCopy[0].indices[i];
+    var index1 = chromosomesCopy[1].indices[i];
+    var lib1 = chromosomesCopy[1].libs[i];
+    var dominance0 = getBaseFunction.dominance(lib0, index0);
+    var dominance1 = getBaseFunction.dominance(lib1, index1) || 0;
     if (dominance0 >= dominance1) {
-      ghost.fns.push(element);
-      return;
+      return fns.push(getBaseFunction.fn(lib0, index0));
     }
-    ghost.fns.push(chromosome1[index]);
-  }, ghost);
+    fns.push(getBaseFunction.fn(lib1, index1));
+  });
+  return fns;
 };
