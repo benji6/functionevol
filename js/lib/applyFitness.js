@@ -3,10 +3,10 @@ var computeFns = require('./Ghost/computeFns.js');
 
 var computeOutput = function(ghost, inputs) {
 	var outputs = [];
-	var chained = chain(ghost.fns);
+	var chained = chain(computeFns(ghost));
 	inputs.forEach((element) => {
-		outputs.push(ghost.args.reduce(function (previous, current) {
-			return previous(current);
+		outputs.push(ghost.args.reduce(function (acc, current) {
+			return acc(current);
 		}, chained(element)));
 	});
 	ghost.outputs = outputs;
@@ -25,7 +25,6 @@ var computeAccuracy = function(obj, desiredOutputs) {
 module.exports = function(population, inputs, desiredOutputs) {
 	var survivorThreshold = (population.length / 16).toFixed(0);
 	population.forEach(function(el) {
-		computeFns(el);
 		computeOutput(el, inputs);
 		computeAccuracy(el, desiredOutputs);
 	});
