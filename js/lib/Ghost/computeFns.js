@@ -13,7 +13,10 @@ module.exports = function (ghost) {
     var index1 = chromosomesCopy[1].indices[i];
     var lib1 = chromosomesCopy[1].libs[i];
     var dominance0 = getBaseFunction.dominance(lib0, index0);
-    var dominance1 = getBaseFunction.dominance(lib1, index1) || 0;
+    if (!lib1) {
+      return fns.push(getBaseFunction.fn(lib0, index0));
+    }
+    var dominance1 = getBaseFunction.dominance(lib1, index1);
     if (dominance0 >= dominance1) {
       return fns.push(getBaseFunction.fn(lib0, index0));
     }
