@@ -9,29 +9,31 @@ var randomElement = function (arr) {
 	return arr[Math.floor(Math.random() * (arr.length))];
 };
 
-var i;
-var inputs = [];
-for (i = 0; i < 8; i++) {
-	inputs.push(i);
-}
-var desiredFunction = function(inputs) {
+var inputs = (function pushInputs (num, arr) {
+	if (!num--) {
+		return arr;
+	}
+	arr.push(num);
+	return pushInputs(num, arr);
+}(8, []));
+
+var desiredOutputs = (function(inputs) {
 	return inputs.map(function(elem) {
 		return Math.sin(-(Math.pow(elem, 2) - 1) * 2);
 	});
-};
-var desiredOutputs = desiredFunction(inputs);
+}(inputs));
+
 var duration = 128;
 var popSize = duration;
-window.population = [];
 
-(function createPopulation (num) {
+window.population = (function createPopulation (num, arr) {
 	if (!num--) {
-	 return;
+	 return arr;
 	}
-	population.push(Ghost(5, 6));
+	arr.push(Ghost(5, 6));
 	//population.push(Ghost(5, 7));
-	createPopulation(num);
-}(popSize));
+	return createPopulation(num, arr);
+}(duration, []));
 
 var survivors = population.slice(0);
 
