@@ -10,6 +10,9 @@ module.exports = function (parent0, parent1) {
   var random1 = getRandom(2);
   child.chromosomes[0] = parent0.chromosomes[random0];
   child.chromosomes[1] = parent1.chromosomes[random1];
+  child.chromosomes.sort(function (a, b) {
+    return a.libs.length < b.libs.length;
+  });
   child.args.forEach((element) =>
     element * (1 + 2 * (0.5 - Math.random()) * child.mutationCoefficient));
 
